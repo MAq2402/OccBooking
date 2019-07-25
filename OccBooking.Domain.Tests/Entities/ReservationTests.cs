@@ -9,33 +9,23 @@ namespace OccBooking.Domain.Tests.Entities
 {
     public class ReservationTests
     {
+        //[Fact]
 
-        [Fact]
+        //public void Test1()
+        //{
+        //    var reservation = new Reservation();
+        //    var place = new Place("", false, false, false, 10, 10, 100, "");
+        //    var menu = new Menu();
+        //    //place.MakeReservation(DateTime.Now, 10, )
+        //    reservation.WholePlace = true;
+        //    reservation.AmountOfPeople = 10;
+        //    reservation.Menu.Cost = 10;
+        //    reservation.Place = 
 
-        public void MakeReservationShouldWork()
-        {
-            var place = new Place("", false, false, false, 10, 10, 100, "");
-            place.AllowParty(PartyType.Wedding);
-            place.AssignAdditionalOption(new PlaceAdditionalOption("Photos", 100));
-            place.AssignMenu(new Menu());
-        }
-        [Fact]
+        //    var expected = reservation.Place.CostForRent + reservation.Menu.Cost * reservation.AmountOfPeople;
+        //    var actual = 110;
 
-        public void Test1()
-        {
-            var reservation = new Reservation();
-            var place = new Place("", false, false, false, 10, 10, 100, "");
-            var menu = new Menu();
-            //place.MakeReservation(DateTime.Now, 10, )
-            reservation.WholePlace = true;
-            reservation.AmountOfPeople = 10;
-            reservation.Menu.Cost = 10;
-            reservation.Place = 
-
-            var expected = reservation.Place.CostForRent + reservation.Menu.Cost * reservation.AmountOfPeople;
-            var actual = 110;
-
-            Assert.Equal(expected, actual);
-        }
+        //    Assert.Equal(expected, actual);
+        //}
     }
 }

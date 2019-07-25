@@ -25,7 +25,7 @@ namespace OccBooking.Domain.Tests.Entities
         public void AddPlaceShouldWork()
         {
             var owner = new Owner();
-            var place = new Place("",false,false,false, 0, 0 , 0, "");
+            var place = new Place(Guid.NewGuid() ,"",false,false,false, 0, 0 , 0, "");
 
             owner.AddPlace(place);
             var expected = true;
