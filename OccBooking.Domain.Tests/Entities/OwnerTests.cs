@@ -14,7 +14,7 @@ namespace OccBooking.Domain.Tests.Entities
 
         public void AddPlaceShouldThrowDomainException()
         {
-            var owner = new Owner();
+            var owner = new Owner(Guid.NewGuid(), "Michał", "Miciak", "michal@miciak.com", "111111111");
 
             Action action = () => owner.AddPlace(null);
 
@@ -24,7 +24,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AddPlaceShouldWork()
         {
-            var owner = new Owner();
+            var owner = new Owner(Guid.NewGuid(), "Michał", "Miciak", "michal@miciak.com", "111111111");
             var place = new Place(Guid.NewGuid() ,"",false,false,false, 0, 0 , 0, "");
 
             owner.AddPlace(place);
@@ -32,6 +32,24 @@ namespace OccBooking.Domain.Tests.Entities
             var actual = owner.Places.Contains(place);
 
             Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("","Miciak", "michal@miciak.com", "111111111")]
+        [InlineData("Michał", "", "michal@miciak.com", "111111111")]
+        [InlineData("Michał", "Miciak", "michal", "111111111")]
+        [InlineData("Michał", "Miciak", "michal", "11111111a")]
+        public void CreationShouldFail(string firstName, string lastName, string email, string phoneNumber)
+        {
+            Action action = () => new Owner(Guid.NewGuid(), firstName, lastName, email, phoneNumber);
+
+            Assert.Throws<DomainException>(action);
+        }
+
+        [Fact]
+        public void UpdatePlaceShouldWork()
+        {
+
         }
     }
 }
