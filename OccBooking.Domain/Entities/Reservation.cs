@@ -39,7 +39,7 @@ namespace OccBooking.Domain.Entities
         public int AmountOfPeople { get; private set; }
         public Place Place { get; private set; }
         public Menu Menu { get; private set; }
-        public int Cost { get; private set; }// => AmountOfPeople * placeCost or placeCost
+        public int Cost { get; private set; }
         public bool IsAccepted { get; private set; }
         public bool IsRejected { get; private set; }
         public bool WholePlace { get; private set; }
