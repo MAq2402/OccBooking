@@ -1,4 +1,5 @@
 ﻿using OccBooking.Domain.Enums;
+using OccBooking.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,42 @@ namespace OccBooking.Domain.Entities
         public Meal(Guid id, string name, string description, MealType type, IEnumerable<string> ingredients)
         {
             Id = id;
-            Name = name;
-            Description = description;
-            Type = type;
-            this.ingredients = ingredients.ToList();
+            SetName(name);
+            SetDescription(description);
+            SetType(type);
+            SetIngredients(ingredients);
         }
         public IEnumerable<string> Ingredients => ingredients.AsReadOnly();
         public string Name { get; private set; }
         public string Description { get; private set; }
         public MealType Type { get; private set; }
+
+        private void SetIngredients(IEnumerable<string> newIngredients)
+        {
+            if(!newIngredients.Any())
+            {
+                throw new DomainException("List of ingredients is empty");
+            }
+            ingredients = newIngredients.ToList();
+        }
+
+        private void SetType(MealType type)
+        {
+            Type = type;
+        }
+
+        private void SetDescription(string description)
+        {
+            Description = description;
+        }
+
+        private void SetName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new DomainException("Meal name has not been provided");
+            }
+            Name = name;
+        }
     }
 }

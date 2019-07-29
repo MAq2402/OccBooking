@@ -1,8 +1,8 @@
 ﻿using OccBooking.Domain.Enums;
+using OccBooking.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OccBooking.Domain.Entities
 {
@@ -12,10 +12,38 @@ namespace OccBooking.Domain.Entities
         public Menu(Guid id, string name, MenuType type, decimal costForPerson, IEnumerable<Meal> meals)
         {
             Id = id;
-            Name = name;
-            Type = type;
-            CostForPerson = costForPerson;
+            SetName(name);
+            SetType(type);
+            SetCostForPerson(costForPerson);
+            SetMeals(meals);
+        }
+        private void SetMeals(IEnumerable<Meal> meals)
+        {
+            if (!meals.Any())
+            {
+                throw new DomainException("Menu without meals can not be created");
+            }
             this.meals = meals.ToList();
+        }
+        private void SetType(MenuType type)
+        {
+            Type = type;
+        }
+        private void SetCostForPerson(decimal costForPerson)
+        {
+           if(costForPerson <= 0)
+           {
+                throw new DomainException("Menu cost has to be greater than 0");
+           }
+           CostForPerson = costForPerson;
+        }
+        private void SetName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new DomainException("Menu name is not provided");
+            }
+            Name = name;
         }
         public IEnumerable<Meal> Meals => meals.AsReadOnly();
         public string Name { get; private set; }

@@ -10,6 +10,7 @@ namespace OccBooking.Domain.Entities
     public class Reservation : Entity
     {
         private string additionalOptions = string.Empty;
+        private List<Hall> halls = new List<Hall>();
         public Reservation(Guid id, 
             DateTime dateTime, 
             Client client, 
@@ -34,6 +35,7 @@ namespace OccBooking.Domain.Entities
             get { return (PlaceAdditionalOptions)additionalOptions; }
             set { additionalOptions = value; }
         }
+        public IEnumerable<Hall> Halls => halls.AsReadOnly();
         public DateTime DateTime { get; private set; }
         public Client Client { get; private set; }
         public int AmountOfPeople { get; private set; }

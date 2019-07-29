@@ -40,7 +40,6 @@ namespace OccBooking.Domain.ValueObjects
         }
 
         public static implicit operator string(PlaceAdditionalOptions additionalOptions)
-
         {
             return string.Join(';', additionalOptions.Select(x => (string)x));
         }

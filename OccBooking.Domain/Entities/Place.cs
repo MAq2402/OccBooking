@@ -12,6 +12,10 @@ namespace OccBooking.Domain.Entities
     {
 
         private string additionalOptions = string.Empty;
+        private List<Reservation> reservations = new List<Reservation>();
+        private List<Menu> menus = new List<Menu>();
+        private HashSet<PartyType> avaliableParties = new HashSet<PartyType>();
+        private List<Hall> halls = new List<Hall>();
         public Place(Guid id,
             string name, 
             bool isShared, 
@@ -19,7 +23,6 @@ namespace OccBooking.Domain.Entities
             bool hasOwnFood, 
             decimal? costForPerson, 
             decimal? costForRent, 
-            int capacity, 
             string description)
         {
             Id = id;
@@ -29,16 +32,14 @@ namespace OccBooking.Domain.Entities
             HasOwnFood = hasOwnFood;
             CostForPerson = CostForPerson;
             CostForRent = costForRent;
-            Capacity = capacity;
             Description = description;
             CostForPerson = costForPerson;
         }
-        private List<Reservation> reservations = new List<Reservation>();
-        private List<Menu> menus = new List<Menu>();
-        private HashSet<PartyType> avaliableParties = new HashSet<PartyType>();
+
         public IEnumerable<Reservation> Reservations => reservations.AsReadOnly();
         public IEnumerable<Menu> Menus => HasOwnFood ? menus.AsReadOnly() : Enumerable.Empty<Menu>();
         public IEnumerable<PartyType> AvaliableParties => avaliableParties.ToList().AsReadOnly();
+        public IEnumerable<Hall> Halls => halls.AsReadOnly();
         public PlaceAdditionalOptions AdditionalOptions
         {
             get { return (PlaceAdditionalOptions)additionalOptions; }
@@ -50,9 +51,13 @@ namespace OccBooking.Domain.Entities
         public bool HasOwnFood { get; private set; }
         public decimal? CostForPerson { get; private set; }
         public decimal? CostForRent { get; private set; }
-        public int Capacity { get; private set; }
+        public int Capacity => halls.Sum(h => h.Capacity);
         public string Description { get; private set; }
 
+        public void AddHall(Hall hall)
+        {
+            halls.Add(hall);
+        }
         public void AssignMenu(Menu menu)
         {
             if(!HasOwnFood)
@@ -80,17 +85,17 @@ namespace OccBooking.Domain.Entities
         {
             if (!Menus.Contains(menu))
             {
-                throw new DomainException("Place does not contain such a menu");
+                throw new LackOfMenuException("Place does not contain such a menu");
             }
 
             if (!AvaliableParties.Contains(partyType))
             {
-                throw new DomainException("Place does not allow to organize such an events");
+                throw new PartyIsNotAvaliableException("Place does not allow to organize such an events");
             }
 
-            if(amountOfPeople > Capacity)
+            if (amountOfPeople > Capacity)
             {
-                throw new DomainException("Place capacity is less than amount of people in reservation request");
+                throw new ToSmallCapacityException("Place capacity is less than amount of people in reservation request");
             }
             
             //TO BE DISCUSSED
@@ -101,7 +106,7 @@ namespace OccBooking.Domain.Entities
 
             if(!additionalOptions.All(o => AdditionalOptions.Contains(o)))
             {
-                throw new DomainException("Place dose not support those options");
+                throw new NotSupportedAdditionalOptionException("Place dose not support those options");
             }
         }
     }
