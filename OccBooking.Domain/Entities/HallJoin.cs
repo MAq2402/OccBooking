@@ -4,8 +4,12 @@ using System.Text;
 
 namespace OccBooking.Domain.Entities
 {
-    public class HallLink : Entity
+    public class HallJoin : Entity
     {
+        public HallJoin(Hall hall)
+        {
+            Hall = hall;
+        }
         public Hall Hall { get; private set; }
     }
 }

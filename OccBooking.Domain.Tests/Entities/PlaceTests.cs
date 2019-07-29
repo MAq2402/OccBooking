@@ -16,8 +16,9 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AssignMenuShouldWork()
         {
+            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] { "Cheese" });
             var place = new Place(Guid.NewGuid(), "", false, false, true, 10, 10, "");
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>());
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() { meal });
 
             place.AssignMenu(menu);
 
@@ -88,15 +89,18 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void MakeReservationShouldFailBecousePlaceDoesNotHaveGivenMenu()
         {
+            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] { "Cheese" });
             var hall = new Hall(Guid.NewGuid(), 100);
             var place = new Place(Guid.NewGuid(), "", false, false, true, 10, 10, "");
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>());
-            var menuForReservation = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>());
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() { meal });
+            var menuForReservation = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() { meal });
+            var amountOfPeopleForReservation = 50;
+
             place.AllowParty(PartyType.Wedding);
             place.SupportAdditionalOption(new PlaceAdditionalOption("Photos", 100));
             place.AssignMenu(menu);
             place.AddHall(hall);
-            var amountOfPeopleForReservation = 50;
+     
 
             Action action = () => place.MakeReservation(DateTime.Now, 
                 amountOfPeopleForReservation, 
@@ -110,14 +114,16 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void MakeReservationShouldFailBecousePlaceDoesNotSupportSuchParty()
         {
+            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] { "Cheese" });
             var hall = new Hall(Guid.NewGuid(), 100);
             var place = new Place(Guid.NewGuid(), "", false, false, true, 10, 10, "");
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>());
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() { meal });
+            var amountOfPeopleForReservation = 50;
+
             place.AllowParty(PartyType.Wedding);
             place.SupportAdditionalOption(new PlaceAdditionalOption("Photos", 100));
             place.AssignMenu(menu);
             place.AddHall(hall);
-            var amountOfPeopleForReservation = 50;
 
             Action action = () => place.MakeReservation(DateTime.Now,
                 amountOfPeopleForReservation,
@@ -131,14 +137,16 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void MakeReservationShouldFailBecouseOfAmountOfPeople()
         {
+            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] { "Cheese" });
             var hall = new Hall(Guid.NewGuid(), 100);
             var place = new Place(Guid.NewGuid(), "", false, false, true, 10, 10, "");
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>());
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() { meal });
+            var amountOfPeopleForReservation = 150;
+
             place.AllowParty(PartyType.Wedding);
             place.SupportAdditionalOption(new PlaceAdditionalOption("Photos", 100));
             place.AssignMenu(menu);
             place.AddHall(hall);
-            var amountOfPeopleForReservation = 150;
 
             Action action = () => place.MakeReservation(DateTime.Now,
                 amountOfPeopleForReservation,
@@ -152,14 +160,16 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void MakeReservationShouldFailBecousePlaceDoesNotSupportOption()
         {
+            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] { "Cheese" });
             var hall = new Hall(Guid.NewGuid(), 100);
             var place = new Place(Guid.NewGuid(), "", false, false, true, 10, 10, "");
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>());
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() { meal });
+            var amountOfPeopleForReservation = 50;
+
             place.AllowParty(PartyType.Wedding);
             place.SupportAdditionalOption(new PlaceAdditionalOption("Photos", 100));
             place.AssignMenu(menu);
             place.AddHall(hall);
-            var amountOfPeopleForReservation = 50;
 
             Action action = () => place.MakeReservation(DateTime.Now,
                 amountOfPeopleForReservation,
