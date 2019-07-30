@@ -39,8 +39,8 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AddPossibleJoinShouldFailBecouseOfHallsBeingFromTwoDifferentPlaces()
         {
-            var firstPlace = new Place(Guid.NewGuid(), "", false, false, false, 10, 10, "");
-            var secondPlace = new Place(Guid.NewGuid(), "", false, false, false, 10, 10, "");          
+            var firstPlace = new Place(Guid.NewGuid(), "Calvados", false, false, false, 10, 10, "");
+            var secondPlace = new Place(Guid.NewGuid(), "Calvados", false, false, false, 10, 10, "");          
             var hall = new Hall(Guid.NewGuid(), 10);
             var hallToJoin = new Hall(Guid.NewGuid(), 20);
             firstPlace.AddHall(hall);

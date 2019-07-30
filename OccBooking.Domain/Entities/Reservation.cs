@@ -15,9 +15,8 @@ namespace OccBooking.Domain.Entities
             DateTime dateTime, 
             Client client, 
             int amountOfPeople, 
-            Menu menu, 
-            bool wholePlace, 
-            PartyType type,
+            Menu menu,
+            OccasionType occasionType,
             IEnumerable<PlaceAdditionalOption> additionalOptions)
         {
             Id = id;
@@ -25,8 +24,7 @@ namespace OccBooking.Domain.Entities
             Client = client;
             AmountOfPeople = amountOfPeople;
             Menu = menu;
-            WholePlace = wholePlace;
-            Type = type;
+            OccasionType = occasionType;
             AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
             
         }
@@ -44,8 +42,7 @@ namespace OccBooking.Domain.Entities
         public int Cost { get; private set; }
         public bool IsAccepted { get; private set; }
         public bool IsRejected { get; private set; }
-        public bool WholePlace { get; private set; }
-        public PartyType Type { get; private set; }
+        public OccasionType OccasionType { get; private set; }
         public bool IsAnswered => IsRejected || IsAccepted;
         public void Accept()
         {

@@ -44,9 +44,8 @@ namespace OccBooking.Domain.Tests.Entities
                 DateTime.Today, 
                 null, 
                 10,
-                null, 
-                false, 
-                PartyType.FuneralMeal, 
+                null,
+                OccasionType.FuneralMeal, 
                 Enumerable.Empty<PlaceAdditionalOption>());
 
             reservation.Accept();
@@ -63,8 +62,7 @@ namespace OccBooking.Domain.Tests.Entities
                 null,
                 10,
                 null,
-                false,
-                PartyType.FuneralMeal,
+                OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
             reservation.Reject();
@@ -81,8 +79,7 @@ namespace OccBooking.Domain.Tests.Entities
                 null,
                 10,
                 null,
-                false,
-                PartyType.FuneralMeal,
+                OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
             reservation.Accept();
@@ -100,8 +97,7 @@ namespace OccBooking.Domain.Tests.Entities
                 null,
                 10,
                 null,
-                false,
-                PartyType.FuneralMeal,
+                OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
             reservation.Reject();
@@ -119,8 +115,7 @@ namespace OccBooking.Domain.Tests.Entities
                 null,
                 10,
                 null,
-                false,
-                PartyType.FuneralMeal,
+                OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
             reservation.Reject();
@@ -137,8 +132,7 @@ namespace OccBooking.Domain.Tests.Entities
                 null,
                 10,
                 null,
-                false,
-                PartyType.FuneralMeal,
+                OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
             reservation.Accept();

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OccBooking.Domain.Enums
 {
-    public enum PartyType
+    public enum OccasionType
     {
         Wedding,
         FuneralMeal

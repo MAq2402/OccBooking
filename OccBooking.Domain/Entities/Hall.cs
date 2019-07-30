@@ -34,7 +34,7 @@ namespace OccBooking.Domain.Entities
                 throw new DomainException("Hall has not been provied");
             }
 
-            if(possibleJoins.Any(j => j.Hall == hall))
+            if(possibleJoins.Any(j => j.FirstHall == hall || j.SecondHall == hall))
             {
                 throw new DomainException("Provided hall is already possible join to this hall");
             }
@@ -43,9 +43,10 @@ namespace OccBooking.Domain.Entities
             {
                 throw new DomainException("Cannot create possible join between halls of different places");
             }
- 
-            possibleJoins.Add(new HallJoin(hall));
-            hall.possibleJoins.Add(new HallJoin(this));
+
+            var join = new HallJoin(Guid.NewGuid(), this, hall);
+            possibleJoins.Add(join);
+            hall.possibleJoins.Add(join);
         }
     }
 }

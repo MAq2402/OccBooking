@@ -6,10 +6,13 @@ namespace OccBooking.Domain.Entities
 {
     public class HallJoin : Entity
     {
-        public HallJoin(Hall hall)
+        public HallJoin(Guid id ,Hall firstHall, Hall secondHall)
         {
-            Hall = hall;
+            Id = id;
+            FirstHall = firstHall;
+            SecondHall = secondHall;
         }
-        public Hall Hall { get; private set; }
+        public Hall FirstHall { get; private set; }
+        public Hall SecondHall { get; private set; }
     }
 }
