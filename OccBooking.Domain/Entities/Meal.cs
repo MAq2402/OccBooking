@@ -10,9 +10,8 @@ namespace OccBooking.Domain.Entities
     public class Meal : Entity
     {
         private List<string> ingredients = new List<string>();
-        public Meal(Guid id, string name, string description, MealType type, IEnumerable<string> ingredients)
+        public Meal(Guid id, string name, string description, MealType type, IEnumerable<string> ingredients) : base(id)
         {
-            Id = id;
             SetName(name);
             SetDescription(description);
             SetType(type);

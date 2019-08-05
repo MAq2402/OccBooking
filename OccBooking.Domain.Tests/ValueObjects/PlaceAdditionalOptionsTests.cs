@@ -1,4 +1,5 @@
-﻿using OccBooking.Domain.ValueObjects;
+﻿using OccBooking.Domain.Exceptions;
+using OccBooking.Domain.ValueObjects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -53,6 +54,14 @@ namespace OccBooking.Domain.Tests.ValueObjects
             var expected = (PlaceAdditionalOptions)"Flowers,100";
 
             Assert.True(actual.Equals(expected));
+        }
+
+        [Fact]
+        public void AddOptionShoulFail()
+        {
+            var options = new PlaceAdditionalOptions(Enumerable.Empty<PlaceAdditionalOption>());
+
+            Assert.Throws<DomainException>(() => options.AddOption(null));
         }
     }
 }

@@ -9,14 +9,17 @@ namespace OccBooking.Domain.Entities
     public class Menu : Entity
     {
         private List<Meal> meals = new List<Meal>();
-        public Menu(Guid id, string name, MenuType type, decimal costForPerson, IEnumerable<Meal> meals)
+        private MenuType vegetarian;
+        private List<Meal> list;
+
+        public Menu(Guid id, string name, MenuType type, decimal costForPerson, IEnumerable<Meal> meals) : base(id)
         {
-            Id = id;
             SetName(name);
             SetType(type);
             SetCostForPerson(costForPerson);
             SetMeals(meals);
         }
+
         private void SetMeals(IEnumerable<Meal> meals)
         {
             if (!meals.Any())

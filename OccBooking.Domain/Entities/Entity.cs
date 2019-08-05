@@ -30,7 +30,7 @@ namespace OccBooking.Domain.Entities
             if (GetType() != other.GetType())
                 return false;
 
-            if (Id == null || other.Id == null)
+            if (Id == Guid.Empty || other.Id == Guid.Empty)
                 return false;
 
             return Id == other.Id;

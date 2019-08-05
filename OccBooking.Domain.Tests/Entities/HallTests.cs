@@ -25,7 +25,7 @@ namespace OccBooking.Domain.Tests.Entities
         }
 
         [Fact]
-        public void AddPossibleJoinShouldFailBecouseOfDuplicationOfPossibleJoins()
+        public void AddPossibleJoinShouldFailBecauseOfDuplicationOfPossibleJoins()
         {
             var hall = new Hall(Guid.NewGuid(), 10);
             var hallToJoin = new Hall(Guid.NewGuid(), 20);
@@ -37,23 +37,7 @@ namespace OccBooking.Domain.Tests.Entities
         }
 
         [Fact]
-        public void AddPossibleJoinShouldFailBecouseOfHallsBeingFromTwoDifferentPlaces()
-        {
-            var firstPlace = new Place(Guid.NewGuid(), "Calvados", false, false, false, 10, 10, "");
-            var secondPlace = new Place(Guid.NewGuid(), "Calvados", false, false, false, 10, 10, "");          
-            var hall = new Hall(Guid.NewGuid(), 10);
-            var hallToJoin = new Hall(Guid.NewGuid(), 20);
-            firstPlace.AddHall(hall);
-            secondPlace.AddHall(hallToJoin);
-
-            hall.AddPossibleJoin(hallToJoin);
-            Action action = () => hall.AddPossibleJoin(hallToJoin);
-
-            Assert.Throws<DomainException>(action);
-        }
-
-        [Fact]
-        public void AddPossibleJoinShouldFailBecouseOfNullValue()
+        public void AddPossibleJoinShouldFailBecauseOfNullValue()
         {
             var hall = new Hall(Guid.NewGuid(), 10);
 

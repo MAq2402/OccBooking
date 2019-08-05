@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OccBooking.Domain.Exceptions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,11 @@ namespace OccBooking.Domain.ValueObjects
         }
         public PlaceAdditionalOptions AddOption(PlaceAdditionalOption additionalOption)
         {
+            if (additionalOption == null)
+            {
+                throw new DomainException("Option has not been provided");
+            }
+
             additionalOptions.Add(additionalOption);
             return new PlaceAdditionalOptions(additionalOptions);
         }

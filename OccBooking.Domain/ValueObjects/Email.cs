@@ -1,6 +1,7 @@
 ﻿using OccBooking.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace OccBooking.Domain.ValueObjects
@@ -9,7 +10,7 @@ namespace OccBooking.Domain.ValueObjects
     {
         public Email(string value)
         {
-            if (string.IsNullOrEmpty(value) || !value.Contains("@"))
+            if (string.IsNullOrEmpty(value) || !IsValidEmail(value))
             {
                 throw new DomainException("Email is invalid");
             }
@@ -20,6 +21,10 @@ namespace OccBooking.Domain.ValueObjects
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Value;
+        }
+        private bool IsValidEmail(string value)
+        {
+            return new EmailAddressAttribute().IsValid(value);
         }
     }
 }

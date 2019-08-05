@@ -11,7 +11,6 @@ namespace OccBooking.Domain.Tests.Entities
     public class OwnerTests
     {
         [Fact]
-
         public void AddPlaceShouldThrowDomainException()
         {
             var owner = new Owner(Guid.NewGuid(), "Michał", "Miciak", "michal@miciak.com", "111111111");
@@ -25,7 +24,7 @@ namespace OccBooking.Domain.Tests.Entities
         public void AddPlaceShouldWork()
         {
             var owner = new Owner(Guid.NewGuid(), "Michał", "Miciak", "michal@miciak.com", "111111111");
-            var place = new Place(Guid.NewGuid() , "Calvados", false, false, false, 0, 0 , "");
+            var place = new Place(Guid.NewGuid(), "Calvados", false, 0, "");
 
             owner.AddPlace(place);
             var expected = true;
@@ -35,7 +34,7 @@ namespace OccBooking.Domain.Tests.Entities
         }
 
         [Theory]
-        [InlineData("","Miciak", "michal@miciak.com", "111111111")]
+        [InlineData("", "Miciak", "michal@miciak.com", "111111111")]
         [InlineData("Michał", "", "michal@miciak.com", "111111111")]
         [InlineData("Michał", "Miciak", "michal", "111111111")]
         [InlineData("Michał", "Miciak", "michal", "11111111a")]
@@ -47,9 +46,13 @@ namespace OccBooking.Domain.Tests.Entities
         }
 
         [Fact]
-        public void UpdatePlaceShouldWork()
+        public void CreationShouldWork()
         {
+            var owner = new Owner(Guid.NewGuid(), "Michał", "Miciak", "michal@miciak.com", "111111111");
 
+            Assert.Equal("Michał Miciak", owner.Name.FullName);
+            Assert.Equal("michal@miciak.com", owner.Email.Value);
+            Assert.Equal("111111111", owner.PhoneNumber.Value);
         }
     }
 }

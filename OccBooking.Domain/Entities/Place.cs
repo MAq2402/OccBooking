@@ -10,68 +10,70 @@ namespace OccBooking.Domain.Entities
 {
     public class Place : Entity
     {
-
         private string additionalOptions = string.Empty;
         private List<Reservation> reservations = new List<Reservation>();
         private List<Menu> menus = new List<Menu>();
-        private HashSet<OccasionType> avaliableOccasionTypes = new HashSet<OccasionType>();
+        private HashSet<OccasionType> availableOccasionTypes = new HashSet<OccasionType>();
         private List<Hall> halls = new List<Hall>();
-        public Place(Guid id,
-            string name,
-            bool isShared,
-            bool hasRooms,
-            bool hasOwnFood,
-            decimal? costForPerson,
-            decimal? costForRent,
-            string description)
+
+        public Place(Guid id, string name, bool hasRooms, decimal costPerPerson, string description) : base(id)
         {
-            Id = id;
             SetName(name);
-            IsShared = isShared;
             HasRooms = hasRooms;
-            HasOwnFood = hasOwnFood;
-            CostForPerson = costForPerson;
-            CostForRent = costForRent;
+            SetCostPerPerson(costPerPerson);
             Description = description;
-            CostForPerson = costForPerson;
         }
 
         public IEnumerable<Reservation> Reservations => reservations.AsReadOnly();
-        public IEnumerable<Menu> Menus => HasOwnFood ? menus.AsReadOnly() : Enumerable.Empty<Menu>();
-        public IEnumerable<OccasionType> AvaliableOccasionTypes => avaliableOccasionTypes.ToList().AsReadOnly();
+        public IEnumerable<Menu> Menus => menus.AsReadOnly();
+        public IEnumerable<OccasionType> AvailableOccasionTypes => availableOccasionTypes.ToList().AsReadOnly();
         public IEnumerable<Hall> Halls => halls.AsReadOnly();
+
         public PlaceAdditionalOptions AdditionalOptions
         {
-            get { return (PlaceAdditionalOptions)additionalOptions; }
+            get { return (PlaceAdditionalOptions) additionalOptions; }
             set { additionalOptions = value; }
         }
+
         public string Name { get; private set; }
-        public bool IsShared { get; private set; }
         public bool HasRooms { get; private set; }
-        public bool HasOwnFood { get; private set; }
-        public decimal? CostForPerson { get; private set; }
-        public decimal? CostForRent { get; private set; }
+        public decimal CostPerPerson { get; private set; }
         public string Description { get; private set; }
-        public int Capacity => halls.Max(h => h.PossibleJoins.Where(j => j.FirstHall == h).Sum(x => x.SecondHall.Capacity) +
-                                    h.PossibleJoins.Where(j => j.SecondHall == h).Sum(x => x.FirstHall.Capacity) +
-                                    h.Capacity);
+        public int Capacity => CalculateCapacity(halls);
+
         private void SetName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new DomainException("Name has not been provided");
             }
+
             Name = name;
         }
+        private void SetCostPerPerson(decimal costPerPerson)
+        {
+            if (costPerPerson < 0)
+            {
+                throw new DomainException("Cost per person can not be lower than zero");
+            }
+            CostPerPerson = costPerPerson;
+        }
+
         public void AddHall(Hall hall)
         {
+            if (hall == null)
+            {
+                throw new DomainException("Hall has not been provided");
+            }
+
             halls.Add(hall);
         }
+
         public void AssignMenu(Menu menu)
         {
-            if (!HasOwnFood)
+            if (menu == null)
             {
-                throw new DomainException("Assigning menu faild becouse place does not have own food");
+                throw new DomainException("Menu has not been provided");
             }
 
             menus.Add(menu);
@@ -81,10 +83,12 @@ namespace OccBooking.Domain.Entities
         {
             AdditionalOptions = AdditionalOptions.AddOption(additionalOption);
         }
+
         public void AllowParty(OccasionType partyType)
         {
-            avaliableOccasionTypes.Add(partyType);
+            availableOccasionTypes.Add(partyType);
         }
+
         public void MakeReservation(Reservation reservation)
         {
             if (!Menus.Contains(reservation.Menu))
@@ -92,14 +96,15 @@ namespace OccBooking.Domain.Entities
                 throw new LackOfMenuException("Place does not contain such a menu");
             }
 
-            if (!AvaliableOccasionTypes.Contains(reservation.OccasionType))
+            if (!AvailableOccasionTypes.Contains(reservation.OccasionType))
             {
                 throw new PartyIsNotAvaliableException("Place does not allow to organize such an events");
             }
 
-            if (!CheckIfReservationIsPossible(reservation.DateTime, reservation.AmountOfPeople))
+            if (!DoHallsAtDateHaveEnoughCapacity(reservation.DateTime, reservation.AmountOfPeople))
             {
-                throw new ReservationIsImpossibleException("Making reservation on this date and with this amount of people is impossible");
+                throw new ReservationIsImpossibleException(
+                    "Making reservation on this date and with this amount of people is impossible");
             }
 
             if (!reservation.AdditionalOptions.All(o => AdditionalOptions.Contains(o)))
@@ -107,15 +112,95 @@ namespace OccBooking.Domain.Entities
                 throw new NotSupportedAdditionalOptionException("Place dose not support those options");
             }
 
+            reservation.CalculateCost(CostPerPerson);
             reservations.Add(reservation);
         }
-        public bool CheckIfReservationIsPossible(DateTime dateTime, int amountOfPeople)
+
+        public void AcceptReservation(Reservation reservation, IEnumerable<Hall> halls)
         {
-            return true;
+            if (!halls.Any())
+            {
+                throw new DomainException("Halls has not been provided");
+            }
+
+            if (!Reservations.Contains(reservation))
+            {
+                throw new DomainException("Reservation does not belong to this place");
+            }
+
+            if (!HasHalls(halls))
+            {
+                throw new DomainException("Place does not contain given halls");
+            }
+
+            if (IsAnyHallReservedOnDate(reservation.DateTime, halls))
+            {
+                throw new DomainException("Some or all given halls are already reserved");
+            }
+
+            reservation.Accept(halls);
+
+            var reservationsToReject = Reservations.Where(r =>
+                !r.IsAnswered && !DoHallsAtDateHaveEnoughCapacity(r.DateTime, r.AmountOfPeople));
+
+            foreach (var reservationToReject in reservationsToReject)
+            {
+                reservationToReject.Reject();
+            }
         }
-        public int CountCapacityForDate(DateTime date)
+
+        private bool DoHallsAtDateHaveEnoughCapacity(DateTime dateTime, int amountOfPeople)
         {
-            return 0;
+            var acceptedReservationsAtGivenDay = Reservations.Where(r => r.DateTime == dateTime && r.IsAccepted);
+            IEnumerable<Hall> freeHalls = new List<Hall>();
+            if (acceptedReservationsAtGivenDay.Any())
+            {
+                foreach (var reservation in acceptedReservationsAtGivenDay)
+                {
+                    freeHalls = halls.Except(reservation.Halls);
+                }
+            }
+            else
+            {
+                freeHalls = halls;
+            }
+
+            return amountOfPeople <= CalculateCapacity(freeHalls, dateTime);
+        }
+
+        private int CalculateCapacity(IEnumerable<Hall> halls)
+        {
+            return halls.Any()
+                ? halls.Max(h =>
+                    h.PossibleJoins.Where(j => j.FirstHall == h).Sum(x => x.SecondHall.Capacity) +
+                    h.PossibleJoins.Where(j => j.SecondHall == h).Sum(x => x.FirstHall.Capacity) + h.Capacity)
+                : 0;
+        }
+
+        private int CalculateCapacity(IEnumerable<Hall> halls, DateTime dateTime)
+        {
+            return halls.Any()
+                ? halls.Max(h =>
+                    h.PossibleJoins.Where(j => j.FirstHall == h && IsHallFreeOnDate(j.SecondHall, dateTime))
+                        .Sum(x => x.SecondHall.Capacity) +
+                    h.PossibleJoins.Where(j => j.SecondHall == h && IsHallFreeOnDate(j.FirstHall, dateTime))
+                        .Sum(x => x.FirstHall.Capacity) + h.Capacity)
+                : 0;
+        }
+
+        private bool IsHallFreeOnDate(Hall hall, DateTime dateTime)
+        {
+            return !Reservations.Any(r => r.IsAccepted && r.DateTime == dateTime && r.Halls.Contains(hall));
+        }
+
+        private bool HasHalls(IEnumerable<Hall> halls)
+        {
+            return halls.All(h => Halls.Contains(h));
+        }
+
+        private bool IsAnyHallReservedOnDate(DateTime dateTime, IEnumerable<Hall> halls)
+        {
+            return Reservations.Any(r => r.DateTime == dateTime && halls.Any(h => r.Halls.Contains(h)) && r.IsAccepted);
         }
     }
 }
