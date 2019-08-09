@@ -39,6 +39,7 @@ namespace OccBooking.Domain.Entities
         public bool HasRooms { get; private set; }
         public decimal CostPerPerson { get; private set; }
         public string Description { get; private set; }
+        public Owner Owner { get; private set; }
         public int Capacity => CalculateCapacity(halls);
 
         private void SetName(string name)

@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OccBooking.Domain.Helpers;
 
 namespace OccBooking.Domain.Entities
 {
     public class Hall : Entity
     {
         private List<HallJoin> possibleJoins = new List<HallJoin>();
+        private List<HallReservations> hallReservations = new List<HallReservations>();
         public Hall(Guid id, int capacity) : base(id)
         {
             SetCapacity(capacity);
@@ -16,6 +18,7 @@ namespace OccBooking.Domain.Entities
         public int Capacity { get; private set; }
         public Place Place { get; private set; }
         public IEnumerable<HallJoin> PossibleJoins => possibleJoins;
+        public IEnumerable<HallReservations> HallReservations => hallReservations;
         private void SetCapacity(int capacity)
         {
             if (capacity <= 0)
