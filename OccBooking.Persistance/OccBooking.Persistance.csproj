@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20190809105302_Init.Designer.cs" />
     <Compile Remove="Migrations\20190809111047_Init.cs" />
     <Compile Remove="Migrations\20190809111047_Init.Designer.cs" />
+    <Compile Remove="Migrations\20190809112912_Init.cs" />
+    <Compile Remove="Migrations\20190809112912_Init.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +25,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OccBooking.Domain\OccBooking.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

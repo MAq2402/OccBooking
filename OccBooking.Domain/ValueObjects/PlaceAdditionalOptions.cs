@@ -10,6 +10,7 @@ namespace OccBooking.Domain.ValueObjects
     public class PlaceAdditionalOptions : ValueObject, IEnumerable<PlaceAdditionalOption>
     {
         private List<PlaceAdditionalOption> additionalOptions = new List<PlaceAdditionalOption>();
+
         public PlaceAdditionalOptions(IEnumerable<PlaceAdditionalOption> additionalOptions)
         {
             this.additionalOptions = additionalOptions.ToList();
@@ -17,8 +18,8 @@ namespace OccBooking.Domain.ValueObjects
 
         private PlaceAdditionalOptions()
         {
-
         }
+
         public IEnumerator<PlaceAdditionalOption> GetEnumerator()
         {
             return additionalOptions.GetEnumerator();
@@ -40,15 +41,17 @@ namespace OccBooking.Domain.ValueObjects
 
         public static explicit operator PlaceAdditionalOptions(string additionalOptions)
         {
-            return string.IsNullOrEmpty(additionalOptions) ?
-                new PlaceAdditionalOptions(Enumerable.Empty<PlaceAdditionalOption>()):
-                new PlaceAdditionalOptions(additionalOptions.Split(';').Select(x => (PlaceAdditionalOption)x).ToList());
+            return string.IsNullOrEmpty(additionalOptions)
+                ? new PlaceAdditionalOptions(Enumerable.Empty<PlaceAdditionalOption>())
+                : new PlaceAdditionalOptions(additionalOptions.Split(';').Select(x => (PlaceAdditionalOption) x)
+                    .ToList());
         }
 
         public static implicit operator string(PlaceAdditionalOptions additionalOptions)
         {
-            return string.Join(';', additionalOptions.Select(x => (string)x));
+            return string.Join(';', additionalOptions.Select(x => (string) x));
         }
+
         public PlaceAdditionalOptions AddOption(PlaceAdditionalOption additionalOption)
         {
             if (additionalOption == null)
@@ -59,9 +62,10 @@ namespace OccBooking.Domain.ValueObjects
             additionalOptions.Add(additionalOption);
             return new PlaceAdditionalOptions(additionalOptions);
         }
+
         public override string ToString()
         {
-            return string.Join(';', additionalOptions.Select(x => (string)x));
+            return string.Join(';', additionalOptions.Select(x => (string) x));
         }
     }
 }

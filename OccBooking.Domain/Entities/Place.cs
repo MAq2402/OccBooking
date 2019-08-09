@@ -26,7 +26,6 @@ namespace OccBooking.Domain.Entities
 
         private Place()
         {
-
         }
 
         public IEnumerable<Reservation> Reservations => reservations.AsReadOnly();
@@ -39,8 +38,6 @@ namespace OccBooking.Domain.Entities
             get { return (PlaceAdditionalOptions) additionalOptions; }
             set { additionalOptions = value; }
         }
-
-        // public string AdditionalOptions { get; set; }
 
         public string Name { get; private set; }
         public bool HasRooms { get; private set; }
@@ -58,12 +55,14 @@ namespace OccBooking.Domain.Entities
 
             Name = name;
         }
+
         private void SetCostPerPerson(decimal costPerPerson)
         {
             if (costPerPerson < 0)
             {
                 throw new DomainException("Cost per person can not be lower than zero");
             }
+
             CostPerPerson = costPerPerson;
         }
 

@@ -20,13 +20,15 @@ namespace OccBooking.Domain.ValueObjects
 
         private Email()
         {
-
         }
+
         public string Value { get; private set; }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Value;
         }
+
         private bool IsValidEmail(string value)
         {
             return new EmailAddressAttribute().IsValid(value);

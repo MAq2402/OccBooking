@@ -18,6 +18,7 @@ namespace OccBooking.Persistance.Configurations
             builder.OwnsOne(r => r.Client, ba => ba.OwnsOne(c => c.PhoneNumber));
             builder.Property(p => p.AdditionalOptions)
                 .HasConversion<string>(x => x.ToString(), y => (PlaceAdditionalOptions)y);
+            builder.Ignore(r => r.Halls);
         }
     }
 }

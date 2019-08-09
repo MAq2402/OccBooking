@@ -20,9 +20,10 @@ namespace OccBooking.Domain.ValueObjects
 
         private PhoneNumber()
         {
-
         }
-        public string Value { get;private set; }
+
+        public string Value { get; private set; }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Value;

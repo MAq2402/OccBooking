@@ -15,8 +15,8 @@ namespace OccBooking.Domain.ValueObjects
 
         private Client()
         {
-
         }
+
         public PersonName Name { get; private set; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }
