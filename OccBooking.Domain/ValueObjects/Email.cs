@@ -17,6 +17,11 @@ namespace OccBooking.Domain.ValueObjects
 
             Value = value;
         }
+
+        private Email()
+        {
+
+        }
         public string Value { get; private set; }
         protected override IEnumerable<object> GetEqualityComponents()
         {

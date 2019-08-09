@@ -9,15 +9,24 @@ namespace OccBooking.Domain.Entities
 {
     public class Hall : Entity
     {
-        private List<HallJoin> possibleJoins = new List<HallJoin>();
+        private List<HallJoin> possibleJoinsWhereIsFirst = new List<HallJoin>();
+        private List<HallJoin> possibleJoinsWhereIsSecond = new List<HallJoin>();
+
         private List<HallReservations> hallReservations = new List<HallReservations>();
         public Hall(Guid id, int capacity) : base(id)
         {
             SetCapacity(capacity);
         }
+
+        private Hall()
+        {
+
+        }
         public int Capacity { get; private set; }
         public Place Place { get; private set; }
-        public IEnumerable<HallJoin> PossibleJoins => possibleJoins;
+        public IEnumerable<HallJoin> PossibleJoinsWhereIsFirst => possibleJoinsWhereIsFirst;
+        public IEnumerable<HallJoin> PossibleJoinsWhereIsSecond => possibleJoinsWhereIsSecond;
+        public IEnumerable<HallJoin> PossibleJoins => possibleJoinsWhereIsFirst.Concat(possibleJoinsWhereIsSecond);
         public IEnumerable<HallReservations> HallReservations => hallReservations;
         private void SetCapacity(int capacity)
         {
@@ -34,14 +43,14 @@ namespace OccBooking.Domain.Entities
                 throw new DomainException("Hall has not been provided");
             }
 
-            if (possibleJoins.Any(j => j.FirstHall == hall || j.SecondHall == hall))
+            if (PossibleJoins.Any(j => j.FirstHall == hall || j.SecondHall == hall))
             {
                 throw new DomainException("Provided hall is already possible join to this hall");
             }
 
             var join = new HallJoin(Guid.NewGuid(), this, hall);
-            possibleJoins.Add(join);
-            hall.possibleJoins.Add(join);
+            possibleJoinsWhereIsFirst.Add(join);
+            hall.possibleJoinsWhereIsSecond.Add(join);
         }
     }
 }

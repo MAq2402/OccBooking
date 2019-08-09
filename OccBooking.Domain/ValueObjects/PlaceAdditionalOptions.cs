@@ -14,6 +14,11 @@ namespace OccBooking.Domain.ValueObjects
         {
             this.additionalOptions = additionalOptions.ToList();
         }
+
+        private PlaceAdditionalOptions()
+        {
+
+        }
         public IEnumerator<PlaceAdditionalOption> GetEnumerator()
         {
             return additionalOptions.GetEnumerator();
@@ -53,6 +58,10 @@ namespace OccBooking.Domain.ValueObjects
 
             additionalOptions.Add(additionalOption);
             return new PlaceAdditionalOptions(additionalOptions);
+        }
+        public override string ToString()
+        {
+            return string.Join(';', additionalOptions.Select(x => (string)x));
         }
     }
 }

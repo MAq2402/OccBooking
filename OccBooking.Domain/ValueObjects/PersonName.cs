@@ -16,6 +16,11 @@ namespace OccBooking.Domain.ValueObjects
             FirstName = firstName;
             LastName = lastName;
         }
+
+        private PersonName()
+        {
+
+        }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string FullName => $"{FirstName} {LastName}";

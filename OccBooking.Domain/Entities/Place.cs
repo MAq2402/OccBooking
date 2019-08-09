@@ -24,6 +24,11 @@ namespace OccBooking.Domain.Entities
             Description = description;
         }
 
+        private Place()
+        {
+
+        }
+
         public IEnumerable<Reservation> Reservations => reservations.AsReadOnly();
         public IEnumerable<Menu> Menus => menus.AsReadOnly();
         public IEnumerable<OccasionType> AvailableOccasionTypes => availableOccasionTypes.ToList().AsReadOnly();
@@ -34,6 +39,8 @@ namespace OccBooking.Domain.Entities
             get { return (PlaceAdditionalOptions) additionalOptions; }
             set { additionalOptions = value; }
         }
+
+        // public string AdditionalOptions { get; set; }
 
         public string Name { get; private set; }
         public bool HasRooms { get; private set; }

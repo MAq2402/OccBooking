@@ -13,7 +13,7 @@ namespace OccBooking.Persistance.Configurations
         {
             builder.HasKey(hr => new {hr.HallId, hr.ReservationId});
             builder.HasOne(hr => hr.Reservation)
-                .WithMany(r => r.HallReservationes)
+                .WithMany(r => r.HallReservations)
                 .HasForeignKey(hr => hr.ReservationId);
             builder.HasOne(hr => hr.Hall)
                 .WithMany(h => h.HallReservations)

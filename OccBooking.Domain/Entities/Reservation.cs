@@ -30,13 +30,18 @@ namespace OccBooking.Domain.Entities
             AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
         }
 
+        private Reservation()
+        {
+
+        }
+
         public PlaceAdditionalOptions AdditionalOptions
         {
             get { return (PlaceAdditionalOptions) additionalOptions; }
             set { additionalOptions = value; }
         }
 
-        public IEnumerable<HallReservations> HallReservationes => hallReservations;
+        public IEnumerable<HallReservations> HallReservations => hallReservations;
         public IEnumerable<Hall> Halls => hallReservations.Select(x => x.Hall);
         public DateTime DateTime { get; private set; }
         public Client Client { get; private set; }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.Enums;
+using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Persistance.Configurations
 {
@@ -23,14 +24,15 @@ namespace OccBooking.Persistance.Configurations
             builder.HasMany(p => p.Halls)
                 .WithOne(h => h.Place);
 
-            builder.OwnsOne(p => p.AdditionalOptions);
+            builder.Property(p => p.AdditionalOptions)
+                .HasConversion<string>(x => x.ToString(), y => (PlaceAdditionalOptions) y);
 
             var occasionalTypesToStringConverter = new ValueConverter<IEnumerable<OccasionType>, string>(
                 v => string.Join(',', v),
                 v => v.Split(',', StringSplitOptions.None)
                     .Select(x => (OccasionType) Enum.Parse(typeof(OccasionType), x)));
 
-            builder.Property(o => o.AvailableOccasionTypes).HasConversion<string>(occasionalTypesToStringConverter);
+            builder.Property(p => p.AvailableOccasionTypes).HasConversion<string>(occasionalTypesToStringConverter);
         }
     }
 }

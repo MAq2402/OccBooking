@@ -43,6 +43,16 @@ namespace OccBooking.Domain.Tests.ValueObjects
 
             Assert.Equal(expected, actual);
         }
+        [Fact]
+        public void ToStringShouldWork()
+        {
+            string actual = new PlaceAdditionalOptions(new List<PlaceAdditionalOption>() {
+                new PlaceAdditionalOption("Photos",50), new PlaceAdditionalOption("Flowers",100)}).ToString();
+            var expected = "Photos,50;Flowers,100";
+
+
+            Assert.Equal(expected, actual);
+        }
 
         [Fact]
         public void AddOptionShouldWork()

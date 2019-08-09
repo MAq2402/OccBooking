@@ -18,6 +18,11 @@ namespace OccBooking.Domain.Entities
             SetMeals(meals);
         }
 
+        private Menu()
+        {
+
+        }
+
         public IEnumerable<Meal> Meals => meals.AsReadOnly();
         public string Name { get; private set; }
         public MenuType Type { get; private set; }

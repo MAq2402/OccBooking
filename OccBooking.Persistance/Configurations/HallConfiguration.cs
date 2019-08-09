@@ -10,7 +10,8 @@ namespace OccBooking.Persistance.Configurations
     public class HallConfiguration : IEntityTypeConfiguration<Hall>
     {
         public void Configure(EntityTypeBuilder<Hall> builder)
-        { 
+        {
+            builder.Ignore(h => h.PossibleJoins);
         }
     }
 }

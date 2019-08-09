@@ -11,6 +11,11 @@ namespace OccBooking.Domain.ValueObjects
             Name = name;
             Cost = cost;
         }
+
+        private PlaceAdditionalOption()
+        {
+
+        }
         public string Name { get; private set; }
         public decimal Cost { get; private set; }
 

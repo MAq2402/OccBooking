@@ -11,8 +11,8 @@ namespace OccBooking.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<HallJoin> builder)
         {
-            builder.HasOne(hj => hj.FirstHall).WithMany(h => h.PossibleJoins);
-            builder.HasOne(hj => hj.SecondHall).WithMany(h => h.PossibleJoins);
+            builder.HasOne(hj => hj.FirstHall).WithMany(h => h.PossibleJoinsWhereIsFirst);
+            builder.HasOne(hj => hj.SecondHall).WithMany(h => h.PossibleJoinsWhereIsSecond);
         }
     }
 }
