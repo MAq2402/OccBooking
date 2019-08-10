@@ -12,6 +12,11 @@ namespace OccBooking.Domain.ValueObjects
             Email = new Email(email);
             PhoneNumber = new PhoneNumber(phoneNumber);
         }
+
+        private Client()
+        {
+        }
+
         public PersonName Name { get; private set; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }

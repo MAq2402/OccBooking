@@ -17,6 +17,11 @@ namespace OccBooking.Domain.Entities
             PhoneNumber = new PhoneNumber(phoneNumber);
         }
 
+        private Owner()
+        {
+
+        }
+
         public IEnumerable<Place> Places => places;
         public PersonName Name { get; private set; }
         public Email Email { get; private set; }

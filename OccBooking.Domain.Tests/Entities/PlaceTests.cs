@@ -28,7 +28,7 @@ namespace OccBooking.Domain.Tests.Entities
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "Nice place");
 
             Assert.Equal("Calvados", place.Name);
-            Assert.Equal(false, place.HasRooms);
+            Assert.False(place.HasRooms);
             Assert.Equal(10, place.CostPerPerson);
             Assert.Equal("Nice place", place.Description);
         }

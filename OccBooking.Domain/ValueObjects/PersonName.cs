@@ -13,12 +13,19 @@ namespace OccBooking.Domain.ValueObjects
             {
                 throw new DomainException("Name has not been provided");
             }
+
             FirstName = firstName;
             LastName = lastName;
         }
+
+        private PersonName()
+        {
+        }
+
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string FullName => $"{FirstName} {LastName}";
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return FirstName;

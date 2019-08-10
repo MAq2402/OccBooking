@@ -4,13 +4,18 @@ using System.Text;
 
 namespace OccBooking.Domain.ValueObjects
 {
-    public class PlaceAdditionalOption: ValueObject
+    public class PlaceAdditionalOption : ValueObject
     {
         public PlaceAdditionalOption(string name, decimal cost)
         {
             Name = name;
             Cost = cost;
         }
+
+        private PlaceAdditionalOption()
+        {
+        }
+
         public string Name { get; private set; }
         public decimal Cost { get; private set; }
 

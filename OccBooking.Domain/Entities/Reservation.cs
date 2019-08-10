@@ -5,13 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OccBooking.Domain.Helpers;
 
 namespace OccBooking.Domain.Entities
 {
     public class Reservation : Entity
     {
         private string additionalOptions = string.Empty;
-        private List<Hall> halls = new List<Hall>();
+        private List<HallReservations> hallReservations = new List<HallReservations>();
 
         public Reservation(Guid id,
             DateTime dateTime,
@@ -29,13 +30,19 @@ namespace OccBooking.Domain.Entities
             AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
         }
 
+        private Reservation()
+        {
+
+        }
+
         public PlaceAdditionalOptions AdditionalOptions
         {
             get { return (PlaceAdditionalOptions) additionalOptions; }
             set { additionalOptions = value; }
         }
 
-        public IEnumerable<Hall> Halls => halls;
+        public IEnumerable<HallReservations> HallReservations => hallReservations;
+        public IEnumerable<Hall> Halls => hallReservations.Select(x => x.Hall);
         public DateTime DateTime { get; private set; }
         public Client Client { get; private set; }
         public int AmountOfPeople { get; private set; }
@@ -100,7 +107,10 @@ namespace OccBooking.Domain.Entities
                 throw new ToSmallCapacityException("Halls capacity is to small for this reservation");
             }
 
-            this.halls.AddRange(halls);
+            foreach (var hall in halls)
+            {
+                hallReservations.Add(new HallReservations(){Hall = hall, Reservation = this});
+            }
             IsAccepted = true;
         }
 
@@ -118,7 +128,7 @@ namespace OccBooking.Domain.Entities
         public void CalculateCost(decimal placeCostForPerson)
         {
             Cost = AmountOfPeople * placeCostForPerson +
-                   Menu.CostForPerson * AmountOfPeople +
+                   Menu.CostPerPerson * AmountOfPeople +
                    AdditionalOptions.Sum(o => o.Cost);
         }
     }

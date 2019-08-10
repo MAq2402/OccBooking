@@ -17,7 +17,13 @@ namespace OccBooking.Domain.ValueObjects
 
             Value = value;
         }
-        public string Value { get;private set; }
+
+        private PhoneNumber()
+        {
+        }
+
+        public string Value { get; private set; }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Value;
