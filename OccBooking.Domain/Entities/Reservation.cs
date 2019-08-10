@@ -128,7 +128,7 @@ namespace OccBooking.Domain.Entities
         public void CalculateCost(decimal placeCostForPerson)
         {
             Cost = AmountOfPeople * placeCostForPerson +
-                   Menu.CostForPerson * AmountOfPeople +
+                   Menu.CostPerPerson * AmountOfPeople +
                    AdditionalOptions.Sum(o => o.Cost);
         }
     }

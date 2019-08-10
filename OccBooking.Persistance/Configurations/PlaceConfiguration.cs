@@ -32,7 +32,7 @@ namespace OccBooking.Persistance.Configurations
                 v => v.Split(',', StringSplitOptions.None)
                     .Select(x => (OccasionType) Enum.Parse(typeof(OccasionType), x)));
 
-            builder.Property(p => p.AvailableOccasionTypes).HasConversion<string>(occasionalTypesToStringConverter);
+            builder.Property(p => p.AvailableOccasionTypes).HasConversion(occasionalTypesToStringConverter);
         }
     }
 }

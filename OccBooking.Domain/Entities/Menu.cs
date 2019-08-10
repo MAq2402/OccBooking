@@ -26,7 +26,7 @@ namespace OccBooking.Domain.Entities
         public IEnumerable<Meal> Meals => meals.AsReadOnly();
         public string Name { get; private set; }
         public MenuType Type { get; private set; }
-        public decimal CostForPerson { get; private set; }
+        public decimal CostPerPerson { get; private set; }
         public Place Place { get; private set; }
 
         private void SetMeals(IEnumerable<Meal> meals)
@@ -51,7 +51,7 @@ namespace OccBooking.Domain.Entities
                 throw new DomainException("Menu cost has to be greater than 0");
             }
 
-            CostForPerson = costForPerson;
+            CostPerPerson = costForPerson;
         }
 
         private void SetName(string name)
