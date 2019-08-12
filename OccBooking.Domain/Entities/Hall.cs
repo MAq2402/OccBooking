@@ -11,7 +11,6 @@ namespace OccBooking.Domain.Entities
     {
         private List<HallJoin> possibleJoinsWhereIsFirst = new List<HallJoin>();
         private List<HallJoin> possibleJoinsWhereIsSecond = new List<HallJoin>();
-
         private List<HallReservations> hallReservations = new List<HallReservations>();
         public Hall(Guid id, int capacity) : base(id)
         {

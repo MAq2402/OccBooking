@@ -3,18 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using OccBooking.Application.Commands;
+using OccBooking.Common.Dispatchers;
 
 namespace OccBooking.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class ValuesController : ControllerBase
     {
+        private Dispatcher _dispatcher;
+
+        public ValuesController(Dispatcher dispatcher)
+        {
+            _dispatcher = dispatcher;
+        }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var xd = await _dispatcher.DispatchAsync(new TestCommand());
+
+            return Ok(xd.IsSuccess);
         }
 
         // GET api/values/5
