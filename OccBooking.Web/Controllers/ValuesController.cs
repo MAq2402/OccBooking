@@ -12,22 +12,19 @@ namespace OccBooking.Web.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class ValuesController : ControllerBase
+    public class ValuesController : BaseController
     {
-        private IDispatcher _dispatcher;
-
-        public ValuesController(IDispatcher dispatcher)
+        public ValuesController(IDispatcher dispatcher) : base(dispatcher)
         {
-            _dispatcher = dispatcher;
         }
         // GET api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var xd = await _dispatcher.DispatchAsync(new TestCommand());
-            var xd2 = await _dispatcher.DispatchAsync(new TestQuery());
+            var resultFromCommand = await CommandAsync(new TestCommand());
+            var resultFromQuery = await QueryAsync(new TestQuery());
 
-            return Ok(xd.IsSuccess + xd2.Value);
+            return Ok(resultFromCommand.IsSuccess + resultFromQuery.Value);
         }
 
         // GET api/values/5

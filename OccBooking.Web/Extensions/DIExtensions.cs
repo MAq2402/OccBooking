@@ -10,7 +10,7 @@ using OccBooking.Common.Types;
 
 namespace OccBooking.Web.Extensions
 {
-    public static class DIExtensions
+    public static class DiExtensions
     {
         public static void RegisterCommandHandlers(this ContainerBuilder builder)
         {
