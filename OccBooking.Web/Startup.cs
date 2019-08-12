@@ -19,6 +19,7 @@ using OccBooking.Common.Dispatchers;
 using OccBooking.Common.Hanlders;
 using OccBooking.Common.Types;
 using OccBooking.Persistance.DbContexts;
+using OccBooking.Web.Extensions;
 
 namespace OccBooking.Web
 {
@@ -45,98 +46,16 @@ namespace OccBooking.Web
 
             builder.Populate(services);
 
-            //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TestHandler)))
-            //    .Where(x => x.IsAssignableTo<ICommandHandler<ICommand>>())
-            //    .AsImplementedInterfaces();
+            builder.RegisterCommandHandlers();
+            builder.RegisterQueryHandlers();
 
-            //builder.Register(c =>
-            //{
-            //    var ctx = c.Resolve<IComponentContext>();
-
-            //    return t =>
-            //    {
-            //        var handlerType = typeof(ICommandHandler<>).MakeGenericType(t);
-            //        return (ICommand)ctx.Resolve(handlerType);
-            //    };
-            //});
-            //var assemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>();
-
-            var assembly = Assembly.GetAssembly(typeof(TestHandler));
-
-           // Assembly.Load(AssemblyName.GetAssemblyName("OccBooking.Application"))
-
-            //foreach (var assembly in assemblies)
-            //{
-                // builder.RegisterAssemblyTypes(assembly).AssignableTo<IQueryResult>().AsImplementedInterfaces();
-
-                // builder.RegisterAssemblyTypes(assembly).As(typeof(ICommand)).AsImplementedInterfaces();
-            // var commands = assembly.GetTypes().Where(x => x == typeof(ICommand));
-
-            var type = typeof(ICommand);
-            var commands = assembly.GetTypes()
-                .Where(p => type.IsAssignableFrom(p));
-
-            foreach (var command in commands)
-            {
-                var handlerType = typeof(ICommandHandler<>)
-                    .MakeGenericType(command);
-                //MethodInfo method = typeof(Type).GetMethod("IsAssignableTo",
-                //        BindingFlags.Public | BindingFlags.Static);
-
-                //method = method.MakeGenericMethod(handlerType);
-                var concreteHandler = assembly.GetTypes().Where(x => handlerType.IsAssignableFrom(x)).FirstOrDefault();
-                builder.RegisterType(concreteHandler).As(handlerType);
-
-                //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TestHandler)))
-                //    .Where(x => (bool)method.Invoke(null, new object[]{x}))
-                //    .AsImplementedInterfaces();
-                // builder.RegisterAssemblyTypes(assembly).AsClosedTypesOf(typeof(ICommandHandler<>).MakeGenericType(command)).AsImplementedInterfaces();
-            }
-           
-
-            //}
-            //var genericRequestHandlers = typeof(TestHandler).Assembly
-            //    .ExportedTypes
-            //    .Where(x => IsGenericRequestHandler(x))
-            //    .ToArray();
-
-            //foreach (var genericRequestHandler in genericRequestHandlers)
-            //{
-            //    builder
-            //        .RegisterGeneric(genericRequestHandler)
-            //        .AsImplementedInterfaces();
-            //}
-
-            //builder.Register<Func<Type, IHandleCommand>>(c =>
-            //{
-            //    var ctx = c.Resolve<IComponentContext>();
-
-            //    return t =>
-            //    {
-            //        var handlerType = typeof(IHandleCommand<>).MakeGenericType(t);
-            //        return (IHandleCommand)ctx.Resolve(handlerType);
-            //    };
-            //});
-
-            builder.RegisterType<Dispatcher>()
-                .AsSelf();
+            builder.RegisterType<Dispatcher>().As<IDispatcher>();
 
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);
         }
-        //private static bool IsGenericRequestHandler(Type t)
-        //{
-        //    return
-        //        t.IsGenericTypeDefinition &&
-        //        t.GetInterfaces().Any(i =>
-        //        {
-        //            return
-        //                i.IsGenericType &&
-        //                i.GetGenericTypeDefinition() == typeof(ICommandHandler<>);
-        //        });
-        //}
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

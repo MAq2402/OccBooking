@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OccBooking.Application.Commands;
+using OccBooking.Application.Queries;
 using OccBooking.Common.Dispatchers;
 
 namespace OccBooking.Web.Controllers
@@ -13,9 +14,9 @@ namespace OccBooking.Web.Controllers
 
     public class ValuesController : ControllerBase
     {
-        private Dispatcher _dispatcher;
+        private IDispatcher _dispatcher;
 
-        public ValuesController(Dispatcher dispatcher)
+        public ValuesController(IDispatcher dispatcher)
         {
             _dispatcher = dispatcher;
         }
@@ -24,8 +25,9 @@ namespace OccBooking.Web.Controllers
         public async Task<IActionResult> Get()
         {
             var xd = await _dispatcher.DispatchAsync(new TestCommand());
+            var xd2 = await _dispatcher.DispatchAsync(new TestQuery());
 
-            return Ok(xd.IsSuccess);
+            return Ok(xd.IsSuccess + xd2.Value);
         }
 
         // GET api/values/5

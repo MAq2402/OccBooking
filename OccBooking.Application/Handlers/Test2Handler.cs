@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using OccBooking.Application.Commands;
+using OccBooking.Application.Queries;
 using OccBooking.Common.Hanlders;
 
 namespace OccBooking.Application.Handlers
 {
-    public class TestHandler : ICommandHandler<TestCommand>
+    public class Test2Handler : IQueryHandler<TestQuery, string>
     {
-        public Task<Result> HandleAsync(TestCommand command)
+        public Task<Result<string>> HandleAsync(TestQuery query)
         {
-            return Task.FromResult(Result.Ok());
+            return Task.FromResult(Result.Ok("Super"));
         }
     }
 }
