@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.Helpers;
 
 namespace OccBooking.Persistance.DbContexts
 {
-    public class OccBookingDbContext : DbContext
+    public class OccBookingDbContext : IdentityDbContext
     {
         public OccBookingDbContext(DbContextOptions<OccBookingDbContext> options) : base(options)
         {
@@ -26,6 +27,8 @@ namespace OccBooking.Persistance.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(OccBookingDbContext)));
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -14,12 +15,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using OccBooking.Application.Handlers;
 using OccBooking.Common.Dispatchers;
 using OccBooking.Common.Hanlders;
 using OccBooking.Common.Types;
 using OccBooking.Persistance.DbContexts;
-using OccBooking.Web.Extensions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace OccBooking.Web
 {
@@ -41,6 +43,14 @@ namespace OccBooking.Web
 
             services.AddDbContext<OccBookingDbContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("Connection")));
+
+            services.ConfigureAuthentication(Configuration,
+                new SymmetricSecurityKey(Encoding.ASCII.GetBytes("HAS TO BE CHANGED")));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "OccBooking", Version = "v1" });
+            });
 
             var builder = new ContainerBuilder();
 
@@ -68,6 +78,15 @@ namespace OccBooking.Web
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OccBooking");
+                c.RoutePrefix = string.Empty;
+            });
+
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

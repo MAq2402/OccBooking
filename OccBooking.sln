@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OccBooking.Domain.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OccBooking.Persistance", "OccBooking.Persistance\OccBooking.Persistance.csproj", "{55F0CE09-4949-4472-8E9C-CF0500F09C71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OccBooking.Application", "OccBooking.Application\OccBooking.Application.csproj", "{EE130549-FB91-4C8F-82F8-B40F0F14581A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OccBooking.Application", "OccBooking.Application\OccBooking.Application.csproj", "{EE130549-FB91-4C8F-82F8-B40F0F14581A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OccBooking.Common", "OccBooking.Common\OccBooking.Common.csproj", "{64B899C0-1AD4-48D8-AFCF-D13C412F7F51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OccBooking.Common", "OccBooking.Common\OccBooking.Common.csproj", "{64B899C0-1AD4-48D8-AFCF-D13C412F7F51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OccBooking.Auth", "OccBooking.Auth\OccBooking.Auth.csproj", "{03AC58BA-7F78-4601-B783-AC7A49568F33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{64B899C0-1AD4-48D8-AFCF-D13C412F7F51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64B899C0-1AD4-48D8-AFCF-D13C412F7F51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64B899C0-1AD4-48D8-AFCF-D13C412F7F51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03AC58BA-7F78-4601-B783-AC7A49568F33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03AC58BA-7F78-4601-B783-AC7A49568F33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03AC58BA-7F78-4601-B783-AC7A49568F33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03AC58BA-7F78-4601-B783-AC7A49568F33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
