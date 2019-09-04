@@ -13,7 +13,7 @@ namespace OccBooking.Web.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        private IDispatcher _dispatcher;
+        protected IDispatcher _dispatcher;
 
         protected BaseController(IDispatcher dispatcher)
         {

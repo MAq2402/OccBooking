@@ -8,13 +8,13 @@ using OccBooking.Application.Handlers;
 using OccBooking.Common.Hanlders;
 using OccBooking.Common.Types;
 
-namespace OccBooking.Web.Extensions
+namespace OccBooking.Web
 {
     public static class DiExtensions
     {
         public static void RegisterCommandHandlers(this ContainerBuilder builder)
         {
-            var assembly = Assembly.GetAssembly(typeof(TestHandler));
+            var assembly = Assembly.GetAssembly(typeof(RegisterHandler));
 
             var commandType = typeof(ICommand);
             var commands = assembly.GetTypes()
@@ -34,7 +34,7 @@ namespace OccBooking.Web.Extensions
 
         public static void RegisterQueryHandlers(this ContainerBuilder builder)
         {
-            var assembly = Assembly.GetAssembly(typeof(TestHandler));
+            var assembly = Assembly.GetAssembly(typeof(RegisterHandler));
 
             var queryType = typeof(IQuery<>);
             var queries = assembly.GetTypes()
