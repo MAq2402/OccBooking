@@ -16,7 +16,8 @@ namespace OccBooking.Web
 {
     public static class AuthExtensions
     {
-        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration, SymmetricSecurityKey securityKey)
+        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration,
+            SymmetricSecurityKey securityKey)
         {
             var jwtAppSettingOptions = configuration.GetSection(nameof(JwtIssuerOptions));
 
@@ -27,7 +28,8 @@ namespace OccBooking.Web
                 options.SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             });
 
-            TokenValidationParameters tokenValidationParameters = CreateTokenValidationParameters(securityKey, jwtAppSettingOptions);
+            TokenValidationParameters tokenValidationParameters =
+                CreateTokenValidationParameters(securityKey, jwtAppSettingOptions);
 
             services.AddAuthentication(options =>
             {
@@ -56,7 +58,9 @@ namespace OccBooking.Web
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<OccBookingDbContext>().AddDefaultTokenProviders();
         }
-        private static TokenValidationParameters CreateTokenValidationParameters(SymmetricSecurityKey securityKey, IConfigurationSection jwtAppSettingOptions)
+
+        private static TokenValidationParameters CreateTokenValidationParameters(SymmetricSecurityKey securityKey,
+            IConfigurationSection jwtAppSettingOptions)
         {
             return new TokenValidationParameters
             {
@@ -74,6 +78,5 @@ namespace OccBooking.Web
                 ClockSkew = TimeSpan.Zero
             };
         }
-
     }
 }

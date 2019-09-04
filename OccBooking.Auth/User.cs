@@ -16,8 +16,8 @@ namespace OccBooking.Auth
 
         private User()
         {
-
         }
+
         public Owner Owner { get; private set; }
     }
 }
