@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Auth\" />
-    <Folder Include="DependencyI\" />
   </ItemGroup>
 
 </Project>

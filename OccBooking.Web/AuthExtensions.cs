@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using OccBooking.Application.Contracts;
 using OccBooking.Auth;
 using OccBooking.Auth.Services;
 using OccBooking.Persistance.DbContexts;
@@ -40,6 +41,7 @@ namespace OccBooking.Web
             });
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddScoped<IAuthService, AuthService>();
 
             var builder = services.AddIdentityCore<User>(o =>
             {

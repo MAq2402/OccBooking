@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OccBooking.Application.Commands;
 using OccBooking.Application.DTOs;
+using OccBooking.Application.Queries;
 using OccBooking.Common.Dispatchers;
 
 namespace OccBooking.Web.Controllers
@@ -16,7 +17,7 @@ namespace OccBooking.Web.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserForCreationDto model)
+        public async Task<IActionResult> RegisterAsync([FromBody] UserForCreationDto model)
         {
             var command = new RegisterCommand(model.FirstName, model.LastName, model.Email, model.PhoneNumber,
                 model.UserName, model.Password, model.ConfirmPassword);
@@ -29,6 +30,21 @@ namespace OccBooking.Web.Controllers
             }
 
             return CreatedAtRoute(null, null);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginCredentials model)
+        {
+            var query = new LoginQuery(model.UserName, model.Password);
+
+            var result = await _dispatcher.DispatchAsync(query);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
     }
 }

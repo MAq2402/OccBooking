@@ -19,7 +19,7 @@ namespace OccBooking.Auth.Services
             _jwtOptions = jwtOptions.Value;
             ThrowIfInvalidOptions(_jwtOptions);
         }
-        public string GenerateJwt(User user, string userName, JsonSerializerSettings serializerSettings)
+        public string GenerateJwt(User user, string userName)
         {
             var response = new
             {
@@ -28,7 +28,7 @@ namespace OccBooking.Auth.Services
                 expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
             };
 
-            return JsonConvert.SerializeObject(response, serializerSettings);
+            return JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
         }
 
         private string GenerateEncodedToken(string userName)

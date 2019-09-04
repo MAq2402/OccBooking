@@ -7,6 +7,6 @@ namespace OccBooking.Auth.Services
 {
     public interface IJwtFactory
     {
-        string GenerateJwt(User user, string userName, JsonSerializerSettings serializerSettings);
+        string GenerateJwt(User user, string userName);
     }
 }
