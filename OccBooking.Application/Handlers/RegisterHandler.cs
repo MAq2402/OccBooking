@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Identity;
 using OccBooking.Application.Commands;
 using OccBooking.Application.Contracts;
 using OccBooking.Common.Hanlders;
