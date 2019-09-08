@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
+using System.Xml;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
@@ -29,7 +30,7 @@ namespace OccBooking.Auth.Services
                 expires_in = (int) _jwtOptions.ValidFor.TotalSeconds
             };
 
-            return JsonConvert.SerializeObject(response, new JsonSerializerSettings {Formatting = Formatting.Indented});
+            return JsonConvert.SerializeObject(response, new JsonSerializerSettings {Formatting = Newtonsoft.Json.Formatting.Indented});
         }
 
         private string GenerateEncodedToken(string userName)

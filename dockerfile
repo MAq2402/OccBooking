@@ -1,21 +1,46 @@
-# FROM mcr.microsoft.com/dotnet/core/runtime:2.2
-# WORKDIR /app
-# COPY /app /app
-# ENTRYPOINT [ "dotnet" , "OccBooking.Web.dll"]
-
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS base
 WORKDIR /app
+EXPOSE 80
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
+WORKDIR /src
+COPY OccBooking.sln ./
+COPY OccBooking.Application/*.csproj ./OccBooking.Application/
+COPY OccBooking.Auth/*.csproj ./OccBooking.Auth/
+COPY OccBooking.Common/*.csproj ./OccBooking.Common/
+COPY OccBooking.Domain/*.csproj ./OccBooking.Domain/
+COPY OccBooking.Domain.Tests/*.csproj ./OccBooking.Domain.Tests/
+COPY OccBooking.Persistance/*.csproj ./OccBooking.Persistance/
+COPY OccBooking.Web/*.csproj ./OccBooking.Web/
+
 RUN dotnet restore
+COPY . .
 
-# Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o out
+WORKDIR /src/OccBooking.Application
+RUN dotnet build -c Release -o /app
 
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+WORKDIR /src/OccBooking.Auth
+RUN dotnet build -c Release -o /app
+
+WORKDIR /src/OccBooking.Common
+RUN dotnet build -c Release -o /app
+
+WORKDIR /src/OccBooking.Domain
+RUN dotnet build -c Release -o /app
+
+WORKDIR /src/OccBooking.Domain.Tests
+RUN dotnet build -c Release -o /app
+
+WORKDIR /src/OccBooking.Persistance
+RUN dotnet build -c Release -o /app
+
+WORKDIR /src/OccBooking.Web
+RUN dotnet build -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish -c Release -o /app
+
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "OccBooking.Web.dll"]
