@@ -73,7 +73,6 @@ namespace OccBooking.Web
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "OccBooking");
-                c.RoutePrefix = string.Empty;
             });
 
             app.UseAuthentication();
