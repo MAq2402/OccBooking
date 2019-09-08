@@ -40,7 +40,7 @@ RUN dotnet build -c Release -o /app
 FROM build AS publish
 RUN dotnet publish -c Release -o /app
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS final
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "OccBooking.Web.dll"]
