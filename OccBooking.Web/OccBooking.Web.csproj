@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OccBooking.Application\OccBooking.Application.csproj" />
+    <ProjectReference Include="..\OccBooking.Auth\OccBooking.Auth.csproj" />
     <ProjectReference Include="..\OccBooking.Common\OccBooking.Common.csproj" />
     <ProjectReference Include="..\OccBooking.Persistance\OccBooking.Persistance.csproj" />
   </ItemGroup>

@@ -25,8 +25,8 @@ namespace OccBooking.Web.Controllers
             return await _dispatcher.DispatchAsync(command);
         }
 
-        protected async Task<Result<T>> QueryAsync<T>(IQuery<T> query)
-        {
+        protected async Task<Result<T>> QueryAsync<T>(IQuery<T> query )
+        { 
             return await _dispatcher.DispatchAsync(query);
         }
     }
