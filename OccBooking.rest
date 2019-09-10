@@ -1,0 +1,12 @@
+POST http://localhost:8182//api/auth/register HTTP/1.1
+content-type: application/json
+
+{
+  "firstName": "string",
+  "lastName": "string",
+  "email": "string@xD.com",
+  "phoneNumber": "505817433",
+  "userName": "string1234",
+  "password": "string",
+  "confirmPassword": "string"
+}
