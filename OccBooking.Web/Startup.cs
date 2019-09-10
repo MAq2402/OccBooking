@@ -37,10 +37,7 @@ namespace OccBooking.Web
             services.ConfigureAuthentication(Configuration,
                 new SymmetricSecurityKey(Encoding.ASCII.GetBytes("HAS TO BE CHANGED")));
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "OccBooking", Version = "v1" });
-            });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "OccBooking", Version = "v1"}); });
 
             var builder = new ContainerBuilder();
 
@@ -68,12 +65,11 @@ namespace OccBooking.Web
                 app.UseHsts();
             }
 
+            app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OccBooking");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "OccBooking"); });
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
