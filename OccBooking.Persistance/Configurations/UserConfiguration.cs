@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OccBooking.Auth;
+using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Persistance.Configurations
 {

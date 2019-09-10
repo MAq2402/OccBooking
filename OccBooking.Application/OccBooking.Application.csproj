@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OccBooking.Common\OccBooking.Common.csproj" />
+    <ProjectReference Include="..\OccBooking.Domain\OccBooking.Domain.csproj" />
+    <ProjectReference Include="..\OccBooking.Persistance\OccBooking.Persistance.csproj" />
   </ItemGroup>
 
 </Project>
