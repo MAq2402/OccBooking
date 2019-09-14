@@ -1,4 +1,13 @@
+# FROM nginx:alpine
+# COPY ./dist/OccBooking /usr/share/nginx/html
+# EXPOSE 80 443
+# ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
+
+FROM node:latest as node 
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build-prod
+
 FROM nginx:alpine
-COPY ./dist/OccBooking /usr/share/nginx/html
-EXPOSE 80 443
-ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
+COPY --from=node /app/dist/OccBooking /usr/share/nginx/html
