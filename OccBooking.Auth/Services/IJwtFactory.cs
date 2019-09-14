@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
+using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Auth.Services
 {

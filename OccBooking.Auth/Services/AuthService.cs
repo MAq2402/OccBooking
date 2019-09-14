@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using OccBooking.Application.Commands;
 using OccBooking.Application.Contracts;
-using OccBooking.Application.DTOs;
 using OccBooking.Application.Queries;
 using OccBooking.Domain.Entities;
+using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Auth.Services
 {

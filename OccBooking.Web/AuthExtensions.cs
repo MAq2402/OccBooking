@@ -11,6 +11,7 @@ using OccBooking.Application.Contracts;
 using OccBooking.Auth;
 using OccBooking.Auth.Services;
 using OccBooking.Persistance.DbContexts;
+using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Web
 {

@@ -8,6 +8,7 @@ using System.Xml;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Auth.Services
 {
