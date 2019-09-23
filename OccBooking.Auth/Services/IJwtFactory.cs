@@ -8,6 +8,6 @@ namespace OccBooking.Auth.Services
 {
     public interface IJwtFactory
     {
-        string GenerateJwt(User user, string userName);
+        string GenerateJwt(User user);
     }
 }

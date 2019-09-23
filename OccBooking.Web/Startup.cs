@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using System.Text;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +11,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using OccBooking.Application.DTOs;
+using OccBooking.Application.Mappings.Profiles;
 using OccBooking.Common.Dispatchers;
 using OccBooking.Persistance.DbContexts;
+using OccBooking.Persistance.Entities;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace OccBooking.Web
@@ -29,6 +34,7 @@ namespace OccBooking.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(UserProfile));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<OccBookingDbContext>(opt =>

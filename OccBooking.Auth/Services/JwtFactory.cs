@@ -22,27 +22,28 @@ namespace OccBooking.Auth.Services
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public string GenerateJwt(User user, string userName)
+        public string GenerateJwt(User user)
         {
             var response = new
             {
-                id = user.Id,
-                auth_token = GenerateEncodedToken(userName),
-                expires_in = (int) _jwtOptions.ValidFor.TotalSeconds
+                userId = user.Id,
+                authToken = GenerateEncodedToken(user.Id),
+                expiresIn = (int) _jwtOptions.ValidFor.TotalSeconds
             };
 
-            return JsonConvert.SerializeObject(response, new JsonSerializerSettings {Formatting = Newtonsoft.Json.Formatting.Indented});
+            return JsonConvert.SerializeObject(response,
+                new JsonSerializerSettings {Formatting = Newtonsoft.Json.Formatting.Indented});
         }
 
-        private string GenerateEncodedToken(string userName)
+        private string GenerateEncodedToken(string userId)
         {
-            var claimsIdentity = CreateClaimsIdentity(userName);
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userName),
+                new Claim(JwtRegisteredClaimNames.Sub, userId),
                 new Claim(JwtRegisteredClaimNames.Jti, _jwtOptions.JtiGenerator),
                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(),
-                    ClaimValueTypes.Integer64)
+                    ClaimValueTypes.Integer64),
+                new Claim(Constants.UserId, userId)
             };
 
             var jwt = new JwtSecurityToken(

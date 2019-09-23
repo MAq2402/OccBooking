@@ -55,7 +55,7 @@ namespace OccBooking.Auth.Services
                 return Result.Fail<string>("Wrong credentials");
             }
 
-            var jwt = _jwtFactory.GenerateJwt(user, query.UserName);
+            var jwt = _jwtFactory.GenerateJwt(user);
 
             return Result.Ok(jwt);
         }

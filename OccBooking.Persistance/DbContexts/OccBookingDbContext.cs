@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.Helpers;
+using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Persistance.DbContexts
 {
@@ -23,6 +24,7 @@ namespace OccBooking.Persistance.DbContexts
         public DbSet<HallJoin> HallJoins{ get; set; }
         public DbSet<Hall> Halls { get; set; }
         public DbSet<HallReservations> HallReservations { get; set; }
+        public DbSet<User> OccBookingUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
