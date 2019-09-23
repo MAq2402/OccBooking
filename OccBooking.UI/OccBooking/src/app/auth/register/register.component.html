@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Rejestracja - OccBooking</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="form">
+        <mat-form-field>
+            <input formControlName="firstName" matInput placeholder="Imię">
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="lastName" matInput placeholder="Nazwisko">
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="email" matInput placeholder="Email">
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="phoneNumber" matInput placeholder="Numer telefonu">
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="userName" matInput placeholder="Nazwa użytkownika">
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="password" type="password" matInput placeholder="Hasło">
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="confirmPassword" type="password" matInput placeholder="Powtórz hasło">
+        </mat-form-field>
+        <button (click)="submit()" mat-raised-button color="primary">Zarejestruj się</button>
+    </form>  
+</mat-card>
