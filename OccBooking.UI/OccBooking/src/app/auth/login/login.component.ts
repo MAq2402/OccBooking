@@ -11,17 +11,18 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
-  model: LoginCredentialsModel ={
+  model: LoginCredentialsModel = {
     password: '',
     userName: ''
   };
+
   constructor(private formBuilder: FormBuilder, private service: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
       'password': ['', [Validators.required]],
       'userName': ['', [Validators.required]]
-    })
+    });
   }
 
   submit() {
