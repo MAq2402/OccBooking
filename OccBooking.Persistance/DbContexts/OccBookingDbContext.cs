@@ -24,7 +24,7 @@ namespace OccBooking.Persistance.DbContexts
         public DbSet<HallJoin> HallJoins{ get; set; }
         public DbSet<Hall> Halls { get; set; }
         public DbSet<HallReservations> HallReservations { get; set; }
-        public DbSet<User> OCcBookingUsers { get; set; }
+        public DbSet<User> OccBookingUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

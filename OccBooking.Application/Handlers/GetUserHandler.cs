@@ -27,7 +27,7 @@ namespace OccBooking.Application.Handlers
 
         public async Task<Result<UserDto>> HandleAsync(GetUserQuery query)
         {
-            var user = await _dbContext.OCcBookingUsers.Include(u => u.Owner)
+            var user = await _dbContext.OccBookingUsers.Include(u => u.Owner)
                 .FirstOrDefaultAsync(u => u.Id == query.Id);
 
             return user != null
