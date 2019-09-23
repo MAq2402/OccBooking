@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
     email: '',
     phoneNumber: ''
   };
+
   constructor(private formBuilder: FormBuilder, private service: AuthService, private router: Router) { }
 
   ngOnInit() {
