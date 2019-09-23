@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OccBooking.Application.Commands;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Queries;
+using OccBooking.Auth;
 using OccBooking.Common.Dispatchers;
 
 namespace OccBooking.Web.Controllers
@@ -29,7 +31,7 @@ namespace OccBooking.Web.Controllers
                 return BadRequest(result.Error);
             }
 
-            return CreatedAtRoute(null, null);
+            return await LoginAsync(new LoginCredentials() {Password = model.Password, UserName = model.UserName});
         }
 
         [HttpPost("login")]
@@ -45,6 +47,17 @@ namespace OccBooking.Web.Controllers
             }
 
             return Ok(result.Value);
+        }
+
+        [Authorize]
+        [HttpGet("user")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == Constants.UserId)?.Value;
+
+            var result = await _dispatcher.DispatchAsync(new GetUserQuery(userId));
+
+            return result.IsSuccess ? (IActionResult) Ok(result.Value) : NotFound(result.Error);
         }
     }
 }

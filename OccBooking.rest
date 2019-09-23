@@ -1,6 +1,8 @@
-POST http://localhost:8182//api/auth/register HTTP/1.1
-content-type: application/json
+@url = https://localhost:44308/api/
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXEyNDAyIiwianRpIjoiOWJhZjliZTktNjEyMS00MjRhLTlhMDgtNWY3OTQ1OGZlZjEyIiwiaWF0IjoxNTY5MDg2MDAwLCJuYmYiOjE1NjkwODYwMDAsImV4cCI6MTU2OTA5MzIwMH0.3NZTCWSyf-PHhFAw-qi78fF0k7BgtEgUY_2rfZb6JAw
 
+POST {{url}}auth/register HTTP/1.1
+content-type: application/json
 {
   "firstName": "string",
   "lastName": "string",
@@ -10,3 +12,14 @@ content-type: application/json
   "password": "string",
   "confirmPassword": "string"
 }
+
+POST {{url}}auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "userName": "maq2402",
+  "password": "asd",
+}
+
+GET {{url}}auth/user HTTP/1.1
+authorization: Bearer {{authToken}}
