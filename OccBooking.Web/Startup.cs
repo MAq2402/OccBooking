@@ -63,7 +63,7 @@ namespace OccBooking.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.ConfigureExceptionHandler();
             }
             else
             {
