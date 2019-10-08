@@ -1,20 +1,19 @@
-﻿using OccBooking.Domain.Enums;
-using OccBooking.Domain.Exceptions;
-using OccBooking.Domain.ValueObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OccBooking.Domain.Enums;
+using OccBooking.Domain.Exceptions;
 using OccBooking.Domain.Helpers;
+using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Domain.Entities
 {
-    public class Reservation : Entity
+    public class ReservationRequest : Entity
     {
         private string additionalOptions = string.Empty;
-        private List<HallReservations> hallReservations = new List<HallReservations>();
 
-        public Reservation(Guid id,
+        public ReservationRequest(Guid id,
             DateTime dateTime,
             Client client,
             int amountOfPeople,
@@ -30,19 +29,16 @@ namespace OccBooking.Domain.Entities
             AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
         }
 
-        private Reservation()
+        private ReservationRequest()
         {
 
         }
 
         public PlaceAdditionalOptions AdditionalOptions
         {
-            get { return (PlaceAdditionalOptions) additionalOptions; }
+            get { return (PlaceAdditionalOptions)additionalOptions; }
             set { additionalOptions = value; }
         }
-
-        public IEnumerable<HallReservations> HallReservations => hallReservations;
-        public IEnumerable<Hall> Halls => hallReservations.Select(x => x.Hall);
         public DateTime DateTime { get; private set; }
         public Client Client { get; private set; }
         public int AmountOfPeople { get; private set; }
@@ -109,7 +105,8 @@ namespace OccBooking.Domain.Entities
 
             foreach (var hall in halls)
             {
-                hallReservations.Add(new HallReservations(){Hall = hall, Reservation = this});
+                //halls.CreateReservations
+                //hallReservations.Add(new HallReservation() { Hall = hall, Reservation = this });
             }
             IsAccepted = true;
         }

@@ -23,7 +23,7 @@ namespace OccBooking.Persistance.DbContexts
         public DbSet<Meal> Meals { get; set; }
         public DbSet<HallJoin> HallJoins{ get; set; }
         public DbSet<Hall> Halls { get; set; }
-        public DbSet<HallReservations> HallReservations { get; set; }
+        public DbSet<HallReservation> HallReservations { get; set; }
         public DbSet<User> OccBookingUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

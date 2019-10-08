@@ -1,14 +1,15 @@
 @url = https://localhost:44308/api/
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXEyNDAyIiwianRpIjoiOWJhZjliZTktNjEyMS00MjRhLTlhMDgtNWY3OTQ1OGZlZjEyIiwiaWF0IjoxNTY5MDg2MDAwLCJuYmYiOjE1NjkwODYwMDAsImV4cCI6MTU2OTA5MzIwMH0.3NZTCWSyf-PHhFAw-qi78fF0k7BgtEgUY_2rfZb6JAw
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwY2FiMWM1Yy1iZmI5LTQzZDAtYWI3Mi01NDEzZDRjOGQ1NDYiLCJqdGkiOiIxZDczOWMwMC0wMjlmLTQ4NDYtYjY4My0yNWI1MjM1ZTY4MjUiLCJpYXQiOjE1NjkyMjkxNTMsInVzZXJJZCI6IjBjYWIxYzVjLWJmYjktNDNkMC1hYjcyLTU0MTNkNGM4ZDU0NiIsIm5iZiI6MTU2OTIyOTE1MywiZXhwIjoxNTY5MjM2MzUzLCJpc3MiOiJ3ZWJBcGkiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAvIn0.1TQxxcra5r-6xuhrPTm-B_gaglWjRwASadH2X-2OrD4
 
 POST {{url}}auth/register HTTP/1.1
 content-type: application/json
+
 {
   "firstName": "string",
   "lastName": "string",
-  "email": "string@xD.com",
+  "email": "string@xd",
   "phoneNumber": "505817433",
-  "userName": "string1234",
+  "userName": "string12345",
   "password": "string",
   "confirmPassword": "string"
 }

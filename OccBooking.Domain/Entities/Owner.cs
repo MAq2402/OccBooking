@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OccBooking.Domain.Entities
 {
-    public class Owner : Entity
+    public class Owner : AggregateRoot
     {
         private List<Place> places = new List<Place>();
 

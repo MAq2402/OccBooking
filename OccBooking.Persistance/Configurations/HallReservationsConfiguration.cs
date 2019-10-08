@@ -7,9 +7,9 @@ using OccBooking.Domain.Helpers;
 
 namespace OccBooking.Persistance.Configurations
 {
-    public class HallReservationsConfiguration : IEntityTypeConfiguration<HallReservations>
+    public class HallReservationsConfiguration : IEntityTypeConfiguration<HallReservation>
     {
-        public void Configure(EntityTypeBuilder<HallReservations> builder)
+        public void Configure(EntityTypeBuilder<HallReservation> builder)
         {
             builder.HasKey(hr => new {hr.HallId, hr.ReservationId});
             builder.HasOne(hr => hr.Reservation)

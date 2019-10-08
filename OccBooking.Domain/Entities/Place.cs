@@ -8,10 +8,10 @@ using System.Text;
 
 namespace OccBooking.Domain.Entities
 {
-    public class Place : Entity
+    public class Place : AggregateRoot
     {
         private string additionalOptions = string.Empty;
-        private List<Reservation> reservations = new List<Reservation>();
+        private List<ReservationRequest> reservationReqeusts = new List<ReservationRequest>();
         private List<Menu> menus = new List<Menu>();
         private HashSet<OccasionType> availableOccasionTypes = new HashSet<OccasionType>();
         private List<Hall> halls = new List<Hall>();
@@ -28,7 +28,7 @@ namespace OccBooking.Domain.Entities
         {
         }
 
-        public IEnumerable<Reservation> Reservations => reservations.AsReadOnly();
+        public IEnumerable<ReservationRequest> ReservationsRequests => reservationReqeusts.AsReadOnly();
         public IEnumerable<Menu> Menus => menus.AsReadOnly();
         public IEnumerable<OccasionType> AvailableOccasionTypes => availableOccasionTypes.ToList().AsReadOnly();
         public IEnumerable<Hall> Halls => halls.AsReadOnly();
@@ -96,7 +96,7 @@ namespace OccBooking.Domain.Entities
             availableOccasionTypes.Add(partyType);
         }
 
-        public void MakeReservation(Reservation reservation)
+        public void MakeReservationRequest(ReservationRequest request)
         {
             if (!Menus.Contains(reservation.Menu))
             {
@@ -120,10 +120,10 @@ namespace OccBooking.Domain.Entities
             }
 
             reservation.CalculateCost(CostPerPerson);
-            reservations.Add(reservation);
+            ReservationsRequests.Add(reservation);
         }
 
-        public void AcceptReservation(Reservation reservation, IEnumerable<Hall> halls)
+        public void AcceptReservationReqeust(ReservationRequest request, IEnumerable<Hall> halls)
         {
             if (!halls.Any())
             {
@@ -197,7 +197,7 @@ namespace OccBooking.Domain.Entities
 
         private bool IsHallFreeOnDate(Hall hall, DateTime dateTime)
         {
-            return !Reservations.Any(r => r.IsAccepted && r.DateTime == dateTime && r.Halls.Contains(hall));
+            return hall.IsFreeOnDate(dateTime);
         }
 
         private bool HasHalls(IEnumerable<Hall> halls)
@@ -207,7 +207,7 @@ namespace OccBooking.Domain.Entities
 
         private bool IsAnyHallReservedOnDate(DateTime dateTime, IEnumerable<Hall> halls)
         {
-            return Reservations.Any(r => r.DateTime == dateTime && halls.Any(h => r.Halls.Contains(h)) && r.IsAccepted);
+            return halls.Any(h => h.IsFreeOnDate(dateTime));
         }
     }
 }

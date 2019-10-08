@@ -25,13 +25,13 @@ namespace OccBooking.Web
                         if (exception is DomainException)
                         {
                             context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+                            await context.Response.WriteAsync(exception.Message);
                         }
                         else
                         {
                             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                            await context.Response.WriteAsync("Unexpected error occurred");
                         }
-
-                        await context.Response.WriteAsync(exception.Message);
                     }
                 });
             });
