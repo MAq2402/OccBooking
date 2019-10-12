@@ -163,14 +163,10 @@ namespace OccBooking.Domain.Entities
 
         private void MakeHallReservations(ReservationRequest request, IEnumerable<Hall> halls)
         {
-            var amountOfPeopleToSplit = request.AmountOfPeople;
 
             foreach (var hall in halls)
             {
-                var amountOfPeopleForHall =
-                    amountOfPeopleToSplit > hall.Capacity ? hall.Capacity : amountOfPeopleToSplit;
-                amountOfPeopleToSplit -= amountOfPeopleForHall;
-                hall.MakeReservation(request, amountOfPeopleForHall);
+                hall.MakeReservation(request);
             }
         }
 

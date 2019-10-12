@@ -12,14 +12,7 @@ namespace OccBooking.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<HallReservation> builder)
         {
-            builder.HasOne(hr => hr.Menu);
-
-            builder.Property(hr => hr.AdditionalOptions)
-                .HasConversion<string>(x => x.ToString(), y => (PlaceAdditionalOptions)y);
-
-            builder.OwnsOne(hr => hr.Client, ba => ba.OwnsOne(c => c.Name));
-            builder.OwnsOne(hr => hr.Client, ba => ba.OwnsOne(c => c.Email));
-            builder.OwnsOne(hr => hr.Client, ba => ba.OwnsOne(c => c.PhoneNumber));
+            builder.HasOne(hr => hr.ReservationRequest);
         }
     }
 }

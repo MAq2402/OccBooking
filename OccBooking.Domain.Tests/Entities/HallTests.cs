@@ -75,7 +75,7 @@ namespace OccBooking.Domain.Tests.Entities
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today, TestData.CorrectClient, 50, TestData.CorrectMenu,
                 OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
-            hall.MakeReservation(reservation, 1);
+            hall.MakeReservation(reservation);
 
             Assert.True(hall.IsFreeOnDate(DateTime.Today.AddDays(1)));
             Assert.False(hall.IsFreeOnDate(DateTime.Today));
@@ -85,19 +85,13 @@ namespace OccBooking.Domain.Tests.Entities
         public void MakeReservationShouldWork()
         {
             var hall = new Hall(Guid.NewGuid(), 40);
-            var menu = new Menu(new Guid("17d7256c-782f-4832-b2a0-023f8ebb55f0"), "Standard", MenuType.Vegetarian, 10,
-                new List<Meal>
-                    {new Meal(new Guid("9cf0705d-7734-454b-8e35-d205cfa99d6b"), "Dumplings", "Nice", MealType.Main, new List<string>() {"Cheese"})});
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today, TestData.CorrectClient, 50, TestData.CorrectMenu,
                 OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
 
-            hall.MakeReservation(reservation, 40);
-            var actual = reservation.Cost * 40 / 50;
-            var expected = hall.HallReservations.First().Cost;
+            hall.MakeReservation(reservation);
 
             Assert.True(hall.HallReservations.Any());
-            Assert.Equal(expected, actual);
         }
     }
 }

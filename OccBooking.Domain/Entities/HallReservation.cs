@@ -9,37 +9,15 @@ namespace OccBooking.Domain.Entities
 {
     public class HallReservation : Entity
     {
-        private string additionalOptions = string.Empty;
-        public DateTime DateTime { get; private set; }
-        public Client Client { get; private set; }
-        public int AmountOfPeople { get; private set; }
-        public Menu Menu { get; private set; }
-        public decimal Cost { get; private set; }
-        public OccasionType OccasionType { get; private set; }
         public Hall Hall { get; private set; }
-        public PlaceAdditionalOptions AdditionalOptions
+        public ReservationRequest ReservationRequest { get; set; }
+        public HallReservation(ReservationRequest reservationRequest)
         {
-            get { return (PlaceAdditionalOptions)additionalOptions; }
-            set { additionalOptions = value; }
+            ReservationRequest = reservationRequest;
         }
         private HallReservation()
         {
 
         }
-        public static HallReservation CreateFromReservationRequest(ReservationRequest reservationRequest, int amountOfPeople, decimal cost)
-        {
-            return new HallReservation()
-            {
-                Id = Guid.NewGuid(),
-                DateTime = reservationRequest.DateTime,
-                Client = reservationRequest.Client,
-                AmountOfPeople = amountOfPeople,
-                Menu = reservationRequest.Menu,
-                Cost = cost,
-                OccasionType = reservationRequest.OccasionType,
-                AdditionalOptions = reservationRequest.AdditionalOptions
-            };
-        }
-
     }
 }

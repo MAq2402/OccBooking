@@ -8,7 +8,7 @@ using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Domain.Entities
 {
-    public class ReservationRequest : Entity
+    public class ReservationRequest : AggregateRoot
     {
         private string additionalOptions = string.Empty;
 

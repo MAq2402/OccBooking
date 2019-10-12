@@ -406,8 +406,6 @@ namespace OccBooking.Domain.Tests.Entities
             Assert.True(reservation1.IsAccepted);
             Assert.False(reservation3.IsAnswered);
             Assert.False(reservation4.IsAnswered);
-            Assert.Equal(30, hall1.HallReservations.First().AmountOfPeople);
-            Assert.Equal(20, hall2.HallReservations.First().AmountOfPeople);
         }
 
         [Fact]
