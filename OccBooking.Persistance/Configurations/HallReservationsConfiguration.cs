@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OccBooking.Domain.Entities;
+using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Persistance.Configurations
 {
@@ -11,13 +12,14 @@ namespace OccBooking.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<HallReservation> builder)
         {
-            builder.HasKey(hr => new {hr.HallId, hr.ReservationId});
-            builder.HasOne(hr => hr.Reservation)
-                .WithMany(r => r.HallReservations)
-                .HasForeignKey(hr => hr.ReservationId);
-            builder.HasOne(hr => hr.Hall)
-                .WithMany(h => h.HallReservations)
-                .HasForeignKey(bc => bc.HallId);
+            builder.HasOne(hr => hr.Menu);
+
+            builder.Property(hr => hr.AdditionalOptions)
+                .HasConversion<string>(x => x.ToString(), y => (PlaceAdditionalOptions)y);
+
+            builder.OwnsOne(hr => hr.Client, ba => ba.OwnsOne(c => c.Name));
+            builder.OwnsOne(hr => hr.Client, ba => ba.OwnsOne(c => c.Email));
+            builder.OwnsOne(hr => hr.Client, ba => ba.OwnsOne(c => c.PhoneNumber));
         }
     }
 }

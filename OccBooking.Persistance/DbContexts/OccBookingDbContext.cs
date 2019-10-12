@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Domain.Entities;
-using OccBooking.Domain.Helpers;
 using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Persistance.DbContexts
@@ -17,7 +16,7 @@ namespace OccBooking.Persistance.DbContexts
         }
 
         public DbSet<Place> Places { get; set; }
-        public DbSet<Reservation> Reservations  { get; set; }
+        public DbSet<ReservationRequest> ReservationRequests { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Meal> Meals { get; set; }
