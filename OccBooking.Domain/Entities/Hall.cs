@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OccBooking.Domain.Helpers;
 
 namespace OccBooking.Domain.Entities
 {
@@ -54,16 +53,13 @@ namespace OccBooking.Domain.Entities
 
         public bool IsFreeOnDate(DateTime date)
         {
-            return HallReservations.Any(hr => hr.DateTime == date);
+            return HallReservations.All(hr => hr.DateTime != date);
         }
 
-        //public void MakeHallReservation(Reservation reservation)
-        //{
-        //    var hallReservation = new HallReservation()
-        //    {
-        //        Hall = this,
-        //        Reservation = reservation
-        //    };
-        //}
+        public void MakeReservation(ReservationRequest request, int amountOfPeople)
+        {
+            var hallReservationCost = request.Cost * amountOfPeople / request.AmountOfPeople;
+            hallReservations.Add(HallReservation.CreateFromReservationRequest(request, amountOfPeople, hallReservationCost));
+        }
     }
 }

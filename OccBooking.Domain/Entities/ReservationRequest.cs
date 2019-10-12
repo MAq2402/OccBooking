@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using OccBooking.Domain.Enums;
 using OccBooking.Domain.Exceptions;
-using OccBooking.Domain.Helpers;
 using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Domain.Entities
@@ -90,24 +89,14 @@ namespace OccBooking.Domain.Entities
             AmountOfPeople = amountOfPeople;
         }
 
-        public void Accept(IEnumerable<Hall> halls)
+        public void Accept()
         {
             if (IsAnswered)
             {
-                throw new ReservationHasBeenAlreadyAnsweredException(
+                throw new DomainException(
                     "Reservation has been already accepted or rejected");
             }
 
-            if (halls.Sum(h => h.Capacity) < AmountOfPeople)
-            {
-                throw new ToSmallCapacityException("Halls capacity is to small for this reservation");
-            }
-
-            foreach (var hall in halls)
-            {
-                //halls.CreateReservations
-                //hallReservations.Add(new HallReservation() { Hall = hall, Reservation = this });
-            }
             IsAccepted = true;
         }
 
@@ -115,7 +104,7 @@ namespace OccBooking.Domain.Entities
         {
             if (IsAnswered)
             {
-                throw new ReservationHasBeenAlreadyAnsweredException(
+                throw new DomainException(
                     "Reservation has been already accepted or rejected");
             }
 
