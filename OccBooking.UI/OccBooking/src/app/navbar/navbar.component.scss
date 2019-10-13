@@ -1,3 +1,9 @@
+@import '../../styles.scss';
+
+.navbar {
+    background-color: $primary-color !important;
+}
+
 .nav-link {
     color:white !important;
 }

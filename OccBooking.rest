@@ -1,5 +1,5 @@
 @url = https://localhost:44308/api/
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwY2FiMWM1Yy1iZmI5LTQzZDAtYWI3Mi01NDEzZDRjOGQ1NDYiLCJqdGkiOiIxZDczOWMwMC0wMjlmLTQ4NDYtYjY4My0yNWI1MjM1ZTY4MjUiLCJpYXQiOjE1NjkyMjkxNTMsInVzZXJJZCI6IjBjYWIxYzVjLWJmYjktNDNkMC1hYjcyLTU0MTNkNGM4ZDU0NiIsIm5iZiI6MTU2OTIyOTE1MywiZXhwIjoxNTY5MjM2MzUzLCJpc3MiOiJ3ZWJBcGkiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAvIn0.1TQxxcra5r-6xuhrPTm-B_gaglWjRwASadH2X-2OrD4
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlYzQ4ODIwMC0yMGMyLTQ5NmQtYTJjMi05ZGM2N2RkNDJjODUiLCJqdGkiOiIwMjkzNTRjZC02N2RjLTRlYzYtODU3OC1hMjU3ZmQ1ZDVkOGQiLCJpYXQiOjE1NzA4ODEzODcsInVzZXJJZCI6ImVjNDg4MjAwLTIwYzItNDk2ZC1hMmMyLTlkYzY3ZGQ0MmM4NSIsIm5iZiI6MTU3MDg4MTM4NiwiZXhwIjoxNTcwODg4NTg2LCJpc3MiOiJPY2NCb29raW5nIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwLyJ9.UUzcF9HxG5vjpDLw5S-DIUbxIj-SyttHTty7wl-B7ik
 
 POST {{url}}auth/register HTTP/1.1
 content-type: application/json
@@ -9,7 +9,7 @@ content-type: application/json
   "lastName": "string",
   "email": "string@xd",
   "phoneNumber": "505817433",
-  "userName": "string12345",
+  "userName": "string123456",
   "password": "string",
   "confirmPassword": "string"
 }
@@ -18,8 +18,8 @@ POST {{url}}auth/login HTTP/1.1
 content-type: application/json
 
 {
-  "userName": "maq2402",
-  "password": "asd",
+  "userName": "string123456",
+  "password": "string",
 }
 
 GET {{url}}auth/user HTTP/1.1

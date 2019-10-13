@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$primary-color: #009688;
+$secondary-color: #795548;
+
+$app-primary: mat-palette($mat-teal, 500);
+$app-accent:  mat-palette($mat-brown, 500);
+
+$app-theme: mat-light-theme($app-primary, $app-accent);
+
+@include angular-material-theme($app-theme);
