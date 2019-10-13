@@ -11,6 +11,9 @@ namespace OccBooking.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Hall> builder)
         {
+            builder.HasMany(h => h.HallReservations)
+                .WithOne(hr => hr.Hall);
+
             builder.Ignore(h => h.PossibleJoins);
         }
     }

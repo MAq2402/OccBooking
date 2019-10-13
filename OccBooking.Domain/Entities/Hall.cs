@@ -3,15 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OccBooking.Domain.Helpers;
 
 namespace OccBooking.Domain.Entities
 {
-    public class Hall : Entity
+    public class Hall : AggregateRoot
     {
         private List<HallJoin> possibleJoinsWhereIsFirst = new List<HallJoin>();
         private List<HallJoin> possibleJoinsWhereIsSecond = new List<HallJoin>();
-        private List<HallReservations> hallReservations = new List<HallReservations>();
+        private List<HallReservation> hallReservations = new List<HallReservation>();
         public Hall(Guid id, int capacity) : base(id)
         {
             SetCapacity(capacity);
@@ -26,7 +25,7 @@ namespace OccBooking.Domain.Entities
         public IEnumerable<HallJoin> PossibleJoinsWhereIsFirst => possibleJoinsWhereIsFirst;
         public IEnumerable<HallJoin> PossibleJoinsWhereIsSecond => possibleJoinsWhereIsSecond;
         public IEnumerable<HallJoin> PossibleJoins => possibleJoinsWhereIsFirst.Concat(possibleJoinsWhereIsSecond);
-        public IEnumerable<HallReservations> HallReservations => hallReservations;
+        public IEnumerable<HallReservation> HallReservations => hallReservations;
         private void SetCapacity(int capacity)
         {
             if (capacity <= 0)
@@ -50,6 +49,16 @@ namespace OccBooking.Domain.Entities
             var join = new HallJoin(Guid.NewGuid(), this, hall);
             possibleJoinsWhereIsFirst.Add(join);
             hall.possibleJoinsWhereIsSecond.Add(join);
+        }
+
+        public bool IsFreeOnDate(DateTime date)
+        {
+            return HallReservations.All(hr => hr.ReservationRequest.DateTime != date);
+        }
+
+        public void MakeReservation(ReservationRequest request)
+        {
+            hallReservations.Add(new HallReservation(request));
         }
     }
 }

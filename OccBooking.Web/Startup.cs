@@ -61,15 +61,13 @@ namespace OccBooking.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.ConfigureExceptionHandler();
-            }
-            else
+            if (!env.IsDevelopment())
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.ConfigureExceptionHandler();
 
             app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 

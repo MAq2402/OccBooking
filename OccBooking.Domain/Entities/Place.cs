@@ -8,10 +8,10 @@ using System.Text;
 
 namespace OccBooking.Domain.Entities
 {
-    public class Place : Entity
+    public class Place : AggregateRoot
     {
         private string additionalOptions = string.Empty;
-        private List<Reservation> reservations = new List<Reservation>();
+        private List<ReservationRequest> reservationReqeusts = new List<ReservationRequest>();
         private List<Menu> menus = new List<Menu>();
         private HashSet<OccasionType> availableOccasionTypes = new HashSet<OccasionType>();
         private List<Hall> halls = new List<Hall>();
@@ -28,7 +28,7 @@ namespace OccBooking.Domain.Entities
         {
         }
 
-        public IEnumerable<Reservation> Reservations => reservations.AsReadOnly();
+        public IEnumerable<ReservationRequest> ReservationRequests => reservationReqeusts.AsReadOnly();
         public IEnumerable<Menu> Menus => menus.AsReadOnly();
         public IEnumerable<OccasionType> AvailableOccasionTypes => availableOccasionTypes.ToList().AsReadOnly();
         public IEnumerable<Hall> Halls => halls.AsReadOnly();
@@ -96,83 +96,94 @@ namespace OccBooking.Domain.Entities
             availableOccasionTypes.Add(partyType);
         }
 
-        public void MakeReservation(Reservation reservation)
+        public void MakeReservationRequest(ReservationRequest request)
         {
-            if (!Menus.Contains(reservation.Menu))
+            ValidateMakeReservationRequest(request);
+
+            request.CalculateCost(CostPerPerson);
+            reservationReqeusts.Add(request);
+        }
+
+        public void ValidateMakeReservationRequest(ReservationRequest request)
+        {
+            if (!Menus.Contains(request.Menu))
             {
-                throw new LackOfMenuException("Place does not contain such a menu");
+                throw new DomainException("Place does not contain such a menu");
             }
 
-            if (!AvailableOccasionTypes.Contains(reservation.OccasionType))
+            if (!AvailableOccasionTypes.Contains(request.OccasionType))
             {
-                throw new PartyIsNotAvaliableException("Place does not allow to organize such an events");
+                throw new DomainException("Place does not allow to organize such an events");
             }
 
-            if (!DoHallsAtDateHaveEnoughCapacity(reservation.DateTime, reservation.AmountOfPeople))
+            if (!DoHallsHaveEnoughCapacity(request.DateTime, request.AmountOfPeople))
             {
-                throw new ReservationIsImpossibleException(
+                throw new DomainException(
                     "Making reservation on this date and with this amount of people is impossible");
             }
 
-            if (!reservation.AdditionalOptions.All(o => AdditionalOptions.Contains(o)))
+            if (!request.AdditionalOptions.All(o => AdditionalOptions.Contains(o)))
             {
-                throw new NotSupportedAdditionalOptionException("Place dose not support those options");
+                throw new DomainException("Place dose not support those options");
             }
-
-            reservation.CalculateCost(CostPerPerson);
-            reservations.Add(reservation);
         }
 
-        public void AcceptReservation(Reservation reservation, IEnumerable<Hall> halls)
+        public void AcceptReservationRequest(ReservationRequest request, IEnumerable<Hall> halls)
+        {
+            ValidateAcceptReservationRequest(request, halls);
+
+            request.Accept();
+            MakeHallReservations(request, halls);
+
+            RejectReservationsRequestsIfNotEnoughCapacity();
+        }
+
+        public void ValidateAcceptReservationRequest(ReservationRequest request, IEnumerable<Hall> halls)
         {
             if (!halls.Any())
             {
                 throw new DomainException("Halls has not been provided");
             }
 
-            if (!Reservations.Contains(reservation))
+            if (!ReservationRequests.Contains(request))
             {
                 throw new DomainException("Reservation does not belong to this place");
             }
 
-            if (!HasHalls(halls))
+            if (!ContainsHalls(halls))
             {
                 throw new DomainException("Place does not contain given halls");
             }
 
-            if (IsAnyHallReservedOnDate(reservation.DateTime, halls))
+            if (IsAnyHallReservedOnDate(request.DateTime, halls))
             {
                 throw new DomainException("Some or all given halls are already reserved");
             }
+        }
 
-            reservation.Accept(halls);
+        private void MakeHallReservations(ReservationRequest request, IEnumerable<Hall> halls)
+        {
 
-            var reservationsToReject = Reservations.Where(r =>
-                !r.IsAnswered && !DoHallsAtDateHaveEnoughCapacity(r.DateTime, r.AmountOfPeople));
-
-            foreach (var reservationToReject in reservationsToReject)
+            foreach (var hall in halls)
             {
-                reservationToReject.Reject();
+                hall.MakeReservation(request);
             }
         }
 
-        private bool DoHallsAtDateHaveEnoughCapacity(DateTime dateTime, int amountOfPeople)
+        private void RejectReservationsRequestsIfNotEnoughCapacity()
         {
-            var acceptedReservationsAtGivenDay = Reservations.Where(r => r.DateTime == dateTime && r.IsAccepted);
-            IEnumerable<Hall> freeHalls = new List<Hall>();
-            if (acceptedReservationsAtGivenDay.Any())
-            {
-                foreach (var reservation in acceptedReservationsAtGivenDay)
-                {
-                    freeHalls = halls.Except(reservation.Halls);
-                }
-            }
-            else
-            {
-                freeHalls = halls;
-            }
+            var requestsToReject = ReservationRequests.Where(r =>
+                !r.IsAnswered && !DoHallsHaveEnoughCapacity(r.DateTime, r.AmountOfPeople));
 
-            return amountOfPeople <= CalculateCapacity(freeHalls, dateTime);
+            foreach (var requestToReject in requestsToReject)
+            {
+                requestToReject.Reject();
+            }
+        }
+
+        private bool DoHallsHaveEnoughCapacity(DateTime dateTime, int amountOfPeople)
+        {
+            return amountOfPeople <= CalculateCapacity(Halls.Where(h => h.IsFreeOnDate(dateTime)), dateTime);
         }
 
         private int CalculateCapacity(IEnumerable<Hall> halls)
@@ -197,17 +208,17 @@ namespace OccBooking.Domain.Entities
 
         private bool IsHallFreeOnDate(Hall hall, DateTime dateTime)
         {
-            return !Reservations.Any(r => r.IsAccepted && r.DateTime == dateTime && r.Halls.Contains(hall));
+            return hall.IsFreeOnDate(dateTime);
         }
 
-        private bool HasHalls(IEnumerable<Hall> halls)
+        private bool ContainsHalls(IEnumerable<Hall> halls)
         {
             return halls.All(h => Halls.Contains(h));
         }
 
         private bool IsAnyHallReservedOnDate(DateTime dateTime, IEnumerable<Hall> halls)
         {
-            return Reservations.Any(r => r.DateTime == dateTime && halls.Any(h => r.Halls.Contains(h)) && r.IsAccepted);
+            return halls.Any(h => !h.IsFreeOnDate(dateTime));
         }
     }
 }

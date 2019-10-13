@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace OccBooking.Domain.Entities
 {
-    public class Menu : Entity
+    public class Menu : AggregateRoot
     {
         private List<Meal> meals = new List<Meal>();
 

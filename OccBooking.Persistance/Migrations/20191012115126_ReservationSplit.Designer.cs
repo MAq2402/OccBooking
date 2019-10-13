@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OccBooking.Persistance.DbContexts;
 
 namespace OccBooking.Persistance.Migrations
 {
     [DbContext(typeof(OccBookingDbContext))]
-    partial class OccBookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191012115126_ReservationSplit")]
+    partial class ReservationSplit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,15 +226,25 @@ namespace OccBooking.Persistance.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AdditionalOptions");
+
+                    b.Property<int>("AmountOfPeople");
+
+                    b.Property<decimal>("Cost");
+
+                    b.Property<DateTime>("DateTime");
+
                     b.Property<Guid?>("HallId");
 
-                    b.Property<Guid?>("ReservationRequestId");
+                    b.Property<Guid?>("MenuId");
+
+                    b.Property<int>("OccasionType");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HallId");
 
-                    b.HasIndex("ReservationRequestId");
+                    b.HasIndex("MenuId");
 
                     b.ToTable("HallReservations");
                 });
@@ -427,9 +439,73 @@ namespace OccBooking.Persistance.Migrations
                         .WithMany("HallReservations")
                         .HasForeignKey("HallId");
 
-                    b.HasOne("OccBooking.Domain.Entities.ReservationRequest", "ReservationRequest")
+                    b.HasOne("OccBooking.Domain.Entities.Menu", "Menu")
                         .WithMany()
-                        .HasForeignKey("ReservationRequestId");
+                        .HasForeignKey("MenuId");
+
+                    b.OwnsOne("OccBooking.Domain.ValueObjects.Client", "Client", b1 =>
+                        {
+                            b1.Property<Guid>("HallReservationId");
+
+                            b1.HasKey("HallReservationId");
+
+                            b1.ToTable("HallReservations");
+
+                            b1.HasOne("OccBooking.Domain.Entities.HallReservation")
+                                .WithOne("Client")
+                                .HasForeignKey("OccBooking.Domain.ValueObjects.Client", "HallReservationId")
+                                .OnDelete(DeleteBehavior.Cascade);
+
+                            b1.OwnsOne("OccBooking.Domain.ValueObjects.Email", "Email", b2 =>
+                                {
+                                    b2.Property<Guid>("ClientHallReservationId");
+
+                                    b2.Property<string>("Value");
+
+                                    b2.HasKey("ClientHallReservationId");
+
+                                    b2.ToTable("HallReservations");
+
+                                    b2.HasOne("OccBooking.Domain.ValueObjects.Client")
+                                        .WithOne("Email")
+                                        .HasForeignKey("OccBooking.Domain.ValueObjects.Email", "ClientHallReservationId")
+                                        .OnDelete(DeleteBehavior.Cascade);
+                                });
+
+                            b1.OwnsOne("OccBooking.Domain.ValueObjects.PersonName", "Name", b2 =>
+                                {
+                                    b2.Property<Guid>("ClientHallReservationId");
+
+                                    b2.Property<string>("FirstName");
+
+                                    b2.Property<string>("LastName");
+
+                                    b2.HasKey("ClientHallReservationId");
+
+                                    b2.ToTable("HallReservations");
+
+                                    b2.HasOne("OccBooking.Domain.ValueObjects.Client")
+                                        .WithOne("Name")
+                                        .HasForeignKey("OccBooking.Domain.ValueObjects.PersonName", "ClientHallReservationId")
+                                        .OnDelete(DeleteBehavior.Cascade);
+                                });
+
+                            b1.OwnsOne("OccBooking.Domain.ValueObjects.PhoneNumber", "PhoneNumber", b2 =>
+                                {
+                                    b2.Property<Guid>("ClientHallReservationId");
+
+                                    b2.Property<string>("Value");
+
+                                    b2.HasKey("ClientHallReservationId");
+
+                                    b2.ToTable("HallReservations");
+
+                                    b2.HasOne("OccBooking.Domain.ValueObjects.Client")
+                                        .WithOne("PhoneNumber")
+                                        .HasForeignKey("OccBooking.Domain.ValueObjects.PhoneNumber", "ClientHallReservationId")
+                                        .OnDelete(DeleteBehavior.Cascade);
+                                });
+                        });
                 });
 
             modelBuilder.Entity("OccBooking.Domain.Entities.Meal", b =>

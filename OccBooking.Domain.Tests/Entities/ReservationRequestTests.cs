@@ -11,19 +11,13 @@ using Xunit;
 
 namespace OccBooking.Domain.Tests.Entities
 {
-    public class ReservationTests
+    public class ReservationRequestTests
     {
-        private static Client correctClient = new Client("Michal", "Kowalski", "michal@michal.com", "505111111");
-
-        private static Menu correctMenu = new Menu(Guid.NewGuid(), "Standard", MenuType.Vegetarian, 10,
-            new List<Meal>
-                {new Meal(Guid.NewGuid(), "Dumplings", "Nice", MealType.Main, new List<string>() {"Cheese"})});
-
         [Theory]
         [ClassData(typeof(DataForCreationShouldFail))]
         public void CreationShouldFail(DateTime dateTime, Client client, int amountOfPeople, Menu menu)
         {
-            Action action = () => new Reservation(Guid.NewGuid(),
+            Action action = () => new ReservationRequest(Guid.NewGuid(),
                 dateTime,
                 client,
                 amountOfPeople,
@@ -38,10 +32,11 @@ namespace OccBooking.Domain.Tests.Entities
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] {DateTime.Today.AddDays(-1), correctClient, 50, correctMenu};
-                yield return new object[] {DateTime.Today, null, 50, correctMenu};
-                yield return new object[] {DateTime.Today, correctClient, 0, correctMenu};
-                yield return new object[] {DateTime.Today, correctClient, 50, null};
+                yield return new object[]
+                    {DateTime.Today.AddDays(-1), TestData.CorrectClient, 50, TestData.CorrectMenu};
+                yield return new object[] {DateTime.Today, null, 50, TestData.CorrectMenu};
+                yield return new object[] {DateTime.Today, TestData.CorrectClient, 0, TestData.CorrectMenu};
+                yield return new object[] {DateTime.Today, TestData.CorrectClient, 50, null};
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -50,80 +45,78 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void CreationShouldWork()
         {
-            var reservation = new Reservation(Guid.NewGuid(), DateTime.Today, correctClient, 50, correctMenu,
+            var reservation = new ReservationRequest(Guid.NewGuid(), DateTime.Today, TestData.CorrectClient, 50,
+                TestData.CorrectMenu,
                 OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
 
             Assert.Equal(DateTime.Today, reservation.DateTime);
-            Assert.Equal(correctClient, reservation.Client);
+            Assert.Equal(TestData.CorrectClient, reservation.Client);
             Assert.Equal(50, reservation.AmountOfPeople);
-            Assert.Equal(correctMenu, reservation.Menu);
+            Assert.Equal(TestData.CorrectMenu, reservation.Menu);
             Assert.Equal(OccasionType.FuneralMeal, reservation.OccasionType);
         }
 
         [Fact]
         public void AcceptShouldFailBecauseAccepted()
         {
-            var halls = new List<Hall>() {new Hall(Guid.NewGuid(), 10)};
-            var reservation = new Reservation(Guid.NewGuid(),
+            var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                correctClient,
+                TestData.CorrectClient,
                 10,
-                correctMenu,
+                TestData.CorrectMenu,
                 OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
-            reservation.Accept(halls);
-            Action action = () => reservation.Accept(halls);
+            reservation.Accept();
+            Action action = () => reservation.Accept();
 
-            Assert.Throws<ReservationHasBeenAlreadyAnsweredException>(action);
+            Assert.Throws<DomainException>(action);
         }
 
         [Fact]
         public void AcceptShouldFailBecauseRejected()
         {
-            var halls = new List<Hall>() {new Hall(Guid.NewGuid(), 10)};
-            var reservation = new Reservation(Guid.NewGuid(),
+            var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                correctClient,
+                TestData.CorrectClient,
                 10,
-                correctMenu,
+                TestData.CorrectMenu,
                 OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
             reservation.Reject();
-            Action action = () => reservation.Accept(halls);
+            Action action = () => reservation.Accept();
 
-            Assert.Throws<ReservationHasBeenAlreadyAnsweredException>(action);
+            Assert.Throws<DomainException>(action);
         }
 
         [Fact]
         public void AcceptShouldWork()
         {
             var halls = new List<Hall>() {new Hall(Guid.NewGuid(), 10)};
-            var reservation = new Reservation(Guid.NewGuid(),
+            var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                correctClient,
+                TestData.CorrectClient,
                 10,
-                correctMenu,
+                TestData.CorrectMenu,
                 OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
-            reservation.Accept(halls);
+            reservation.Accept();
 
             Assert.True(reservation.IsAccepted);
             Assert.True(reservation.IsAnswered);
             Assert.False(reservation.IsRejected);
-            Assert.True(halls.All(h => reservation.Halls.Contains(h)));
         }
 
         [Fact]
         public void RejectShouldWork()
         {
-            var reservation = new Reservation(Guid.NewGuid(),
+            var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                correctClient,
+                TestData.CorrectClient,
                 10,
-                correctMenu,
+                TestData.CorrectMenu,
                 OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
@@ -137,62 +130,61 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void RejectShouldFailBecauseRejected()
         {
-            var reservation = new Reservation(Guid.NewGuid(),
+            var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                correctClient,
+                TestData.CorrectClient,
                 10,
-                correctMenu,
+                TestData.CorrectMenu,
                 OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
             reservation.Reject();
             Action action = () => reservation.Reject();
 
-            Assert.Throws<ReservationHasBeenAlreadyAnsweredException>(action);
+            Assert.Throws<DomainException>(action);
         }
 
         [Fact]
         public void RejectShouldFailBecauseAccepted()
         {
-            var halls = new List<Hall>() {new Hall(Guid.NewGuid(), 10)};
-            var reservation = new Reservation(Guid.NewGuid(),
+            var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                correctClient,
+                TestData.CorrectClient,
                 10,
-                correctMenu,
+                TestData.CorrectMenu,
                 OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>());
 
-            reservation.Accept(halls);
+            reservation.Accept();
             Action action = () => reservation.Reject();
 
-            Assert.Throws<ReservationHasBeenAlreadyAnsweredException>(action);
+            Assert.Throws<DomainException>(action);
         }
 
-        [Theory]
-        [InlineData(10, 20, 30, 61)]
-        [InlineData(10, 10, 10, 40)]
-        public void AcceptShouldFailBecauseHallsCapacity(int capacity1, int capacity2, int capacity3,
-            int amountOfPeople)
-        {
-            var halls = new List<Hall>()
-            {
-                new Hall(Guid.NewGuid(), capacity1),
-                new Hall(Guid.NewGuid(), capacity2),
-                new Hall(Guid.NewGuid(), capacity3)
-            };
-            var reservation = new Reservation(Guid.NewGuid(),
-                DateTime.Today,
-                correctClient,
-                amountOfPeople,
-                correctMenu,
-                OccasionType.FuneralMeal,
-                Enumerable.Empty<PlaceAdditionalOption>());
+        //[Theory]
+        //[InlineData(10, 20, 30, 61)]
+        //[InlineData(10, 10, 10, 40)]
+        //public void AcceptShouldFailBecauseHallsCapacity(int capacity1, int capacity2, int capacity3,
+        //    int amountOfPeople)
+        //{
+        //    var halls = new List<Hall>()
+        //    {
+        //        new Hall(Guid.NewGuid(), capacity1),
+        //        new Hall(Guid.NewGuid(), capacity2),
+        //        new Hall(Guid.NewGuid(), capacity3)
+        //    };
+        //    var reservation = new ReservationRequest(Guid.NewGuid(),
+        //        DateTime.Today,
+        //        TestData.CorrectClient,
+        //        amountOfPeople,
+        //        TestData.CorrectMenu,
+        //        OccasionType.FuneralMeal,
+        //        Enumerable.Empty<PlaceAdditionalOption>());
 
-            Action action = () => reservation.Accept(halls);
+        //    Action action = () => reservation.Accept(halls);
 
-            Assert.Throws<ToSmallCapacityException>(action);
-        }
+        //    Assert.Throws<ToSmallCapacityException>(action);
+        //}
 
         [Theory]
         [InlineData(10, 10, new[] {5, 5, 5}, 10, 215)]
@@ -208,9 +200,9 @@ namespace OccBooking.Domain.Tests.Entities
                 options = options.AddOption(new PlaceAdditionalOption("Some", optionCost));
             }
 
-            var reservation = new Reservation(Guid.NewGuid(),
+            var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                correctClient,
+                TestData.CorrectClient,
                 amountOfPeople,
                 menu,
                 OccasionType.FuneralMeal,

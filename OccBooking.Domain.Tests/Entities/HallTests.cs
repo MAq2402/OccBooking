@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OccBooking.Domain.Enums;
+using OccBooking.Domain.ValueObjects;
 using Xunit;
 
 namespace OccBooking.Domain.Tests.Entities
@@ -64,6 +66,32 @@ namespace OccBooking.Domain.Tests.Entities
             var hall = new Hall(Guid.NewGuid(), capacity);
 
             Assert.NotNull(hall);
+        }
+
+        [Fact]
+        public void IsFreeOnDateShouldWork()
+        {
+            var hall = TestData.CorrectHall;
+            var reservation = new ReservationRequest(Guid.NewGuid(),
+                DateTime.Today, TestData.CorrectClient, 50, TestData.CorrectMenu,
+                OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
+            hall.MakeReservation(reservation);
+
+            Assert.True(hall.IsFreeOnDate(DateTime.Today.AddDays(1)));
+            Assert.False(hall.IsFreeOnDate(DateTime.Today));
+        }
+
+        [Fact]
+        public void MakeReservationShouldWork()
+        {
+            var hall = new Hall(Guid.NewGuid(), 40);
+            var reservation = new ReservationRequest(Guid.NewGuid(),
+                DateTime.Today, TestData.CorrectClient, 50, TestData.CorrectMenu,
+                OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
+
+            hall.MakeReservation(reservation);
+
+            Assert.True(hall.HallReservations.Any());
         }
     }
 }

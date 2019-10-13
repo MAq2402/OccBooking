@@ -8,9 +8,9 @@ using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Persistance.Configurations
 {
-    public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
+    public class ReservationRequestConfiguration : IEntityTypeConfiguration<ReservationRequest>
     {
-        public void Configure(EntityTypeBuilder<Reservation> builder)
+        public void Configure(EntityTypeBuilder<ReservationRequest> builder)
         {
             builder.HasOne(r => r.Menu);
 
@@ -20,8 +20,6 @@ namespace OccBooking.Persistance.Configurations
 
             builder.Property(p => p.AdditionalOptions)
                 .HasConversion<string>(x => x.ToString(), y => (PlaceAdditionalOptions)y);
-
-            builder.Ignore(r => r.Halls);
         }
     }
 }
