@@ -11,13 +11,14 @@ namespace OccBooking.Domain.Entities
     {
         public Hall Hall { get; private set; }
         public ReservationRequest ReservationRequest { get; set; }
+
         public HallReservation(ReservationRequest reservationRequest)
         {
             ReservationRequest = reservationRequest;
         }
+
         private HallReservation()
         {
-
         }
     }
 }

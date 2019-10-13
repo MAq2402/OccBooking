@@ -161,31 +161,6 @@ namespace OccBooking.Domain.Tests.Entities
             Assert.Throws<DomainException>(action);
         }
 
-        //[Theory]
-        //[InlineData(10, 20, 30, 61)]
-        //[InlineData(10, 10, 10, 40)]
-        //public void AcceptShouldFailBecauseHallsCapacity(int capacity1, int capacity2, int capacity3,
-        //    int amountOfPeople)
-        //{
-        //    var halls = new List<Hall>()
-        //    {
-        //        new Hall(Guid.NewGuid(), capacity1),
-        //        new Hall(Guid.NewGuid(), capacity2),
-        //        new Hall(Guid.NewGuid(), capacity3)
-        //    };
-        //    var reservation = new ReservationRequest(Guid.NewGuid(),
-        //        DateTime.Today,
-        //        TestData.CorrectClient,
-        //        amountOfPeople,
-        //        TestData.CorrectMenu,
-        //        OccasionType.FuneralMeal,
-        //        Enumerable.Empty<PlaceAdditionalOption>());
-
-        //    Action action = () => reservation.Accept(halls);
-
-        //    Assert.Throws<ToSmallCapacityException>(action);
-        //}
-
         [Theory]
         [InlineData(10, 10, new[] {5, 5, 5}, 10, 215)]
         [InlineData(5, 1, new[] {0}, 200, 1005)]
