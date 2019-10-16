@@ -16,6 +16,7 @@ using OccBooking.Application.Mappings.Profiles;
 using OccBooking.Common.Dispatchers;
 using OccBooking.Persistance.DbContexts;
 using OccBooking.Persistance.Entities;
+using OccBooking.Persistance.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace OccBooking.Web
@@ -48,6 +49,9 @@ namespace OccBooking.Web
             var builder = new ContainerBuilder();
 
             builder.Populate(services);
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IRepository<>)))
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces();
 
             builder.RegisterCommandHandlers();
             builder.RegisterQueryHandlers();

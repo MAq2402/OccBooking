@@ -10,6 +10,9 @@ namespace OccBooking.Application.DTOs
         public bool HasRooms { get; set; }
         public decimal CostPerPerson { get; set; }
         public string Description { get; set; }
-        public Guid OwnerId { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
+        public string Province { get; set; }
     }
 }

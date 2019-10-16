@@ -9,6 +9,7 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { OwnerModule } from './owner/owner.module';
 
 @NgModule({
   declarations: [
@@ -17,13 +18,14 @@ import { NavbarComponent } from './navbar/navbar.component';
     NavbarComponent
   ],
   imports: [
-    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
     AuthModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    OwnerModule,
+    AppRoutingModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [],

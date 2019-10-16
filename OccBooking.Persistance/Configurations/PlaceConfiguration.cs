@@ -33,6 +33,8 @@ namespace OccBooking.Persistance.Configurations
                     .Select(x => (OccasionType) Enum.Parse(typeof(OccasionType), x)));
 
             builder.Property(p => p.AvailableOccasionTypes).HasConversion(occasionalTypesToStringConverter);
+
+            builder.OwnsOne(p => p.Address);
         }
     }
 }

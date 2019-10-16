@@ -16,12 +16,13 @@ namespace OccBooking.Domain.Entities
         private HashSet<OccasionType> availableOccasionTypes = new HashSet<OccasionType>();
         private List<Hall> halls = new List<Hall>();
 
-        public Place(Guid id, string name, bool hasRooms, decimal costPerPerson, string description) : base(id)
+        public Place(Guid id, string name, bool hasRooms, decimal costPerPerson, string description, Address address) : base(id)
         {
             SetName(name);
             HasRooms = hasRooms;
             SetCostPerPerson(costPerPerson);
             Description = description;
+            Address = address;
         }
 
         private Place()
@@ -44,6 +45,7 @@ namespace OccBooking.Domain.Entities
         public decimal CostPerPerson { get; private set; }
         public string Description { get; private set; }
         public Owner Owner { get; private set; }
+        public Address Address { get; private set; }
         public int Capacity => CalculateCapacity(halls);
 
         private void SetName(string name)

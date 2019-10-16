@@ -9,18 +9,20 @@ using OccBooking.Common.Dispatchers;
 
 namespace OccBooking.Web.Controllers
 {
+    [Route("api")]
     public class PlaceController : BaseController
-    {
+    { 
+    
         public PlaceController(IDispatcher dispatcher) : base(dispatcher)
         {
-            
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreatePlaceAsync(PlaceForCreationDto model)
+        [HttpPost("{ownerId}/place")]
+        public async Task<IActionResult> CreatePlaceAsync(string ownerId, PlaceForCreationDto model)
         {
             var result = await _dispatcher.DispatchAsync(new CreatePlaceCommand(model.Name, model.HasRooms,
-                model.CostPerPerson, model.Description));
+                model.CostPerPerson, model.Description, model.Street, model.City, model.ZipCode, model.Province,
+                new Guid(ownerId)));
 
             return result.IsSuccess ? (IActionResult) CreatedAtRoute(null, null) : BadRequest(result.Error);
         }
