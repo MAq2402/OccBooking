@@ -8,7 +8,7 @@ namespace OccBooking.Domain.Entities
 {
     public class Owner : AggregateRoot
     {
-        private List<Place> places = new List<Place>();
+        private List<Place> _places = new List<Place>();
 
         public Owner(Guid id, string firstName, string lastName, string email, string phoneNumber) : base(id)
         {
@@ -22,7 +22,7 @@ namespace OccBooking.Domain.Entities
 
         }
 
-        public IEnumerable<Place> Places => places;
+        public IEnumerable<Place> Places => _places;
         public PersonName Name { get; private set; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }
@@ -34,7 +34,7 @@ namespace OccBooking.Domain.Entities
                 throw new DomainException("Place has not been provided");
             }
 
-            places.Add(place);
+            _places.Add(place);
         }
     }
 }

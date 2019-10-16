@@ -1,0 +1,54 @@
+<mat-horizontal-stepper [linear]="false" #stepper>
+  <mat-step [stepControl]="baseInfromationFormGroup">
+    <form [formGroup]="baseInfromationFormGroup">
+      <ng-template matStepLabel>Podstawowe informacje</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Nazwa" formControlName="name" required>
+      </mat-form-field>
+      <mat-checkbox [(ngModel)]="hasRooms">Pokoje dla gości</mat-checkbox>
+      <mat-form-field>
+        <input matInput type="number" placeholder="Cena na osobę" formControlName="costPerPerson" required>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Opis" formControlName="description"></textarea>
+      </mat-form-field>
+      <div>
+        <button mat-button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="addressFormGroup">
+    <form [formGroup]="addressFormGroup">
+      <ng-template matStepLabel>Fill out your address</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Miasto" formControlName="city" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ulica" formControlName="street" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Kod pocztowy" formControlName="zipCode" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Województwo</mat-label>
+        <mat-select formControlName="province">
+          <mat-option *ngFor="let province of provinces" [value]="province">
+            {{province}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button mat-button matStepperPrevious>Powrót</button>
+        <button mat-button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Potwierdzenie</ng-template>
+    Potwierdź dodanie swojego domu przyjęć/sali 
+    <div>
+      <button mat-button matStepperPrevious>Powrót</button>
+      <button mat-button (click)="submit()">Zakończ</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -9,6 +9,7 @@ namespace OccBooking.Domain.Tests
 {
     public static class TestData
     {
+        public static Address CorrectAddress => new Address("Akacjowa", "Orzesze", "43-100", "śląskie");
         public static Client CorrectClient => new Client("Michal", "Kowalski", "michal@michal.com", "505111111");
 
         public static Hall CorrectHall => new Hall(new Guid("619e8c4e-69ae-482a-98eb-492afe60352b"), 1);

@@ -17,6 +17,9 @@ namespace OccBooking.Persistance.Configurations
             builder.OwnsOne(o => o.Email);
             builder.OwnsOne(o => o.PhoneNumber);
             builder.OwnsOne(o => o.Name);
+
+            builder.Metadata.FindNavigation(nameof(Owner.Places))
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

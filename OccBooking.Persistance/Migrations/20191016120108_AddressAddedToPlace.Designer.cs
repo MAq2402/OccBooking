@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OccBooking.Persistance.DbContexts;
 
 namespace OccBooking.Persistance.Migrations
 {
     [DbContext(typeof(OccBookingDbContext))]
-    partial class OccBookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191016120108_AddressAddedToPlace")]
+    partial class AddressAddedToPlace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
