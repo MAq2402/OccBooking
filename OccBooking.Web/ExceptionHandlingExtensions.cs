@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using OccBooking.Domain.Exceptions;
 
@@ -12,7 +13,7 @@ namespace OccBooking.Web
 {
     public static class ExceptionHandlingExtensions
     {
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseExceptionHandler(config =>
             {
@@ -30,7 +31,8 @@ namespace OccBooking.Web
                         else
                         {
                             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-                            await context.Response.WriteAsync("Unexpected error occurred");
+                            var errorMessage = env.IsDevelopment() ? exception.Message : "Unexpected error occurred";
+                            await context.Response.WriteAsync(errorMessage);
                         }
                     }
                 });

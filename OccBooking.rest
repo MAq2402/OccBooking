@@ -1,6 +1,6 @@
 @url = https://localhost:44308/api/
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlYzQ4ODIwMC0yMGMyLTQ5NmQtYTJjMi05ZGM2N2RkNDJjODUiLCJqdGkiOiIwMjkzNTRjZC02N2RjLTRlYzYtODU3OC1hMjU3ZmQ1ZDVkOGQiLCJpYXQiOjE1NzA4ODEzODcsInVzZXJJZCI6ImVjNDg4MjAwLTIwYzItNDk2ZC1hMmMyLTlkYzY3ZGQ0MmM4NSIsIm5iZiI6MTU3MDg4MTM4NiwiZXhwIjoxNTcwODg4NTg2LCJpc3MiOiJPY2NCb29raW5nIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwLyJ9.UUzcF9HxG5vjpDLw5S-DIUbxIj-SyttHTty7wl-B7ik
-
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlYzQ4ODIwMC0yMGMyLTQ5NmQtYTJjMi05ZGM2N2RkNDJjODUiLCJqdGkiOiJkY2Y2ODNkZC05ZGY3LTQ1NDItYjY4My0zNjhiZGVmYmNmODUiLCJpYXQiOjE1NzE0MTI2NTcsInVzZXJJZCI6ImVjNDg4MjAwLTIwYzItNDk2ZC1hMmMyLTlkYzY3ZGQ0MmM4NSIsIm5iZiI6MTU3MTQxMjY1NiwiZXhwIjoxNTcxNDE5ODU2LCJpc3MiOiJPY2NCb29raW5nIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwLyJ9.k_bY3dr7z-bcbj1sn-RdtaDnnpqCGyVQME9xqoGYb0Q
+@ownerId = e8775e65-466b-43bf-b99c-daa84182c440
 POST {{url}}auth/register HTTP/1.1
 content-type: application/json
 
@@ -24,3 +24,21 @@ content-type: application/json
 
 GET {{url}}auth/user HTTP/1.1
 authorization: Bearer {{authToken}}
+
+
+GET {{url}}places HTTP/1.1
+
+POST {{url}}{{ownerId}}/places HTTP/1.1
+content-type: application/json
+authorization: Bearer {{authToken}}
+
+{
+  "name": "string",
+  "hasRooms": true,
+  "costPerPerson": 1,
+  "description": "string",
+  "street": "sezamkowa",
+  "city": "string",
+  "zipCode": "11-111",
+  "province": "śląskie"
+}
