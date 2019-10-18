@@ -1,75 +1,34 @@
-<!--Navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark primary-color">
-
-    <!-- Navbar brand -->
-    <a class="navbar-brand" routerLink="">OccBooking</a>
-
-    <!-- Collapse button -->
-    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-      aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> -->
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="basicExampleNav">
-
-        <!-- Links -->
-        <!-- <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li> -->
-
-        <!-- Dropdown -->
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-  
-      </ul> -->
-        <!-- Links -->
-
-        <!-- <form class="form-inline">
-        <div class="md-form my-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        </div>
-      </form> -->
-        <ul class="navbar-nav ml-auto nav-flex-icons">
-            <li *ngIf="isLoggedIn()" class="nav-item">
-                <button mat-button [matMenuTriggerFor]="menu">
-                    <span class="user" *ngIf="currentUser">{{currentUser.firstName}} {{currentUser.lastName}}</span>
-                    <mat-icon>person</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                    <button (click)="logOut()" mat-menu-item>Wyloguj się</button>
-                </mat-menu>
-            </li>
-            <li *ngIf="!isLoggedIn()" class="nav-item">
-                <a class="nav-link" routerLink="/register">
-                    Zarejestruj się
-                </a>
-            </li>
-            <li *ngIf="!isLoggedIn()" class="nav-item" routerLink="/login">
-                <a class="nav-link">
-                    Zaloguje się
-                </a>
-            </li>
-        </ul>
-        <!-- </links> -->
-    </div>
-    <!-- Collapsible content -->
-
+  <a class="navbar-brand" routerLink="">OccBooking</a>
+  <div class="collapse navbar-collapse" id="basicExampleNav">
+    <ul *ngIf="isLoggedIn()" class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/owner">Dodaj <mat-icon class="material-icons">
+            home
+          </mat-icon>
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <li *ngIf="isLoggedIn()" class="nav-item">
+        <button mat-button [matMenuTriggerFor]="menu">
+          <span class="user" *ngIf="currentUser">{{currentUser.firstName}} {{currentUser.lastName}}</span>
+          <mat-icon>person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button (click)="logOut()" mat-menu-item>Wyloguj się</button>
+        </mat-menu>
+      </li>
+      <li *ngIf="!isLoggedIn()" class="nav-item">
+        <a class="nav-link" routerLink="/register">
+          Zarejestruj się
+        </a>
+      </li>
+      <li *ngIf="!isLoggedIn()" class="nav-item" routerLink="/login">
+        <a class="nav-link">
+          Zaloguje się
+        </a>
+      </li>
+    </ul>
+  </div>
 </nav>
-<!--/.Navbar-->

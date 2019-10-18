@@ -43,6 +43,7 @@ export class PlaceComponent implements OnInit {
 
     this.baseInfromationFormGroup = this.formBuilder.group({
       name: ['', Validators.required],
+      hasRooms: ['', Validators.nullValidator],
       costPerPerson: ['', Validators.required],
       description: ['', Validators.nullValidator]
     });
@@ -58,7 +59,7 @@ export class PlaceComponent implements OnInit {
   submit() {
     const model: PlaceModel = {
       name: this.baseInfromationFormGroup.controls['name'].value,
-      hasRooms: this.hasRooms,
+      hasRooms: this.baseInfromationFormGroup.controls['hasRooms'].value,
       costPerPerson: this.baseInfromationFormGroup.controls['costPerPerson'].value,
       description: this.baseInfromationFormGroup.controls['description'].value,
       street: this.addressFormGroup.controls['street'].value,
