@@ -71,7 +71,7 @@ namespace OccBooking.Web
                 app.UseHsts();
             }
 
-            app.ConfigureExceptionHandler();
+            app.ConfigureExceptionHandler(env);
 
             app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 

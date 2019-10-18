@@ -29,8 +29,10 @@ namespace OccBooking.Persistance.Configurations
 
             var occasionalTypesToStringConverter = new ValueConverter<IEnumerable<OccasionType>, string>(
                 v => string.Join(',', v),
-                v => v.Split(',', StringSplitOptions.None)
-                    .Select(x => (OccasionType) Enum.Parse(typeof(OccasionType), x)));
+                v => string.IsNullOrEmpty(v)
+                    ? Enumerable.Empty<OccasionType>().ToHashSet()
+                    : v.Split(',', StringSplitOptions.None)
+                        .Select(x => (OccasionType) Enum.Parse(typeof(OccasionType), x)));
 
             builder.Property(p => p.AvailableOccasionTypes).HasConversion(occasionalTypesToStringConverter);
 

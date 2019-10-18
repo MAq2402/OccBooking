@@ -28,6 +28,11 @@ namespace OccBooking.Application.Handlers
 
             var owner = await _ownerRepository.GetAsync(command.OwnerId);
 
+            if (owner == null)
+            {
+                return Result.Fail("Owner with this id does not exists");
+            }
+
             owner.AddPlace(place);
 
             await _ownerRepository.SaveAsync();

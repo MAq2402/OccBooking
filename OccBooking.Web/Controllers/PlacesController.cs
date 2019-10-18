@@ -2,22 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OccBooking.Application.Commands;
 using OccBooking.Application.DTOs;
+using OccBooking.Application.Queries;
 using OccBooking.Common.Dispatchers;
 
 namespace OccBooking.Web.Controllers
 {
     [Route("api")]
-    public class PlaceController : BaseController
+    public class PlacesController : BaseController
     { 
     
-        public PlaceController(IDispatcher dispatcher) : base(dispatcher)
+        public PlacesController(IDispatcher dispatcher) : base(dispatcher)
         {
         }
 
-        [HttpPost("{ownerId}/place")]
+        [HttpGet("places")]
+        public async Task<IActionResult> GetPlacesAsync()
+        {
+            var result = await _dispatcher.DispatchAsync(new GetPlacesQuery());
+
+            return Ok(result.Value);
+        }
+
+        [Authorize]
+        [HttpPost("{ownerId}/places")]
         public async Task<IActionResult> CreatePlaceAsync(string ownerId, PlaceForCreationDto model)
         {
             var result = await _dispatcher.DispatchAsync(new CreatePlaceCommand(model.Name, model.HasRooms,

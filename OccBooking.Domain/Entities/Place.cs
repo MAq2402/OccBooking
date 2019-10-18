@@ -29,10 +29,10 @@ namespace OccBooking.Domain.Entities
         {
         }
 
-        public IEnumerable<ReservationRequest> ReservationRequests => reservationReqeusts.AsReadOnly();
-        public IEnumerable<Menu> Menus => menus.AsReadOnly();
-        public IEnumerable<OccasionType> AvailableOccasionTypes => availableOccasionTypes.ToList().AsReadOnly();
-        public IEnumerable<Hall> Halls => halls.AsReadOnly();
+        public IEnumerable<ReservationRequest> ReservationRequests => reservationReqeusts;
+        public IEnumerable<Menu> Menus => menus;
+        public IEnumerable<OccasionType> AvailableOccasionTypes => availableOccasionTypes;
+        public IEnumerable<Hall> Halls => halls;
 
         public PlaceAdditionalOptions AdditionalOptions
         {
