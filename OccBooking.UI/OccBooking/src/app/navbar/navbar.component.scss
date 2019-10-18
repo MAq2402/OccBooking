@@ -2,6 +2,7 @@
 
 .navbar {
     background-color: $primary-color !important;
+    margin-bottom: 20px;
 }
 
 .nav-link {
@@ -15,4 +16,13 @@
 .user {
     margin-right: 15px;
     font-size: 18px;
+}
+
+.mat-icon {
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+.active {
+    font-weight: bold;
 }
