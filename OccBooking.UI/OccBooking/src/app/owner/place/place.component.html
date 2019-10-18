@@ -5,7 +5,7 @@
       <mat-form-field>
         <input matInput placeholder="Nazwa" formControlName="name" required>
       </mat-form-field>
-      <mat-checkbox [(ngModel)]="hasRooms">Pokoje dla gości</mat-checkbox>
+      <mat-checkbox formControlName="hasRooms">Pokoje dla gości</mat-checkbox>
       <mat-form-field>
         <input matInput type="number" placeholder="Cena na osobę" formControlName="costPerPerson" required>
       </mat-form-field>
@@ -45,7 +45,7 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Potwierdzenie</ng-template>
-    Potwierdź dodanie swojego domu przyjęć/sali 
+    Potwierdź dodanie swojego domu przyjęć/sali
     <div>
       <button mat-button matStepperPrevious>Powrót</button>
       <button mat-button (click)="submit()">Zakończ</button>

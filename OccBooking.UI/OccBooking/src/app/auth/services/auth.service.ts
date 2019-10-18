@@ -9,7 +9,7 @@ import { RegisterModel } from '../models/register.model';
 import { UserModel } from '../models/user.model';
 
 const TOKEN = 'token';
-const ROUTE = `${environment.WEB_API_ENDPOINT}auth/`
+const ROUTE = `${environment.WEB_API_ENDPOINT}auth/`;
 
 @Injectable({
   providedIn: 'root'
