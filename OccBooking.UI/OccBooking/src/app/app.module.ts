@@ -12,6 +12,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { OwnerModule } from './owner/owner.module';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SidenavComponent } from './home/sidenav/sidenav.component';
+import { PlaceCardComponent } from './home/place-card/place-card.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SidenavComponent } from './home/sidenav/sidenav.component';
     HomeComponent,
     NavbarComponent,
     SpinnerComponent,
-    SidenavComponent
+    SidenavComponent,
+    PlaceCardComponent
   ],
   imports: [
     BrowserModule,

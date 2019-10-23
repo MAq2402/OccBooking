@@ -1,0 +1,33 @@
+@import "../../../styles.scss";
+.card {
+  height: 350px;
+  margin-left: 210px;
+}
+
+.container {
+    margin: 0 0 0 0;
+}
+
+.mat-card-image {
+  height: calc(40% + 32px);
+  width: auto;
+  padding: 10px 10px 10px 10px;
+}
+
+.footer {
+position: absolute;
+   bottom: 0;
+   margin-bottom: 40px;
+}
+
+.row {
+    height: 350px;
+}
+
+.image-container {
+    height: 350px;
+}
+
+.content {
+    height: 350px;
+}

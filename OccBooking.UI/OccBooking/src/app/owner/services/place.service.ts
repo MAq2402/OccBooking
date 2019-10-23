@@ -12,12 +12,13 @@ import { tap } from 'rxjs/operators';
 })
 export class PlaceService {
 
-
-
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   createPlace(ownerId: string, model: PlaceModel): Observable<any> {
     return this.http.post<any>(`${environment.WEB_API_ENDPOINT}${ownerId}/places`, model);
   }
 
+  getPlaces(): Observable<PlaceModel[]> {
+    return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`);
+  }
 }

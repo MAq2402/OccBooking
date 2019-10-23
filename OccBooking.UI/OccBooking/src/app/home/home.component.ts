@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-declare var require: any;
+import { PlaceService } from '../owner/services/place.service';
+import { PlaceModel } from '../owner/models/place.model';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +9,12 @@ declare var require: any;
 })
 export class HomeComponent implements OnInit {
 
-  imgUrl = require('35088_1.jpg');
-  constructor() { }
+  places: PlaceModel[];
+
+  constructor(private placeService: PlaceService) { }
 
   ngOnInit() {
+    this.placeService.getPlaces().subscribe(places => this.places = places);
   }
 
 }
