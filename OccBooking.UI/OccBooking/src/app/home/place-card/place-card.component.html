@@ -1,0 +1,19 @@
+<mat-card *ngIf="place" class="card">
+    <div class="row">
+        <div class="imageContainer col-sm-3">
+            <img mat-card-image [src]="imgUrl" alt="Photo of a Shiba Inu">
+        </div>
+        <div class="content col-sm-9">
+            <div>
+                <h3>{{place.name}}</h3>
+            </div>
+            <div>
+                {{place.description}}
+            </div>
+            <div class="footer">
+                <span> {{place.city}} ({{place.province}}), ul. {{place.street}}</span><br><span> Koszt na osobę: od
+                    {{place.costPerPerson}}zł</span>
+            </div>
+        </div>
+    </div>
+</mat-card>

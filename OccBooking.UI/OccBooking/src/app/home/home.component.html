@@ -1,1 +1,4 @@
-<h1>Witaj w OccBooking</h1>
+<div class="container col-sm-12">
+    <app-sidenav></app-sidenav>
+    <app-place-card *ngFor="let place of places" [place]="place"></app-place-card>
+</div>

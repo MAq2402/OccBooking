@@ -1,4 +1,3 @@
-// string name, bool hasRooms, decimal costPerPerson, string description, Address address
 export class PlaceModel {
     name: string;
     hasRooms: boolean;

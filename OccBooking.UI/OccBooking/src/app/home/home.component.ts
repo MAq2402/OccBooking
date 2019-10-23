@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PlaceService } from '../owner/services/place.service';
+import { PlaceModel } from '../owner/models/place.model';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  places: PlaceModel[];
+
+  constructor(private placeService: PlaceService) { }
 
   ngOnInit() {
+    this.placeService.getPlaces().subscribe(places => this.places = places);
   }
 
 }

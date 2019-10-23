@@ -14,7 +14,7 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
                 this.authService.logOut();
-                this.router.navigateByUrl('login');
+                this.router.navigateByUrl('');
                 console.log('Token has expired');
             }
             return throwError(error.error.message);
