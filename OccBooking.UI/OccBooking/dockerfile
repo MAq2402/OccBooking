@@ -1,8 +1,3 @@
-# FROM nginx:alpine
-# COPY ./dist/OccBooking /usr/share/nginx/html
-# EXPOSE 80 443
-# ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
-
 FROM node:latest as node 
 WORKDIR /app
 COPY . .

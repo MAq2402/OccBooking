@@ -11,13 +11,15 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { OwnerModule } from './owner/owner.module';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { SidenavComponent } from './home/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,

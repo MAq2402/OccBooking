@@ -1,0 +1,23 @@
+@import '../../../styles.scss';
+mat-sidenav {
+    overflow-y: initial;
+    width: 100%;
+}
+
+.mat-drawer-side {
+    border-right: transparent !important;
+}
+
+::ng-deep .mat-drawer-inner-container {
+    overflow-x : hidden !important;
+     background-color: $secondary-color-darker !important;
+}
+
+.mat-sidenav-container {
+    position: absolute;
+    top: -20px;
+    bottom: 0;
+    min-height: 100vh;
+    left: 0;
+    min-width: 200px;
+}
