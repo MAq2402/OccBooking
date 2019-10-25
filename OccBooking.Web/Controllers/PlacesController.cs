@@ -20,9 +20,9 @@ namespace OccBooking.Web.Controllers
         }
 
         [HttpGet("places")]
-        public async Task<IActionResult> GetPlacesAsync()
+        public async Task<IActionResult> GetPlacesAsync([FromQuery] PlaceFilterDto dto)
         {
-            var result = await _dispatcher.DispatchAsync(new GetPlacesQuery());
+            var result = await _dispatcher.DispatchAsync(new GetPlacesQuery(dto));
 
             return Ok(result.Value);
         }

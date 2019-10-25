@@ -8,5 +8,10 @@ namespace OccBooking.Application.Queries
 {
     public class GetPlacesQuery : IQuery<IEnumerable<PlaceDto>>
     {
+        public GetPlacesQuery(PlaceFilterDto placeFilterDto)
+        {
+            PlaceFilter = placeFilterDto;
+        }
+        public PlaceFilterDto PlaceFilter { get; private set; }
     }
 }
