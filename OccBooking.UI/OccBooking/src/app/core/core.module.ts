@@ -4,7 +4,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { UnauthorizedInterceptor } from './interceptors/unauthorized.interceptor';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
-import { SpinnerService } from '../spinner/services/spinner.service';
 
 @NgModule({
   declarations: [],
@@ -26,8 +25,7 @@ import { SpinnerService } from '../spinner/services/spinner.service';
       provide: HTTP_INTERCEPTORS,
       useClass: SpinnerInterceptor,
       multi: true
-    },
-    SpinnerService
+    }
   ]
 })
 export class CoreModule { }
