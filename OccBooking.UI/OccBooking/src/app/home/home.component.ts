@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
     this.placeService.getPlaces().subscribe(places => this.places = places);
 
     this.sidenavService.filterAnnounced$.subscribe(filterModel => {
-      console.log(filterModel);
       this.placeService.getPlaces(filterModel).subscribe(places => this.places = places);
     });
   }

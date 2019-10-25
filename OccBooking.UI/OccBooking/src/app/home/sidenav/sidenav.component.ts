@@ -14,10 +14,10 @@ import { PlaceFilterModel } from '../models/place-filter.model';
 export class SidenavComponent implements OnInit {
 
   formGroup: FormGroup;
-  constructor(private formBuilder: FormBuilder, private sidenavService: SidenavService) { }
-
   provinces = provinces;
   occassions = occassions;
+  constructor(private formBuilder: FormBuilder, private sidenavService: SidenavService) { }
+
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
       name: ['', Validators.nullValidator],
