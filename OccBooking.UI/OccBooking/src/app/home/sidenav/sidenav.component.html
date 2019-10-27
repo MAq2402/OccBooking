@@ -1,11 +1,14 @@
-<mat-sidenav-container class="example-container">
+<mat-sidenav-container>
         <mat-sidenav mode="size" #sidenav [opened]="true">
-                <form class="example-form" [formGroup]="formGroup">
-                        <button matButton (click)="filter()">Szukaj</button>
-                        <mat-form-field class="example-full-width">
+                <form class="form" [formGroup]="formGroup">
+                        <div class="buttons">
+                                <button mat-raised-button color="primary" (click)="filter()">Szukaj</button>
+                                <button mat-raised-button color="primary" (click)="clear()">Wyczyść</button>
+                        </div>
+                        <mat-form-field class="full-width">
                                 <input matInput placeholder="Nazwa" formControlName="name">
                         </mat-form-field>
-                        <mat-form-field>
+                        <mat-form-field class="full-width">
                                 <mat-label>Województwo</mat-label>
                                 <mat-select formControlName="province">
                                         <mat-option>-</mat-option>
@@ -13,22 +16,22 @@
                                         </mat-option>
                                 </mat-select>
                         </mat-form-field>
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="full-width">
                                 <input matInput placeholder="Miasto" formControlName="city">
                         </mat-form-field>
-                        <mat-form-field class="example-full-width">
-                                <input [type]="number" matInput placeholder="Minimalny koszt od osoby"
+                        <mat-form-field class="full-width">
+                                <input type="number" matInput placeholder="Minimalny koszt od osoby"
                                         formControlName="minCostPerPerson">
                         </mat-form-field>
-                        <mat-form-field class="example-full-width">
-                                <input [type]="number" matInput placeholder="Maksymalny koszt od osoby"
+                        <mat-form-field class="full-width">
+                                <input type="number" matInput placeholder="Maksymalny koszt od osoby"
                                         formControlName="maxCostPerPerson">
                         </mat-form-field>
-                        <mat-form-field class="example-full-width">
-                                <input [type]="number" matInput placeholder="Minimmalna pojemność"
+                        <mat-form-field class="full-width">
+                                <input type="number" matInput placeholder="Minimmalna pojemność"
                                         formControlName="minCapacity">
                         </mat-form-field>
-                        <mat-form-field>
+                        <mat-form-field class="full-width">
                                 <mat-label>Okazja</mat-label>
                                 <mat-select formControlName="occassion">
                                         <mat-option>-</mat-option>

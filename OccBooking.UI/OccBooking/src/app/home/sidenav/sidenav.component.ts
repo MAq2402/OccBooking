@@ -19,15 +19,7 @@ export class SidenavComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private sidenavService: SidenavService) { }
 
   ngOnInit() {
-    this.formGroup = this.formBuilder.group({
-      name: ['', Validators.nullValidator],
-      province: ['', Validators.nullValidator],
-      city: ['', Validators.nullValidator],
-      minCostPerPerson: ['', Validators.nullValidator],
-      maxCostPerPerson: ['', Validators.nullValidator],
-      minCapacity: ['', Validators.nullValidator],
-      occassion: ['', Validators.nullValidator]
-    });
+    this.initFromGroup();
   }
 
   filter() {
@@ -41,5 +33,22 @@ export class SidenavComponent implements OnInit {
       occassionType: this.formGroup.controls.occassion.value,
     };
     this.sidenavService.announceFiltering(model);
+  }
+
+  clear() {
+    this.formGroup.reset();
+    this.initFromGroup();
+  }
+
+  private initFromGroup() {
+    this.formGroup = this.formBuilder.group({
+      name: ['', Validators.nullValidator],
+      province: ['', Validators.nullValidator],
+      city: ['', Validators.nullValidator],
+      minCostPerPerson: ['', Validators.nullValidator],
+      maxCostPerPerson: ['', Validators.nullValidator],
+      minCapacity: ['', Validators.nullValidator],
+      occassion: ['', Validators.nullValidator]
+    });
   }
 }
