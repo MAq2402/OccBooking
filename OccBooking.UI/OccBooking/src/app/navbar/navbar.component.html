@@ -15,39 +15,15 @@
           <span class="user" *ngIf="currentUser">{{currentUser.firstName}} {{currentUser.lastName}}</span>
           <mat-icon>person</mat-icon>
         </button>
-        <!-- <mat-menu #places="matMenu">
-          <ng-template matMenuContent let-menuPlaces="places">
-            <button (click)="placeClicked(place)" *ngFor="let place of menuPlaces" mat-menu-item>{{place.name}}</button>
-          </ng-template>
-        </mat-menu> 
-        <mat-menu #menu="matMenu">
-          <button (click)="logOut()" mat-menu-item>Wyloguj się</button>
-          <button mat-menu-item [matMenuTriggerFor]="places" [matMenuTriggerData]="menuData">Zarządzaj</button>
-        </mat-menu> -->
-
         <mat-menu #menu="matMenu">
           <ng-container>
               <button (click)="logOut()" mat-menu-item>Wyloguj się</button>
               <button mat-menu-item [matMenuTriggerFor]="sub_menu">Zarządzaj</button>
             <mat-menu #sub_menu="matMenu">
-              <button *ngFor="let place of places" mat-menu-item>{{ place.name }}</button>
+              <button (click)="navigateToPlace(place.id)" *ngFor="let place of places" mat-menu-item>{{ place.name }}</button>
             </mat-menu>
           </ng-container>
         </mat-menu>
-
-        <!-- <mat-menu #menu="matMenu">
-          <button [matMenuTriggerFor]="appmenu" [matMenuTriggerData]="menuData">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-        </mat-menu>
-        <mat-menu #appmenu="matMenu">
-          <ng-template matMenuContent let-aliasMenuItems="menuItems">
-            <button mat-menu-item *ngFor="let item of aliasMenuItems">
-              Item {{item.code}}: {{item.name}}
-            </button>
-          </ng-template>
-        </mat-menu> -->
-      </li>
       <li *ngIf="!isLoggedIn()" class="nav-item">
         <a class="nav-link" routerLink="/register">
           Zarejestruj się

@@ -1,27 +1,28 @@
-import { Component, OnInit, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/services/auth.service';
 import { UserModel } from '../auth/models/user.model';
 import { PlaceModel } from '../owner/models/place.model';
 import { PlaceService } from '../owner/services/place.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit, AfterViewInit {
+export class NavbarComponent implements OnInit {
 
   currentUser: UserModel;
   places: PlaceModel[];
   menuData: any;
 
-  constructor(private authService: AuthService, private placeService: PlaceService) { }
+  constructor(private authService: AuthService, private placeService: PlaceService, private router: Router) { }
 
   ngOnInit() {
     this.menuData = {
       menuItems: [
-        {code: '1', name: 'first'},
-        {code: '2', name: 'second'}
+        { code: '1', name: 'first' },
+        { code: '2', name: 'second' }
       ]
     };
     this.getCurrentUser();
@@ -35,8 +36,6 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       this.currentUser = user;
       this.placeService.getPlacesByOwner(this.currentUser.ownerId).subscribe(places => {
         this.places = places;
-        console.log(places);
-        console.log(this.places);
       });
     });
   }
@@ -49,18 +48,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     this.authService.logOut();
   }
 
-  placeClicked(place: PlaceModel) {
-    console.log(place);
-  }
-
-  ngAfterViewInit(): void {
-    // this.authService.getCurrentUser().subscribe(user => {
-    //   this.currentUser = user;
-    //   this.placeService.getPlacesByOwner(this.currentUser.ownerId).subscribe(places => {
-    //     this.places = places;
-    //     console.log(places);
-    //     console.log(this.places);
-    //   });
-    // });
+  navigateToPlace(placeId: string) {
+    this.router.navigate(['/owner/place-management', placeId]);
   }
 }
