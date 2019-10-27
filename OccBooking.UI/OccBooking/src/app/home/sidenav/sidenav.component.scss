@@ -21,14 +21,16 @@ mat-sidenav {
   border-top: 2px solid $primary-color-darker;
 }
 
-.example-form {
+form {
   min-width: 150px;
   max-width: 500px;
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
 }
 
-.example-full-width {
+.full-width {
   width: 100%;
+
 }
 
 ::ng-deep .mat-focused .mat-form-field-label {
@@ -67,4 +69,11 @@ mat-sidenav {
 
 ::ng-deep .mat-select-value-text {
   color: white !important;
+}
+
+.buttons {
+  margin-top: 5px;
+  button {
+    margin-right: 10px;
+  }
 }
