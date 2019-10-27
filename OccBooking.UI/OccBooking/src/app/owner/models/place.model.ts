@@ -1,4 +1,5 @@
 export class PlaceModel {
+    id: string;
     name: string;
     hasRooms: boolean;
     costPerPerson: number;

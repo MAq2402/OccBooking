@@ -12,6 +12,6 @@ namespace OccBooking.Application.Queries
         {
             PlaceFilter = placeFilterDto;
         }
-        public PlaceFilterDto PlaceFilter { get; private set; }
+        public PlaceFilterDto PlaceFilter { get; }
     }
 }

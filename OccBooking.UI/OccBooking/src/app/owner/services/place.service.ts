@@ -32,4 +32,8 @@ export class PlaceService {
       return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`);
     }
   }
+
+  getPlacesByOwner(ownerId: string): Observable<PlaceModel[]> {
+    return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}${ownerId}/places`);
+  }
 }
