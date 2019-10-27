@@ -16,9 +16,14 @@
           <mat-icon>person</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button (click)="logOut()" mat-menu-item>Wyloguj się</button>
+          <ng-container>
+              <button (click)="logOut()" mat-menu-item>Wyloguj się</button>
+              <button mat-menu-item [matMenuTriggerFor]="sub_menu">Zarządzaj</button>
+            <mat-menu #sub_menu="matMenu">
+              <button (click)="navigateToPlace(place.id)" *ngFor="let place of places" mat-menu-item>{{ place.name }}</button>
+            </mat-menu>
+          </ng-container>
         </mat-menu>
-      </li>
       <li *ngIf="!isLoggedIn()" class="nav-item">
         <a class="nav-link" routerLink="/register">
           Zarejestruj się

@@ -10,6 +10,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
       MatSelectModule,
       MatCheckboxModule,
       MatProgressSpinnerModule,
-      MatSidenavModule
+      MatSidenavModule,
+      MatDialogModule
   ],
   exports: [
       MatButtonModule,
@@ -37,7 +39,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
       MatSelectModule,
       MatCheckboxModule,
       MatProgressSpinnerModule,
-      MatSidenavModule
+      MatSidenavModule,
+      MatDialogModule
   ]
 })
 export class MaterialModule { }

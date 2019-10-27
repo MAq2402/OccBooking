@@ -12,12 +12,16 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
+            if ((this.isDataManipulatingRequest(req)) && error.status === 401) {
                 this.authService.logOut();
                 this.router.navigateByUrl('');
                 console.log('Token has expired');
             }
-            return throwError(error.error.message);
+            return throwError(error);
         }));
+    }
+
+    private isDataManipulatingRequest(req: HttpRequest<any>): boolean {
+        return req.method === 'POST' || req.method === 'DELETE' || req.method === 'PUT';
     }
 }

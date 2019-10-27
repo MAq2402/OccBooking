@@ -1,6 +1,9 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/services/auth.service';
 import { UserModel } from '../auth/models/user.model';
+import { PlaceModel } from '../owner/models/place.model';
+import { PlaceService } from '../owner/services/place.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -10,16 +13,31 @@ import { UserModel } from '../auth/models/user.model';
 export class NavbarComponent implements OnInit {
 
   currentUser: UserModel;
+  places: PlaceModel[];
+  menuData: any;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private placeService: PlaceService, private router: Router) { }
 
   ngOnInit() {
+    this.menuData = {
+      menuItems: [
+        { code: '1', name: 'first' },
+        { code: '2', name: 'second' }
+      ]
+    };
     this.getCurrentUser();
-    this.authService.newUserAnnounced$.subscribe(() => this.getCurrentUser());
+    this.authService.newUserAnnounced$.subscribe(() => {
+      this.getCurrentUser();
+    });
   }
 
   private getCurrentUser() {
-    this.authService.getCurrentUser().subscribe(user => this.currentUser = user);
+    this.authService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+      this.placeService.getPlacesByOwner(this.currentUser.ownerId).subscribe(places => {
+        this.places = places;
+      });
+    });
   }
 
   isLoggedIn(): boolean {
@@ -28,5 +46,9 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     this.authService.logOut();
+  }
+
+  navigateToPlace(placeId: string) {
+    this.router.navigate(['/owner/place-management', placeId]);
   }
 }

@@ -13,6 +13,8 @@ import { OwnerModule } from './owner/owner.module';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SidenavComponent } from './home/sidenav/sidenav.component';
 import { PlaceCardComponent } from './home/place-card/place-card.component';
+import { PlaceDetailsComponent } from "./place-details/place-details.component";
+import { MakeReservationDialogComponent } from './place-details/make-reservation-dialog/make-reservation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { PlaceCardComponent } from './home/place-card/place-card.component';
     NavbarComponent,
     SpinnerComponent,
     SidenavComponent,
-    PlaceCardComponent
+    PlaceCardComponent,
+    PlaceDetailsComponent,
+    MakeReservationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +39,7 @@ import { PlaceCardComponent } from './home/place-card/place-card.component';
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [MakeReservationDialogComponent]
 })
 export class AppModule { }

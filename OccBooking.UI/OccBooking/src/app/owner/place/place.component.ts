@@ -43,6 +43,7 @@ export class PlaceComponent implements OnInit {
 
   submit() {
     const model: PlaceModel = {
+      id: null,
       name: this.baseInfromationFormGroup.controls['name'].value,
       hasRooms: this.baseInfromationFormGroup.controls['hasRooms'].value,
       costPerPerson: this.baseInfromationFormGroup.controls['costPerPerson'].value,

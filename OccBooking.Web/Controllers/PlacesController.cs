@@ -28,6 +28,15 @@ namespace OccBooking.Web.Controllers
         }
 
         [Authorize]
+        [HttpGet("{ownerId}/places")]
+        public async Task<IActionResult> GetOwnerPlacesAsync(string ownerId)
+        {
+            var result = await _dispatcher.DispatchAsync(new GetOwnerPlacesQuery(new Guid(ownerId)));
+
+            return Ok(result.Value);
+        }
+
+        [Authorize]
         [HttpPost("{ownerId}/places")]
         public async Task<IActionResult> CreatePlaceAsync(string ownerId, PlaceForCreationDto model)
         {

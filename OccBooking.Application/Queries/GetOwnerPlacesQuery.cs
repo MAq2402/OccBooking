@@ -6,13 +6,13 @@ using OccBooking.Common.Types;
 
 namespace OccBooking.Application.Queries
 {
-    public class GetUserQuery : IQuery<UserDto>
+    public class GetOwnerPlacesQuery : IQuery<IEnumerable<PlaceDto>>
     {
-        public GetUserQuery(string id)
+        public GetOwnerPlacesQuery(Guid ownerId)
         {
-            Id = id;
+            OwnerId = ownerId;
         }
 
-        public string Id { get; }
+        public Guid OwnerId { get; }
     }
 }
