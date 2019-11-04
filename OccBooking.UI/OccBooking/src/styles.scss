@@ -1,6 +1,50 @@
-@import './theme.scss';
+@import "./theme.scss";
 
 .mat-card {
-    margin-left: 10px;
-    margin-right: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav-form {
+  .mat-focused .mat-form-field-label {
+    color: white !important;
+  }
+
+  .mat-form-field-underline {
+    background-color: white !important;
+  }
+
+  .mat-form-field-ripple {
+    background-color: white !important;
+  }
+
+  .mat-form-field-infix {
+    color: white !important;
+  }
+
+  .mat-form-field-empty.mat-form-field-label {
+    color: white;
+    caret-color: white;
+  }
+
+  .mat-input-element {
+    color: white !important;
+    caret-color: white !important;
+  }
+
+  .mat-form-field-label {
+    color: white !important;
+  }
+
+  .mat-select-arrow {
+    color: white !important;
+  }
+
+  .mat-select-value-text {
+    color: white !important;
+  }
 }

@@ -32,44 +32,6 @@ form {
   width: 100%;
 }
 
-::ng-deep .mat-focused .mat-form-field-label {
-  color: white !important;
- }
-
- ::ng-deep .mat-form-field-underline {
-  background-color: white !important;
-} 
-
-::ng-deep .mat-form-field-ripple {
- background-color: white !important;;
-}
-
-::ng-deep .mat-form-field-infix {
-  color: white !important;
-}
-
-::ng-depp .mat-form-field-empty.mat-form-field-label {
-  color: white;
-  caret-color: white;
-}
-
-::ng-deep .mat-input-element {
-  color: white !important;
-  caret-color: white !important;
-}
-
-::ng-deep .mat-form-field-label{
-  color:white !important;
-}
-
-::ng-deep .mat-select-arrow {
-  color:white !important;
-}
-
-::ng-deep .mat-select-value-text {
-  color: white !important;
-}
-
 .buttons {
   margin-top: 5px;
   button {
