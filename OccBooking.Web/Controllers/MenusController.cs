@@ -37,8 +37,7 @@ namespace OccBooking.Web.Controllers
         [Route("menus/ingredients")]
         public async Task<IActionResult> GetIngredientsAsync()
         {
-            var result = await _dispatcher.DispatchAsync(new IngredientsQuery());
-            return Ok(result.Value);
+            return FromCollection(await _dispatcher.DispatchAsync(new IngredientsQuery()));
         }
     }
 }

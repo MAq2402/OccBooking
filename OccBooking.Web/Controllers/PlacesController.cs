@@ -35,9 +35,7 @@ namespace OccBooking.Web.Controllers
         [HttpGet("places/{placeId}")]
         public async Task<IActionResult> GetPlaceAsync(string placeId)
         {
-            var result = await _dispatcher.DispatchAsync(new GetPlaceQuery(new Guid(placeId)));
-
-            return result.IsSuccess ? (IActionResult) Ok(result.Value) : NotFound(result.Error);
+            return FromSingle(await _dispatcher.DispatchAsync(new GetPlaceQuery(new Guid(placeId))));
         }
 
         [Authorize]

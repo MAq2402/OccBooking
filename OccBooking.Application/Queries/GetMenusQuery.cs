@@ -13,6 +13,7 @@ namespace OccBooking.Application.Queries
         {
             PlaceId = placeId;
         }
+
         public Guid PlaceId { get; }
     }
 }

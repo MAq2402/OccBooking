@@ -20,6 +20,7 @@ namespace OccBooking.Application.Handlers.Base
             _dbContext = dbContext;
             _mapper = mapper;
         }
+
         public abstract Task<Result<TResult>> HandleAsync(TQuery query);
     }
 }
