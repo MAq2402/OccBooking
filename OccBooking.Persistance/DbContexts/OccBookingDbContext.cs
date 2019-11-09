@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Domain.Entities;
 using OccBooking.Persistance.Entities;
+using OccBooking.Persistance.Extensions;
 
 namespace OccBooking.Persistance.DbContexts
 {
@@ -20,14 +21,16 @@ namespace OccBooking.Persistance.DbContexts
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Meal> Meals { get; set; }
-        public DbSet<HallJoin> HallJoins{ get; set; }
+        public DbSet<HallJoin> HallJoins { get; set; }
         public DbSet<Hall> Halls { get; set; }
         public DbSet<HallReservation> HallReservations { get; set; }
         public DbSet<User> OccBookingUsers { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(OccBookingDbContext)));
+            modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);
         }

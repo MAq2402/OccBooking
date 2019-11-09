@@ -15,6 +15,7 @@ import { SidenavComponent } from './home/sidenav/sidenav.component';
 import { PlaceCardComponent } from './home/place-card/place-card.component';
 import { PlaceDetailsComponent } from "./place-details/place-details.component";
 import { MakeReservationDialogComponent } from './place-details/make-reservation-dialog/make-reservation-dialog.component';
+import { CreateMenuDialogComponent } from './owner/place-management/create-menu-dialog/create-menu-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,6 @@ import { MakeReservationDialogComponent } from './place-details/make-reservation
   schemas: [NO_ERRORS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [MakeReservationDialogComponent]
+  entryComponents: [MakeReservationDialogComponent, CreateMenuDialogComponent]
 })
 export class AppModule { }

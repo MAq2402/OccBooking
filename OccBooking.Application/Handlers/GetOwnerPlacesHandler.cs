@@ -7,24 +7,20 @@ using AutoMapper;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.DTOs;
+using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Hanlders;
 using OccBooking.Persistance.DbContexts;
 
 namespace OccBooking.Application.Handlers
 {
-    public class GetOwnerPlacesHandler : IQueryHandler<GetOwnerPlacesQuery, IEnumerable<PlaceDto>>
+    public class GetOwnerPlacesHandler : QueryHandler<GetOwnerPlacesQuery, IEnumerable<PlaceDto>>
     {
-        private OccBookingDbContext _dbContext;
-        private IMapper _mapper;
-
-        public GetOwnerPlacesHandler(OccBookingDbContext dbContext, IMapper mapper)
+        public GetOwnerPlacesHandler(OccBookingDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
         }
 
-        public async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetOwnerPlacesQuery query)
+        public override async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetOwnerPlacesQuery query)
         {
             var places = _dbContext.Places.Include(p => p.Owner).Where(p => p.Owner.Id == query.OwnerId);
 

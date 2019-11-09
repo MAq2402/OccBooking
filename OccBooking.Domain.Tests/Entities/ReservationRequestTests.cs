@@ -168,7 +168,7 @@ namespace OccBooking.Domain.Tests.Entities
             int expected)
         {
             var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vege", MenuType.Vegetarian, menuCost, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vege", MenuType.Vegetarian, menuCost);
             var options = new PlaceAdditionalOptions(Enumerable.Empty<PlaceAdditionalOption>());
             foreach (var optionCost in optionsCosts)
             {

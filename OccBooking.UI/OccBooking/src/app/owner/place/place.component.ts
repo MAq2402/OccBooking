@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PlaceService } from '../services/place.service';
-import { PlaceModel } from '../models/place.model';
+import { PlaceModel } from '../../models/place.model';
 import { UserModel } from 'src/app/auth/models/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { provinces } from 'src/app/shared/provinces';
+import { PlaceService } from 'src/app/services/place.service';
 
 @Component({
   selector: 'app-place',

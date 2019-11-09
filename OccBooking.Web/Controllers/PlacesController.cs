@@ -13,8 +13,7 @@ namespace OccBooking.Web.Controllers
 {
     [Route("api")]
     public class PlacesController : BaseController
-    { 
-    
+    {
         public PlacesController(IDispatcher dispatcher) : base(dispatcher)
         {
         }
@@ -22,29 +21,30 @@ namespace OccBooking.Web.Controllers
         [HttpGet("places")]
         public async Task<IActionResult> GetPlacesAsync([FromQuery] PlaceFilterDto dto)
         {
-            var result = await _dispatcher.DispatchAsync(new GetPlacesQuery(dto));
-
-            return Ok(result.Value);
+            return FromCollection(await _dispatcher.DispatchAsync(new GetPlacesQuery(dto)));
         }
 
         [Authorize]
         [HttpGet("{ownerId}/places")]
         public async Task<IActionResult> GetOwnerPlacesAsync(string ownerId)
         {
-            var result = await _dispatcher.DispatchAsync(new GetOwnerPlacesQuery(new Guid(ownerId)));
+            return FromCollection(await _dispatcher.DispatchAsync(new GetOwnerPlacesQuery(new Guid(ownerId))));
+        }
 
-            return Ok(result.Value);
+
+        [HttpGet("places/{placeId}")]
+        public async Task<IActionResult> GetPlaceAsync(string placeId)
+        {
+            return FromSingle(await _dispatcher.DispatchAsync(new GetPlaceQuery(new Guid(placeId))));
         }
 
         [Authorize]
         [HttpPost("{ownerId}/places")]
         public async Task<IActionResult> CreatePlaceAsync(string ownerId, PlaceForCreationDto model)
         {
-            var result = await _dispatcher.DispatchAsync(new CreatePlaceCommand(model.Name, model.HasRooms,
+            return FromCreation(await _dispatcher.DispatchAsync(new CreatePlaceCommand(model.Name, model.HasRooms,
                 model.CostPerPerson, model.Description, model.Street, model.City, model.ZipCode, model.Province,
-                new Guid(ownerId)));
-
-            return result.IsSuccess ? (IActionResult) CreatedAtRoute(null, null) : BadRequest(result.Error);
+                new Guid(ownerId))));
         }
     }
 }

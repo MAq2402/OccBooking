@@ -8,6 +8,7 @@ using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Extensions;
+using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Hanlders;
 using OccBooking.Domain.Entities;
@@ -15,18 +16,13 @@ using OccBooking.Persistance.DbContexts;
 
 namespace OccBooking.Application.Handlers
 {
-    public class GetPlacesHandler : IQueryHandler<GetPlacesQuery, IEnumerable<PlaceDto>>
+    public class GetPlacesHandler : QueryHandler<GetPlacesQuery, IEnumerable<PlaceDto>>
     {
-        private OccBookingDbContext _dbContext;
-        private IMapper _mapper;
-
-        public GetPlacesHandler(OccBookingDbContext dbContext, IMapper mapper)
+        public GetPlacesHandler(OccBookingDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
         }
 
-        public async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetPlacesQuery query)
+        public override async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetPlacesQuery query)
         {
             var places = _dbContext.Places.AsQueryable();
             if (query.PlaceFilter != null)

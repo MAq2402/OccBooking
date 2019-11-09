@@ -1,0 +1,47 @@
+<div class="dialog">
+    <h1 mat-dialog-title>Stwórz menu</h1>
+    <div mat-dialog-content>
+        <form [formGroup]="formGroup">
+            <mat-form-field class="col-sm-12">
+                <input formControlName="name" matInput placeholder="Nazwa">
+            </mat-form-field>
+            <mat-form-field class="col-sm-12">
+                <input formControlName="costPerPerson" matInput placeholder="Cena na osobę">
+            </mat-form-field>
+            <mat-form-field class="col-sm-12">
+                <mat-label>Typ</mat-label>
+                <mat-select formControlName="type">
+                    <mat-option *ngFor="let type of types" [value]="type.id">
+                        {{type.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-sm-12">
+                <textarea matInput placeholder="Opis" formControlName="description"></textarea>
+            </mat-form-field>
+            <!-- <mat-form-field class="col-sm-12">
+                <input formControlName="mealName" type="number" matInput placeholder="Nazwa posiłku">
+            </mat-form-field>
+            <mat-form-field class="col-sm-12">
+                <mat-label>Typ posiłku</mat-label>
+                <mat-select formControlName="type">
+                    <mat-option *ngFor="let mealType of mealTypes" [value]="mealType.id">
+                        {{mealType.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-sm-12">
+                <mat-label>Składniki</mat-label>
+                <mat-select formControlName="ingredients" multiple>
+                    <mat-option *ngFor="let ingredient of ingredients" [value]="ingredient.name">
+                        {{ingredient.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="close()">Zamknij</button>
+        <button mat-button (click)="submit()">Zawtwierdź</button>
+    </div>
+</div>
