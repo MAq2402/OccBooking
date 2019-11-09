@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/services/auth.service';
 import { UserModel } from '../auth/models/user.model';
-import { PlaceModel } from '../owner/models/place.model';
-import { PlaceService } from '../owner/services/place.service';
+import { PlaceModel } from '../models/place.model';
 import { Router } from '@angular/router';
+import { PlaceService } from '../services/place.service';
 
 @Component({
   selector: 'app-navbar',

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PlaceModel } from 'src/app/owner/models/place.model';
+import { PlaceModel } from 'src/app/models/place.model';
 declare var require: any;
 
 @Component({

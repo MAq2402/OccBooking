@@ -347,6 +347,31 @@ namespace OccBooking.Persistance.Migrations
                     b.ToTable("ReservationRequests");
                 });
 
+            modelBuilder.Entity("OccBooking.Persistance.Entities.Ingredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ingredients");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Fasola"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Ziemniaki"
+                        });
+                });
+
             modelBuilder.Entity("OccBooking.Persistance.Entities.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");

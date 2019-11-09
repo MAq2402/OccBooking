@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http'
-import { PlaceModel } from '../models/place.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/auth/services/auth.service';
 import { PlaceFilterModel } from 'src/app/home/models/place-filter.model';
+import { PlaceModel } from '../models/place.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaceService {
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
   createPlace(ownerId: string, model: PlaceModel): Observable<any> {
     return this.http.post<any>(`${environment.WEB_API_ENDPOINT}${ownerId}/places`, model);
@@ -35,5 +34,9 @@ export class PlaceService {
 
   getPlacesByOwner(ownerId: string): Observable<PlaceModel[]> {
     return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}${ownerId}/places`);
+  }
+
+  getPlace(placeId: string): Observable<PlaceModel> {
+    return this.http.get<PlaceModel>(`${environment.WEB_API_ENDPOINT}places/${placeId}`);
   }
 }

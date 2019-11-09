@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PlaceService } from '../owner/services/place.service';
-import { PlaceModel } from '../owner/models/place.model';
+import { PlaceModel } from '../models/place.model';
 import { SidenavService } from './services/sidenav.service';
+import { PlaceService } from '../services/place.service';
 
 @Component({
   selector: 'app-home',

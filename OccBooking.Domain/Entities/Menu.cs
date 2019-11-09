@@ -10,17 +10,15 @@ namespace OccBooking.Domain.Entities
     {
         private List<Meal> meals = new List<Meal>();
 
-        public Menu(Guid id, string name, MenuType type, decimal costForPerson, IEnumerable<Meal> meals) : base(id)
+        public Menu(Guid id, string name, MenuType type, decimal costForPerson) : base(id)
         {
             SetName(name);
             SetType(type);
             SetCostForPerson(costForPerson);
-            SetMeals(meals);
         }
 
         private Menu()
         {
-
         }
 
         public IEnumerable<Meal> Meals => meals.AsReadOnly();
@@ -29,14 +27,14 @@ namespace OccBooking.Domain.Entities
         public decimal CostPerPerson { get; private set; }
         public Place Place { get; private set; }
 
-        private void SetMeals(IEnumerable<Meal> meals)
+        public void AddMeal(Meal meal)
         {
-            if (!meals.Any())
+            if (meal == null)
             {
-                throw new DomainException("Menu without meals can not be created");
+                throw new DomainException("Meal has not been provided");
             }
 
-            this.meals = meals.ToList();
+            meals.Add(meal);
         }
 
         private void SetType(MenuType type)

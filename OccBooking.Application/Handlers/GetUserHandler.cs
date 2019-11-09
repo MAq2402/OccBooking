@@ -7,6 +7,7 @@ using AutoMapper;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.DTOs;
+using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Hanlders;
 using OccBooking.Persistance.DbContexts;
@@ -14,18 +15,13 @@ using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Application.Handlers
 {
-    public class GetUserHandler : IQueryHandler<GetUserQuery, UserDto>
+    public class GetUserHandler : QueryHandler<GetUserQuery, UserDto>
     {
-        private OccBookingDbContext _dbContext;
-        private IMapper _mapper;
-
-        public GetUserHandler(OccBookingDbContext dbContext, IMapper mapper)
+        public GetUserHandler(OccBookingDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
         }
 
-        public async Task<Result<UserDto>> HandleAsync(GetUserQuery query)
+        public override async Task<Result<UserDto>> HandleAsync(GetUserQuery query)
         {
             var user = await _dbContext.OccBookingUsers.Include(u => u.Owner)
                 .FirstOrDefaultAsync(u => u.Id == query.Id);

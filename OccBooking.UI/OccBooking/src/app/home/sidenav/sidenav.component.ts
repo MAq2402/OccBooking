@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { provinces } from 'src/app/shared/provinces';
 import { occassions } from 'src/app/shared/occasions';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PlaceService } from 'src/app/owner/services/place.service';
 import { SidenavService } from '../services/sidenav.service';
 import { PlaceFilterModel } from '../models/place-filter.model';
 

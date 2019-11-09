@@ -13,6 +13,10 @@
     <Compile Remove="Migrations\20190809111047_Init.Designer.cs" />
     <Compile Remove="Migrations\20190809112912_Init.cs" />
     <Compile Remove="Migrations\20190809112912_Init.Designer.cs" />
+    <Compile Remove="Migrations\20191109100932_IngredientsPotates.cs" />
+    <Compile Remove="Migrations\20191109100932_IngredientsPotates.Designer.cs" />
+    <Compile Remove="Migrations\20191109112105_MenuChanges.cs" />
+    <Compile Remove="Migrations\20191109112105_MenuChanges.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

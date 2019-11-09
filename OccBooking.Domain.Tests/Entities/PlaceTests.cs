@@ -35,9 +35,8 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AssignMenuShouldWork()
         {
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
 
             place.AssignMenu(menu);
 
@@ -105,8 +104,7 @@ namespace OccBooking.Domain.Tests.Entities
                 place.AddHall(hall);
             }
 
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.SupportAdditionalOption(new PlaceAdditionalOption("Photos", 100));
             place.AssignMenu(menu);
@@ -129,12 +127,10 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotHaveGivenMenu()
         {
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
             var hall = new Hall(Guid.NewGuid(), 100);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() {meal});
-            var menuForReservation = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100,
-                new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
+            var menuForReservation = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var amountOfPeopleForReservation = 50;
 
             place.AllowParty(OccasionType.Wedding);
@@ -159,10 +155,9 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotSupportSuchParty()
         {
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
             var hall = new Hall(Guid.NewGuid(), 100);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var amountOfPeopleForReservation = 50;
 
             place.AllowParty(OccasionType.Wedding);
@@ -187,10 +182,9 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotSupportOption()
         {
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
             var hall = new Hall(Guid.NewGuid(), 100);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var amountOfPeopleForReservation = 50;
 
             place.AllowParty(OccasionType.Wedding);
@@ -223,8 +217,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall1 = new Hall(Guid.NewGuid(), hallSize1);
             var hall2 = new Hall(Guid.NewGuid(), hallSize2);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);
@@ -267,8 +260,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall2 = new Hall(Guid.NewGuid(), hallSize2);
             var hall3 = new Hall(Guid.NewGuid(), hallSize3);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);
@@ -308,8 +300,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall1 = new Hall(Guid.NewGuid(), hallSize1);
             var hall2 = new Hall(Guid.NewGuid(), hallSize2);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);
@@ -359,8 +350,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall1 = new Hall(Guid.NewGuid(), 30);
             var hall2 = new Hall(Guid.NewGuid(), 30);
             var hall3 = new Hall(Guid.NewGuid(), 30);
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);
@@ -418,8 +408,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall1 = new Hall(Guid.NewGuid(), 30);
             var hall2 = new Hall(Guid.NewGuid(), 30);
             var hall3 = new Hall(Guid.NewGuid(), 30);
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);
@@ -476,8 +465,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall1 = new Hall(Guid.NewGuid(), 30);
             var hall2 = new Hall(Guid.NewGuid(), 30);
             var hall3 = new Hall(Guid.NewGuid(), 30);
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);
@@ -533,8 +521,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall1 = new Hall(Guid.NewGuid(), 30);
             var hall2 = new Hall(Guid.NewGuid(), 30);
             var hall3 = new Hall(Guid.NewGuid(), 30);
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);
@@ -589,8 +576,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall1 = new Hall(Guid.NewGuid(), 30);
             var hall2 = new Hall(Guid.NewGuid(), 30);
             var hall3 = new Hall(Guid.NewGuid(), 30);
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost, new List<Meal>() {meal});
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);

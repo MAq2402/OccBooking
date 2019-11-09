@@ -6,6 +6,11 @@ namespace OccBooking.Domain.Enums
 {
     public enum MealType
     {
-        Main
+        Soup,
+        Main,
+        Dessert,
+        Appetizer,
+        ColdPlate,
+        Dinner,
     }
 }
