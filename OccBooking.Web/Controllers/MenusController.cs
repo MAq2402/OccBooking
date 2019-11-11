@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OccBooking.Application.Commands;
 using OccBooking.Application.DTOs;
@@ -21,14 +22,15 @@ namespace OccBooking.Web.Controllers
         [Route("{placeId}/menus")]
         public async Task<IActionResult> GetMenus(string placeId)
         {
-            return FromCollection(await _dispatcher.DispatchAsync(new GetMenusQuery(new Guid(placeId))));
+            return FromCollection(await QueryAsync(new GetMenusQuery(new Guid(placeId))));
         }
 
         [HttpPost]
+        [Authorize]
         [Route("{placeId}/menus")]
         public async Task<IActionResult> CreateMenu(string placeId, [FromBody] MenuForCreationDto menu)
         {
-            return FromCreation(await _dispatcher.DispatchAsync(new AssignMenuCommand(new Guid(placeId), menu.Name,
+            return FromCreation(await CommandAsync(new AssignMenuCommand(new Guid(placeId), menu.Name,
                 menu.Type,
                 menu.CostPerPerson)));
         }
@@ -37,7 +39,7 @@ namespace OccBooking.Web.Controllers
         [Route("menus/ingredients")]
         public async Task<IActionResult> GetIngredientsAsync()
         {
-            return FromCollection(await _dispatcher.DispatchAsync(new IngredientsQuery()));
+            return FromCollection(await QueryAsync(new IngredientsQuery()));
         }
     }
 }

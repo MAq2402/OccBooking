@@ -21,30 +21,38 @@ namespace OccBooking.Web.Controllers
         [HttpGet("places")]
         public async Task<IActionResult> GetPlacesAsync([FromQuery] PlaceFilterDto dto)
         {
-            return FromCollection(await _dispatcher.DispatchAsync(new GetPlacesQuery(dto)));
+            return FromCollection(await QueryAsync(new GetPlacesQuery(dto)));
         }
 
         [Authorize]
         [HttpGet("{ownerId}/places")]
         public async Task<IActionResult> GetOwnerPlacesAsync(string ownerId)
         {
-            return FromCollection(await _dispatcher.DispatchAsync(new GetOwnerPlacesQuery(new Guid(ownerId))));
+            return FromCollection(await QueryAsync(new GetOwnerPlacesQuery(new Guid(ownerId))));
         }
 
 
         [HttpGet("places/{placeId}")]
         public async Task<IActionResult> GetPlaceAsync(string placeId)
         {
-            return FromSingle(await _dispatcher.DispatchAsync(new GetPlaceQuery(new Guid(placeId))));
+            return FromSingle(await QueryAsync(new GetPlaceQuery(new Guid(placeId))));
         }
 
         [Authorize]
         [HttpPost("{ownerId}/places")]
         public async Task<IActionResult> CreatePlaceAsync(string ownerId, PlaceForCreationDto model)
         {
-            return FromCreation(await _dispatcher.DispatchAsync(new CreatePlaceCommand(model.Name, model.HasRooms,
+            return FromCreation(await CommandAsync(new CreatePlaceCommand(model.Name, model.HasRooms,
                 model.CostPerPerson, model.Description, model.Street, model.City, model.ZipCode, model.Province,
                 new Guid(ownerId))));
+        }
+
+        [Authorize]
+        [HttpPost("places/{placeId}/additionalOptions")]
+        public async Task<IActionResult> AddOptionsForPlaceAsync(string placeId,
+            [FromBody] AdditionalOptionForCreationDto dto)
+        {
+            return FromCreation(await CommandAsync(new AddOptionCommand(dto.Name, dto.Cost, new Guid(placeId))));
         }
     }
 }

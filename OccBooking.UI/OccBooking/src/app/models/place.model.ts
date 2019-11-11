@@ -1,3 +1,5 @@
+import { AdditionalOptionModel } from './additional-option.model';
+
 export class PlaceModel {
     id: string;
     name: string;
@@ -8,4 +10,5 @@ export class PlaceModel {
     city: string;
     zipCode: string;
     province: string;
+    additionalOptions: AdditionalOptionModel[];
 }

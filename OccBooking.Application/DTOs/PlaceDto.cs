@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Application.DTOs
 {
@@ -15,5 +16,6 @@ namespace OccBooking.Application.DTOs
         public string City { get; set; }
         public string ZipCode { get; set; }
         public string Province { get; set; }
+        public IEnumerable<AdditionalOptionDto> AdditionalOptions { get; set; }
     }
 }

@@ -33,6 +33,16 @@
                 </mat-list-item>
                 <mat-divider></mat-divider>
             </mat-list>
+            <mat-list>
+                <h3 mat-subheader>Dodatkowe opcje<span class="spacer"></span><button mat-icon-button>
+                        <mat-icon (click)="createAdditionalOption()" color="primary">add</mat-icon>
+                    </button></h3>
+                <mat-list-item *ngFor="let option of place?.additionalOptions">
+                    <mat-icon mat-list-icon>restaurant_menu</mat-icon>
+                    <h4 mat-line>{{option.name}} - {{option.cost}}zł</h4>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </mat-list>
         </mat-card-content>
     </mat-card>
 </div>

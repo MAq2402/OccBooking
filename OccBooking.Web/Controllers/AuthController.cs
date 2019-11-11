@@ -24,7 +24,7 @@ namespace OccBooking.Web.Controllers
             var command = new RegisterCommand(model.FirstName, model.LastName, model.Email, model.PhoneNumber,
                 model.UserName, model.Password, model.ConfirmPassword);
 
-            var result = await _dispatcher.DispatchAsync(command);
+            var result = await CommandAsync(command);
 
             if (result.IsFailure)
             {
@@ -39,7 +39,7 @@ namespace OccBooking.Web.Controllers
         {
             var query = new LoginQuery(model.UserName, model.Password);
 
-            var result = await _dispatcher.DispatchAsync(query);
+            var result = await QueryAsync(query);
 
             if (result.IsFailure)
             {
@@ -55,7 +55,7 @@ namespace OccBooking.Web.Controllers
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == Constants.UserId)?.Value;
 
-            var result = await _dispatcher.DispatchAsync(new GetUserQuery(userId));
+            var result = await QueryAsync(new GetUserQuery(userId));
 
             return result.IsSuccess ? (IActionResult) Ok(result.Value) : NotFound(result.Error);
         }
