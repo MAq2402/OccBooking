@@ -21,6 +21,9 @@ export class PlaceManagementComponent implements OnInit {
   ingredients: IngredientModel[];
   menus: MenuModel[];
   placeId: string;
+  dates: Date[];
+  en: any;
+
   constructor(private activatedRoute: ActivatedRoute,
     private placeService: PlaceService,
     public dialog: MatDialog,
@@ -32,8 +35,22 @@ export class PlaceManagementComponent implements OnInit {
     this.getPlace();
     this.menuSerivce.getIngredients().subscribe(ingredients => this.ingredients = ingredients);
     this.getMenus();
+
+    this.en = {
+      firstDayOfWeek: 0,
+      dayNames: ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"],
+      dayNamesShort: ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"],
+      dayNamesMin: ["Pn", "Wt", "Śr", "Cw", "Pi", "So", "Nd"],
+      monthNames: ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"],
+      monthNamesShort: ["Sty", "Lut", "Mar", "Kwie", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"],
+      today: 'Dzisiaj',
+      clear: 'Wyczyść',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+    };
   }
 
+  // WYDZIEL KALENDARZ DO KOMPONENTU
   createMenu() {
     const dialogRef = this.dialog.open(CreateMenuDialogComponent, { data: this.ingredients });
 

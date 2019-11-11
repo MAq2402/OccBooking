@@ -46,8 +46,17 @@
             <mat-list>
                 <h3 mat-subheader>Dodatkowe opcje</h3>
                 <app-occasional-types-section (selected)="occasionTypeAdded($event)"
-                (removed)="occasionTypeRemoved($event)"></app-occasional-types-section>
+                    (removed)="occasionTypeRemoved($event)"></app-occasional-types-section>
             </mat-list>
         </mat-card-content>
+        <div class="calendar-container">
+            <h3>Kalendarz</h3>
+            <p-calendar [style]="{'width':'80%'}" [(ngModel)]="dates" [inline]="true" selectionMode="multiple" [locale]="en">
+                <p-footer>
+                    <button class="submit-calendar-button" mat-button color="primary" (click)="saveChanges()">Zatwierdź</button>
+                    <button mat-button color="accent" (click)="clearChanges()">Cofnij zmiany</button>
+                </p-footer>
+            </p-calendar>
+        </div>
     </mat-card>
 </div>
