@@ -8,6 +8,7 @@ import { MenuService } from 'src/app/services/menu.service';
 import { IngredientModel } from 'src/app/models/ingredient.model';
 import { MenuModel } from 'src/app/models/menu.model';
 import { CreateOptionDialogComponent } from './create-option-dialog/create-option-dialog.component';
+import { EnumType } from 'src/app/shared/enum-type';
 
 @Component({
   selector: 'app-place-management',
@@ -59,5 +60,15 @@ export class PlaceManagementComponent implements OnInit {
 
   private getPlace() {
     this.placeService.getPlace(this.placeId).subscribe(place => this.place = place);
+  }
+
+  occasionTypeAdded(occasionType: EnumType) {
+    console.log(occasionType);
+    this.placeService.allowOccasionType(this.placeId, occasionType.id).subscribe(() => this.getPlace());
+  }
+
+  occasionTypeRemoved(occasionType: EnumType) {
+    console.log(occasionType);
+    this.placeService.disallowOccasionType(this.placeId, occasionType.id).subscribe(() => this.getPlace());
   }
 }

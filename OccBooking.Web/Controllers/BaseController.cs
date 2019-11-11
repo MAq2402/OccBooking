@@ -35,6 +35,11 @@ namespace OccBooking.Web.Controllers
             return result.IsSuccess ? (IActionResult) CreatedAtRoute(null, null) : BadRequest(result.Error);
         }
 
+        protected IActionResult FromUpdate(Result result)
+        {
+            return result.IsSuccess ? (IActionResult) NoContent() : BadRequest(result.Error);
+        }
+
         protected IActionResult FromSingle<T>(Result<T> result)
         {
             return result.IsSuccess ? (IActionResult) Ok(result.Value) : NotFound(result.Error);

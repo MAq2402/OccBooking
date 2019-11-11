@@ -33,10 +33,10 @@
                         </mat-form-field>
                         <mat-form-field class="full-width sidenav-form">
                                 <mat-label>Okazja</mat-label>
-                                <mat-select formControlName="occassion">
+                                <mat-select formControlName="occasion">
                                         <mat-option>-</mat-option>
-                                        <mat-option *ngFor="let occassion of occassions" [value]="occassion.id">
-                                                {{occassion.value}}</mat-option>
+                                        <mat-option *ngFor="let occasion of occasions" [value]="occasion.id">
+                                                {{occasion.name}}</mat-option>
                                 </mat-select>
                         </mat-form-field>
                 </form>

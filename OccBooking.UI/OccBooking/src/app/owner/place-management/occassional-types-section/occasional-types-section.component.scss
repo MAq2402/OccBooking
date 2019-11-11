@@ -1,0 +1,14 @@
+@import '../../../../styles.scss';
+
+.example-chip-list {
+    width: 100%;
+}
+
+.mat-chip {
+    background-color: $secondary-color !important;
+    color: white !important;
+    .mat-icon {
+        color: white !important;
+        opacity: 1 !important;
+    }
+}

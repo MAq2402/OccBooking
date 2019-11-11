@@ -43,6 +43,11 @@
                 </mat-list-item>
                 <mat-divider></mat-divider>
             </mat-list>
+            <mat-list>
+                <h3 mat-subheader>Dodatkowe opcje</h3>
+                <app-occasional-types-section (selected)="occasionTypeAdded($event)"
+                (removed)="occasionTypeRemoved($event)"></app-occasional-types-section>
+            </mat-list>
         </mat-card-content>
     </mat-card>
 </div>

@@ -8,6 +8,7 @@ using OccBooking.Application.Commands;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Dispatchers;
+using OccBooking.Domain.Enums;
 
 namespace OccBooking.Web.Controllers
 {
@@ -53,6 +54,20 @@ namespace OccBooking.Web.Controllers
             [FromBody] AdditionalOptionForCreationDto dto)
         {
             return FromCreation(await CommandAsync(new AddOptionCommand(dto.Name, dto.Cost, new Guid(placeId))));
+        }
+
+        [Authorize]
+        [HttpPut("places/{placeId}/occasionTypes/{occasionType}/allow")]
+        public async Task<IActionResult> AllowOccasionType(string placeId, int occasionType)
+        {
+            return FromUpdate(await CommandAsync(new AllowOccasionTypeCommand(new Guid(placeId), (OccasionType)occasionType)));
+        }
+
+        [Authorize]
+        [HttpPut("places/{placeId}/occasionTypes/{occasionType}/disallow")]
+        public async Task<IActionResult> DisallowOccasionType(string placeId, int occasionType)
+        {
+            return FromUpdate(await CommandAsync(new DisallowOccasionTypeCommand(new Guid(placeId), (OccasionType)occasionType)));
         }
     }
 }

@@ -12,6 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [],
@@ -28,7 +30,9 @@ import { MatListModule } from '@angular/material/list';
     MatProgressSpinnerModule,
     MatSidenavModule,
     MatDialogModule,
-    MatListModule
+    MatListModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -43,7 +47,9 @@ import { MatListModule } from '@angular/material/list';
     MatProgressSpinnerModule,
     MatSidenavModule,
     MatDialogModule,
-    MatListModule
+    MatListModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ]
 })
 export class MaterialModule { }

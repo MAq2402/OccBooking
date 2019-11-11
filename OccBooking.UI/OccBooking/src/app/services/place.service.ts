@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { PlaceFilterModel } from 'src/app/home/models/place-filter.model';
 import { PlaceModel } from '../models/place.model';
 import { AdditionalOptionModel } from '../models/additional-option.model';
+import { EnumType } from '../shared/enum-type';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class PlaceService {
       params = params.append('minCostPerPerson', filterModel.minCostPerPerson.toString());
       params = params.append('maxCostPerPerson', filterModel.maxCostPerPerson.toString());
       params = params.append('minCapacity', filterModel.minCapacity.toString());
-      params = params.append('occassionType', filterModel.occassionType.toString());
+      params = params.append('occasionType', filterModel.occasionType.toString());
       return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`, {params});
     } else {
       return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`);
@@ -43,5 +44,13 @@ export class PlaceService {
 
   addOption(placeId: string, model: AdditionalOptionModel): Observable<any> {
     return this.http.post<any>(`${environment.WEB_API_ENDPOINT}places/${placeId}/additionalOptions`, model);
+  }
+
+  allowOccasionType(placeId: string, typeId: number): Observable<any> {
+    return this.http.put(`${environment.WEB_API_ENDPOINT}places/${placeId}/occasionTypes/${typeId}/allow`, {});
+  }
+
+  disallowOccasionType(placeId: string, typeId: number): Observable<any> {
+    return this.http.put(`${environment.WEB_API_ENDPOINT}places/${placeId}/occasionTypes/${typeId}/disallow`, {});
   }
 }
