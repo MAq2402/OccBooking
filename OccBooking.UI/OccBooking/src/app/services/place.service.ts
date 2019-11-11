@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PlaceFilterModel } from 'src/app/home/models/place-filter.model';
 import { PlaceModel } from '../models/place.model';
+import { AdditionalOptionModel } from '../models/additional-option.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,9 @@ export class PlaceService {
 
   getPlace(placeId: string): Observable<PlaceModel> {
     return this.http.get<PlaceModel>(`${environment.WEB_API_ENDPOINT}places/${placeId}`);
+  }
+
+  addOption(placeId: string, model: AdditionalOptionModel): Observable<any> {
+    return this.http.post<any>(`${environment.WEB_API_ENDPOINT}places/${placeId}/additionalOptions`, model);
   }
 }

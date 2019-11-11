@@ -13,7 +13,7 @@ namespace OccBooking.Web.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        protected IDispatcher _dispatcher;
+        private IDispatcher _dispatcher;
 
         protected BaseController(IDispatcher dispatcher)
         {
@@ -37,7 +37,7 @@ namespace OccBooking.Web.Controllers
 
         protected IActionResult FromSingle<T>(Result<T> result)
         {
-            return result.IsSuccess ? (IActionResult)Ok(result.Value) : NotFound(result.Error);
+            return result.IsSuccess ? (IActionResult) Ok(result.Value) : NotFound(result.Error);
         }
 
         protected IActionResult FromCollection<T>(Result<T> result)

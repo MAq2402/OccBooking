@@ -51,7 +51,8 @@ export class PlaceComponent implements OnInit {
       street: this.addressFormGroup.controls['street'].value,
       city: this.addressFormGroup.controls['city'].value,
       zipCode: this.addressFormGroup.controls['zipCode'].value,
-      province: this.addressFormGroup.controls['province'].value
+      province: this.addressFormGroup.controls['province'].value,
+      additionalOptions: null
     };
 
     this.placeService.createPlace(this.currentUser.ownerId, model).subscribe();
