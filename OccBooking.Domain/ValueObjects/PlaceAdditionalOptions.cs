@@ -49,7 +49,7 @@ namespace OccBooking.Domain.ValueObjects
 
         public static implicit operator string(PlaceAdditionalOptions additionalOptions)
         {
-            return string.Join(';', additionalOptions.Select(x => (string) x));
+            return string.Join(';', additionalOptions.Select(x => x.ToString()));
         }
 
         public PlaceAdditionalOptions AddOption(PlaceAdditionalOption additionalOption)
@@ -65,7 +65,7 @@ namespace OccBooking.Domain.ValueObjects
 
         public override string ToString()
         {
-            return string.Join(';', additionalOptions.Select(x => (string) x));
+            return string.Join(';', additionalOptions.Select(x => x.ToString()));
         }
     }
 }

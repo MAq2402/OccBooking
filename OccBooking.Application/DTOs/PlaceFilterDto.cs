@@ -13,6 +13,6 @@ namespace OccBooking.Application.DTOs
         public decimal? MinCostPerPerson { get; set; }
         public decimal? MaxCostPerPerson { get; set; }
         public int? MinCapacity { get; set; }
-        public OccasionType? OccassionType { get; set; }
+        public string OccasionType { get; set; }
     }
 }

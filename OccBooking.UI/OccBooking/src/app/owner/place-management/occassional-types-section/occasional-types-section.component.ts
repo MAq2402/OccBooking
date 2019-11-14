@@ -1,9 +1,9 @@
-import { Component, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { EnumType } from 'src/app/shared/enum-type';
 import { occasionTypes } from 'src/app/shared/occasionTypes';
+import { OccasionTypeMapModel } from 'src/app/models/occasion-type-map';
 
 @Component({
   selector: 'app-occasional-types-section',
@@ -12,25 +12,29 @@ import { occasionTypes } from 'src/app/shared/occasionTypes';
 })
 export class OccasionalTypesSectionComponent {
 
-  // @Input() occasionalTypes: Occas
+  @Input() types: OccasionTypeMapModel[] = [];
   visible = true;
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   ctrl = new FormControl();
-  types: EnumType[] = [];
+  // types: OccasionTypeMapModel[] = [];
   allTypes = occasionTypes;
-  @Output() selected = new EventEmitter<EnumType>();
-  @Output() removed = new EventEmitter<EnumType>();
+  @Output() selected = new EventEmitter<OccasionTypeMapModel>();
+  @Output() removed = new EventEmitter<OccasionTypeMapModel>();
 
   @ViewChild('typeInput', {static: false}) typeInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
-  getNotSelectedTypes(): EnumType[] {
-    return this.allTypes.filter(f => !this.types.includes(f));
+  getNotSelectedTypes(): OccasionTypeMapModel[] {
+    if (this.types) {
+      return this.allTypes.filter(f => !this.types.includes(f));
+    } else {
+      return this.allTypes;
+    }
   }
 
-  remove(type: EnumType): void {
+  remove(type: OccasionTypeMapModel): void {
     const index = this.types.indexOf(type);
 
     if (index >= 0) {
@@ -41,6 +45,7 @@ export class OccasionalTypesSectionComponent {
   }
 
   onSelected(event: MatAutocompleteSelectedEvent): void {
+    console.log(event.option.value);
     this.types.push(event.option.value);
     this.typeInput.nativeElement.value = '';
     this.ctrl.setValue(null);

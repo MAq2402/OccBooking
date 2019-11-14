@@ -31,7 +31,7 @@ namespace OccBooking.Application.Handlers
                     .FilterByCity(query.PlaceFilter.City)
                     .FilterByCostPerPerson(query.PlaceFilter.MinCostPerPerson, query.PlaceFilter.MaxCostPerPerson)
                     .FilterByMinCapacity(query.PlaceFilter.MinCapacity)
-                    .FilterByOccassionTypes(query.PlaceFilter.OccassionType);
+                    .FilterByOccasionTypes(query.PlaceFilter.OccasionType);
             }
 
             return Result.Ok(_mapper.Map<IEnumerable<PlaceDto>>(await places.ToListAsync()));

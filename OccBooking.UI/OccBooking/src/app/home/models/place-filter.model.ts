@@ -5,5 +5,5 @@ export class PlaceFilterModel {
     minCostPerPerson?: number;
     maxCostPerPerson?: number;
     minCapacity?: number;
-    occasionType?: number;
+    occasionType?: string;
 }

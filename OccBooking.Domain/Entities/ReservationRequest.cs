@@ -11,6 +11,7 @@ namespace OccBooking.Domain.Entities
     public class ReservationRequest : AggregateRoot
     {
         private string additionalOptions = string.Empty;
+        private string occasionTypes = string.Empty;
 
         public ReservationRequest(Guid id,
             DateTime dateTime,

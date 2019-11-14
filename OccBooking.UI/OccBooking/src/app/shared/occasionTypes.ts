@@ -1,6 +1,6 @@
-import { EnumType } from './enum-type';
+import { OccasionTypeMapModel } from '../models/occasion-type-map';
 
-export const occasionTypes: EnumType[] = [
-    { id: 0, name: 'Wesele' },
-    { id: 1, name: 'Stypa'}
+export const occasionTypes: OccasionTypeMapModel[] = [
+    { value: 'Wedding', name: 'Wesele' },
+    { value: 'FunerealMeal', name: 'Stypa'}
 ];

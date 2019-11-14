@@ -17,7 +17,9 @@ namespace OccBooking.Application.Mappings.Profiles
                 .ForMember(dest => dest.Province, opt => opt.MapFrom(src => src.Address.Province))
                 .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Address.Street))
                 .ForMember(dest => dest.ZipCode, opt => opt.MapFrom(src => src.Address.ZipCode))
-                .ForMember(dest => dest.AdditionalOptions, opt => opt.MapFrom(src => src.AdditionalOptions.ToList()));
+                .ForMember(dest => dest.AdditionalOptions, opt => opt.MapFrom(src => src.AdditionalOptions.ToList()))
+                .ForMember(dest => dest.OccasionTypes,
+                    opt => opt.MapFrom(src => src.AvailableOccasionTypes.Select(x => x.Name)));
         }
     }
 }

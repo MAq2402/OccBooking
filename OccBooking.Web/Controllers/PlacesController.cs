@@ -58,16 +58,16 @@ namespace OccBooking.Web.Controllers
 
         [Authorize]
         [HttpPut("places/{placeId}/occasionTypes/{occasionType}/allow")]
-        public async Task<IActionResult> AllowOccasionType(string placeId, int occasionType)
+        public async Task<IActionResult> AllowOccasionType(string placeId, string occasionType)
         {
-            return FromUpdate(await CommandAsync(new AllowOccasionTypeCommand(new Guid(placeId), (OccasionType)occasionType)));
+            return FromUpdate(await CommandAsync(new AllowOccasionTypeCommand(new Guid(placeId), occasionType)));
         }
 
         [Authorize]
         [HttpPut("places/{placeId}/occasionTypes/{occasionType}/disallow")]
-        public async Task<IActionResult> DisallowOccasionType(string placeId, int occasionType)
+        public async Task<IActionResult> DisallowOccasionType(string placeId, string occasionType)
         {
-            return FromUpdate(await CommandAsync(new DisallowOccasionTypeCommand(new Guid(placeId), (OccasionType)occasionType)));
+            return FromUpdate(await CommandAsync(new DisallowOccasionTypeCommand(new Guid(placeId), occasionType)));
         }
     }
 }

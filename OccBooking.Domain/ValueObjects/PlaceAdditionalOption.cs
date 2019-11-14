@@ -31,9 +31,9 @@ namespace OccBooking.Domain.ValueObjects
             return new PlaceAdditionalOption(splittedOption[0], Convert.ToDecimal(splittedOption[1]));
         }
 
-        public static explicit operator string(PlaceAdditionalOption additionalOption)
+        public override string ToString()
         {
-            return $"{additionalOption.Name},{additionalOption.Cost}";
+            return $"{Name},{Cost}";
         }
     }
 }

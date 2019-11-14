@@ -11,9 +11,9 @@ namespace OccBooking.Domain.Entities
     public class Place : AggregateRoot
     {
         private string additionalOptions = string.Empty;
+        private string availableOccasionTypes = string.Empty;
         private List<ReservationRequest> reservationReqeusts = new List<ReservationRequest>();
         private List<Menu> menus = new List<Menu>();
-        private string _availableOccasionTypes = string.Empty;
         private List<Hall> halls = new List<Hall>();
 
         public Place(Guid id, string name, bool hasRooms, decimal costPerPerson, string description,
@@ -32,13 +32,17 @@ namespace OccBooking.Domain.Entities
 
         public IEnumerable<ReservationRequest> ReservationRequests => reservationReqeusts;
         public IEnumerable<Menu> Menus => menus;
-        public ICollection<OccasionType> AvailableOccasionTypes { get; private set; } = new List<OccasionType>();
         public IEnumerable<Hall> Halls => halls;
 
+        public OccasionTypes AvailableOccasionTypes
+        {
+            get => (OccasionTypes) availableOccasionTypes;
+            set => availableOccasionTypes = value;
+        }
         public PlaceAdditionalOptions AdditionalOptions
         {
-            get { return (PlaceAdditionalOptions) additionalOptions; }
-            set { additionalOptions = value; }
+            get => (PlaceAdditionalOptions) additionalOptions;
+            set => additionalOptions = value;
         }
 
         public string Name { get; private set; }
@@ -96,12 +100,12 @@ namespace OccBooking.Domain.Entities
 
         public void AllowParty(OccasionType partyType)
         {
-            AvailableOccasionTypes.Add(partyType);
+            AvailableOccasionTypes = AvailableOccasionTypes.AddType(partyType);
         }
 
         public void DisallowParty(OccasionType partyType)
         {
-            AvailableOccasionTypes.Remove(partyType);
+            AvailableOccasionTypes = AvailableOccasionTypes.RemoveType(partyType);
         }
 
         public void MakeReservationRequest(ReservationRequest request)

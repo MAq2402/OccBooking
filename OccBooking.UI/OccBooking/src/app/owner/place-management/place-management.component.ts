@@ -8,7 +8,8 @@ import { MenuService } from 'src/app/services/menu.service';
 import { IngredientModel } from 'src/app/models/ingredient.model';
 import { MenuModel } from 'src/app/models/menu.model';
 import { CreateOptionDialogComponent } from './create-option-dialog/create-option-dialog.component';
-import { EnumType } from 'src/app/shared/enum-type';
+import { OccasionTypeMapModel } from 'src/app/models/occasion-type-map';
+import { occasionTypes } from 'src/app/shared/occasionTypes';
 
 @Component({
   selector: 'app-place-management',
@@ -76,16 +77,28 @@ export class PlaceManagementComponent implements OnInit {
   }
 
   private getPlace() {
-    this.placeService.getPlace(this.placeId).subscribe(place => this.place = place);
+    this.placeService.getPlace(this.placeId).subscribe(place => {
+      this.place = place;
+      this.place.occasionTypesMaps = this.mapToOccasionTypeMap(this.place.occasionTypes);
+    });
   }
 
-  occasionTypeAdded(occasionType: EnumType) {
-    console.log(occasionType);
-    this.placeService.allowOccasionType(this.placeId, occasionType.id).subscribe(() => this.getPlace());
+  private mapToOccasionTypeMap(occasionTypesAsStrings: string[]): OccasionTypeMapModel[] {
+    let result: OccasionTypeMapModel[] = [];
+
+    occasionTypesAsStrings.forEach(element => {
+      const occasionTypeMap = occasionTypes.filter(o => o.value === element)[0];
+      result.push(occasionTypeMap);
+    });
+    console.log(result);
+    return result;
   }
 
-  occasionTypeRemoved(occasionType: EnumType) {
-    console.log(occasionType);
-    this.placeService.disallowOccasionType(this.placeId, occasionType.id).subscribe(() => this.getPlace());
+  occasionTypeAdded(occasionType: OccasionTypeMapModel) {
+    this.placeService.allowOccasionType(this.placeId, occasionType.value).subscribe(() => this.getPlace());
+  }
+
+  occasionTypeRemoved(occasionType: OccasionTypeMapModel) {
+    this.placeService.disallowOccasionType(this.placeId, occasionType.value).subscribe(() => this.getPlace());
   }
 }

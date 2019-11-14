@@ -8,13 +8,13 @@ namespace OccBooking.Application.Commands
 {
     public class DisallowOccasionTypeCommand : ICommand
     {
-        public DisallowOccasionTypeCommand(Guid placeId, OccasionType type)
+        public DisallowOccasionTypeCommand(Guid placeId, string type)
         {
             PlaceId = placeId;
             Type = type;
         }
 
         public Guid PlaceId { get; }
-        public OccasionType Type { get; }
+        public string Type { get; }
     }
 }

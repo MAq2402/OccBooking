@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using OccBooking.Application.Commands;
 using OccBooking.Common.Hanlders;
+using OccBooking.Domain.ValueObjects;
 using OccBooking.Persistance.Repositories;
 
 namespace OccBooking.Application.Handlers
@@ -27,7 +28,7 @@ namespace OccBooking.Application.Handlers
                 return Result.Fail("Place with given id does not exist");
             }
 
-            place.DisallowParty(command.Type);
+            place.DisallowParty(OccasionType.Create(command.Type));
 
             await _placeRepository.SaveAsync();
 

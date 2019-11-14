@@ -1,4 +1,5 @@
 import { AdditionalOptionModel } from './additional-option.model';
+import { OccasionTypeMapModel } from './occasion-type-map';
 
 export class PlaceModel {
     id: string;
@@ -11,4 +12,6 @@ export class PlaceModel {
     zipCode: string;
     province: string;
     additionalOptions: AdditionalOptionModel[];
+    occasionTypes: string[];
+    occasionTypesMaps: OccasionTypeMapModel[];
 }
