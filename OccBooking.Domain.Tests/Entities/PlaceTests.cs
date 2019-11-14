@@ -64,6 +64,19 @@ namespace OccBooking.Domain.Tests.Entities
         }
 
         [Fact]
+        public void DisallowPartyShouldWork()
+        {
+            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+
+            place.AllowParty(OccasionType.Wedding);
+            place.AllowParty(OccasionType.FuneralMeal);
+            place.DisallowParty(OccasionType.Wedding);
+
+            Assert.DoesNotContain(OccasionType.Wedding, place.AvailableOccasionTypes);
+            Assert.Contains(OccasionType.FuneralMeal, place.AvailableOccasionTypes);
+        }
+
+        [Fact]
         public void SupportAdditionalOptionShouldWork()
         {
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);

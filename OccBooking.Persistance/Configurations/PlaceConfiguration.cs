@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
@@ -25,16 +26,11 @@ namespace OccBooking.Persistance.Configurations
                 .WithOne(h => h.Place);
 
             builder.Property(p => p.AdditionalOptions)
-                .HasConversion<string>(x => x.ToString(), y => (PlaceAdditionalOptions) y);
+                .HasConversion(x => x.ToString(), y => (PlaceAdditionalOptions) y);
 
-            var occasionalTypesToStringConverter = new ValueConverter<IEnumerable<OccasionType>, string>(
-                v => string.Join(',', v),
-                v => string.IsNullOrEmpty(v)
-                    ? Enumerable.Empty<OccasionType>().ToHashSet()
-                    : v.Split(',', StringSplitOptions.None)
-                        .Select(x => (OccasionType) Enum.Parse(typeof(OccasionType), x)));
 
-            builder.Property(p => p.AvailableOccasionTypes).HasConversion(occasionalTypesToStringConverter);
+            builder.Property(p => p.AvailableOccasionTypes)
+                .HasConversion(x => x.ToString(), y => (OccasionTypes) y);
 
             builder.OwnsOne(p => p.Address);
         }

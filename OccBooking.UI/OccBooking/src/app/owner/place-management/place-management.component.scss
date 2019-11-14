@@ -7,3 +7,19 @@
 .mat-icon {
     cursor: pointer;
 }
+
+.submit-calendar-button {
+    margin-right: 5px;
+}
+
+::ng-deep body .ui-datepicker table td > a.ui-state-active, body .ui-datepicker table td > span.ui-state-active {
+    background-color: $primary-color !important;
+}
+
+.ui-calendar {
+    display: inline-block;
+}
+
+.calendar-container {
+    text-align: center;
+}

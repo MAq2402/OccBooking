@@ -1,0 +1,16 @@
+<mat-form-field class="example-chip-list">
+    <mat-chip-list #chipList>
+        <mat-chip color="primary" *ngFor="let type of types" [selectable]="selectable" [removable]="removable"
+            (removed)="remove(type)">
+            {{type.name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="Wybierz organizowane imprezy" #typeInput [formControl]="ctrl" [matAutocomplete]="auto"
+            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected($event)">
+        <mat-option *ngFor="let type of getNotSelectedTypes()" [value]="type">
+            {{type.name}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

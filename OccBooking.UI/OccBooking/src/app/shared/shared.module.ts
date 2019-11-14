@@ -5,6 +5,7 @@ import { CoreModule } from '../core/core.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { CalendarModule } from 'primeng/calendar';;
 
 @NgModule({
   declarations: [],
@@ -15,7 +16,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    CalendarModule
   ],
   exports: [
     MaterialModule,
@@ -23,7 +25,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     CoreModule,
     ReactiveFormsModule,
     FormsModule,
-    MDBBootstrapModule
+    MDBBootstrapModule,
+    CalendarModule
   ]
 })
 export class SharedModule { }

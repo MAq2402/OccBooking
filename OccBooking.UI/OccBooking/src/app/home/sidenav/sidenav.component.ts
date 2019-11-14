@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { provinces } from 'src/app/shared/provinces';
-import { occassions } from 'src/app/shared/occasions';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SidenavService } from '../services/sidenav.service';
 import { PlaceFilterModel } from '../models/place-filter.model';
+import { occasionTypes } from 'src/app/shared/occasionTypes';
 
 @Component({
   selector: 'app-sidenav',
@@ -14,7 +14,7 @@ export class SidenavComponent implements OnInit {
 
   formGroup: FormGroup;
   provinces = provinces;
-  occassions = occassions;
+  occasions = occasionTypes;
   constructor(private formBuilder: FormBuilder, private sidenavService: SidenavService) { }
 
   ngOnInit() {
@@ -29,7 +29,7 @@ export class SidenavComponent implements OnInit {
       minCostPerPerson: this.formGroup.controls.minCostPerPerson.value,
       maxCostPerPerson: this.formGroup.controls.maxCostPerPerson.value,
       minCapacity: this.formGroup.controls.minCapacity.value,
-      occassionType: this.formGroup.controls.occassion.value,
+      occasionType: this.formGroup.controls.occasion.value,
     };
     this.sidenavService.announceFiltering(model);
   }
@@ -47,7 +47,7 @@ export class SidenavComponent implements OnInit {
       minCostPerPerson: ['', Validators.nullValidator],
       maxCostPerPerson: ['', Validators.nullValidator],
       minCapacity: ['', Validators.nullValidator],
-      occassion: ['', Validators.nullValidator]
+      occasion: ['', Validators.nullValidator]
     });
   }
 }

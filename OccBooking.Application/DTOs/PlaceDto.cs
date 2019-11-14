@@ -16,6 +16,7 @@ namespace OccBooking.Application.DTOs
         public string City { get; set; }
         public string ZipCode { get; set; }
         public string Province { get; set; }
-        public IEnumerable<AdditionalOptionDto> AdditionalOptions { get; set; }
+        public IEnumerable<AdditionalOptionDto> AdditionalOptions { get; set; } = new List<AdditionalOptionDto>();
+        public List<string> OccasionTypes { get; set; } = new List<string>();
     }
 }

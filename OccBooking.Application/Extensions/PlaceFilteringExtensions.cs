@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.Enums;
+using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Application.Extensions
 {
@@ -45,12 +46,12 @@ namespace OccBooking.Application.Extensions
             return !capacity.HasValue ? places : places.Where(p => p.Capacity >= capacity.Value);
         }
 
-        public static IQueryable<Place> FilterByOccassionTypes(this IQueryable<Place> places,
-            OccasionType? occasionType)
+        public static IQueryable<Place> FilterByOccasionTypes(this IQueryable<Place> places,
+            string occasionType)
         {
-            return !occasionType.HasValue
+            return string.IsNullOrEmpty(occasionType)
                 ? places
-                : places.Where(p => p.AvailableOccasionTypes.Contains(occasionType.Value));
+                : places.Where(p => p.AvailableOccasionTypes.Any(t => t.Name == occasionType));
         }
     }
 }

@@ -26,7 +26,7 @@ export class PlaceService {
       params = params.append('minCostPerPerson', filterModel.minCostPerPerson.toString());
       params = params.append('maxCostPerPerson', filterModel.maxCostPerPerson.toString());
       params = params.append('minCapacity', filterModel.minCapacity.toString());
-      params = params.append('occassionType', filterModel.occassionType.toString());
+      params = params.append('occasionType', filterModel.occasionType);
       return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`, {params});
     } else {
       return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`);
@@ -43,5 +43,13 @@ export class PlaceService {
 
   addOption(placeId: string, model: AdditionalOptionModel): Observable<any> {
     return this.http.post<any>(`${environment.WEB_API_ENDPOINT}places/${placeId}/additionalOptions`, model);
+  }
+
+  allowOccasionType(placeId: string, type: string): Observable<any> {
+    return this.http.put(`${environment.WEB_API_ENDPOINT}places/${placeId}/occasionTypes/${type}/allow`, {});
+  }
+
+  disallowOccasionType(placeId: string, type: string): Observable<any> {
+    return this.http.put(`${environment.WEB_API_ENDPOINT}places/${placeId}/occasionTypes/${type}/disallow`, {});
   }
 }
