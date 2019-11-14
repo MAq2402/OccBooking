@@ -90,7 +90,6 @@ export class PlaceManagementComponent implements OnInit {
       const occasionTypeMap = occasionTypes.filter(o => o.value === element)[0];
       result.push(occasionTypeMap);
     });
-    console.log(result);
     return result;
   }
 

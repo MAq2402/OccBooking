@@ -18,7 +18,6 @@ export class OccasionalTypesSectionComponent {
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   ctrl = new FormControl();
-  // types: OccasionTypeMapModel[] = [];
   allTypes = occasionTypes;
   @Output() selected = new EventEmitter<OccasionTypeMapModel>();
   @Output() removed = new EventEmitter<OccasionTypeMapModel>();
@@ -45,7 +44,6 @@ export class OccasionalTypesSectionComponent {
   }
 
   onSelected(event: MatAutocompleteSelectedEvent): void {
-    console.log(event.option.value);
     this.types.push(event.option.value);
     this.typeInput.nativeElement.value = '';
     this.ctrl.setValue(null);
