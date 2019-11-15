@@ -11,7 +11,7 @@ using OccBooking.Common.Dispatchers;
 
 namespace OccBooking.Web.Controllers
 {
-    [Route("api")]
+    [Route("api/places/{placeId}/menus")]
     public class MenusController : BaseController
     {
         public MenusController(IDispatcher dispatcher) : base(dispatcher)
@@ -19,7 +19,7 @@ namespace OccBooking.Web.Controllers
         }
 
         [HttpGet]
-        [Route("{placeId}/menus")]
+        [Route("")]
         public async Task<IActionResult> GetMenus(string placeId)
         {
             return FromCollection(await QueryAsync(new GetMenusQuery(new Guid(placeId))));
@@ -27,19 +27,12 @@ namespace OccBooking.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        [Route("{placeId}/menus")]
+        [Route("")]
         public async Task<IActionResult> CreateMenu(string placeId, [FromBody] MenuForCreationDto menu)
         {
             return FromCreation(await CommandAsync(new AssignMenuCommand(new Guid(placeId), menu.Name,
                 menu.Type,
                 menu.CostPerPerson)));
-        }
-
-        [HttpGet]
-        [Route("menus/ingredients")]
-        public async Task<IActionResult> GetIngredientsAsync()
-        {
-            return FromCollection(await QueryAsync(new IngredientsQuery()));
         }
     }
 }

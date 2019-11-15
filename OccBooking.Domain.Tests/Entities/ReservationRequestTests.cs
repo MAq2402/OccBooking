@@ -93,7 +93,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AcceptShouldWork()
         {
-            var halls = new List<Hall>() {new Hall(Guid.NewGuid(), 10)};
+            var halls = new List<Hall>() {new Hall(Guid.NewGuid(), "Big", 10)};
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 TestData.CorrectClient,
