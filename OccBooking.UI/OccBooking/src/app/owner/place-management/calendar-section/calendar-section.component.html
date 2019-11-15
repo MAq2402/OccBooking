@@ -1,0 +1,10 @@
+<div class="calendar-container">
+    <h3>Kalendarz</h3>
+    <p-calendar [style]="{'width':'80%'}" [(ngModel)]="dates" [inline]="true" selectionMode="multiple"
+        [locale]="calendar">
+        <p-footer>
+            <button class="submit-calendar-button" mat-button color="primary" (click)="saveChanges()">Zatwierdź</button>
+            <button mat-button color="accent" (click)="clearChanges()">Cofnij zmiany</button>
+        </p-footer>
+    </p-calendar>
+</div>

@@ -27,7 +27,6 @@ export class PlaceManagementComponent implements OnInit {
   halls: HallModel[];
   placeId: string;
   dates: Date[];
-  en: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private placeService: PlaceService,
@@ -42,22 +41,8 @@ export class PlaceManagementComponent implements OnInit {
     this.menuSerivce.getIngredients().subscribe(ingredients => this.ingredients = ingredients);
     this.getMenus();
     this.getHalls();
-
-    this.en = {
-      firstDayOfWeek: 0,
-      dayNames: ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"],
-      dayNamesShort: ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"],
-      dayNamesMin: ["Pn", "Wt", "Śr", "Cw", "Pi", "So", "Nd"],
-      monthNames: ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"],
-      monthNamesShort: ["Sty", "Lut", "Mar", "Kwie", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"],
-      today: 'Dzisiaj',
-      clear: 'Wyczyść',
-      dateFormat: 'mm/dd/yy',
-      weekHeader: 'Wk'
-    };
   }
 
-  // CALENDAR TO COMPONENT
   createMenu() {
     const dialogRef = this.dialog.open(CreateMenuDialogComponent, { data: this.ingredients });
 
@@ -117,7 +102,7 @@ export class PlaceManagementComponent implements OnInit {
     });
   }
 
-  getHalls() {
+  private getHalls() {
     this.hallService.getHalls(this.placeId).subscribe(halls => this.halls = halls);
   }
 }
