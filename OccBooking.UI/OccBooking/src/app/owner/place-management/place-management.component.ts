@@ -10,6 +10,9 @@ import { MenuModel } from 'src/app/models/menu.model';
 import { CreateOptionDialogComponent } from './create-option-dialog/create-option-dialog.component';
 import { OccasionTypeMapModel } from 'src/app/models/occasion-type-map';
 import { occasionTypes } from 'src/app/shared/occasionTypes';
+import { HallService } from 'src/app/services/hall.service';
+import { HallModel } from 'src/app/models/hall.model';
+import { CreateHallDialogComponent } from './create-hall-dialog/create-hall-dialog.component';
 
 @Component({
   selector: 'app-place-management',
@@ -21,14 +24,16 @@ export class PlaceManagementComponent implements OnInit {
   place: PlaceModel;
   ingredients: IngredientModel[];
   menus: MenuModel[];
+  halls: HallModel[];
   placeId: string;
   dates: Date[];
   en: any;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private placeService: PlaceService,
-    public dialog: MatDialog,
-    private menuSerivce: MenuService) { }
+              private placeService: PlaceService,
+              public dialog: MatDialog,
+              private menuSerivce: MenuService,
+              private hallService: HallService) { }
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -36,6 +41,7 @@ export class PlaceManagementComponent implements OnInit {
     this.getPlace();
     this.menuSerivce.getIngredients().subscribe(ingredients => this.ingredients = ingredients);
     this.getMenus();
+    this.getHalls();
 
     this.en = {
       firstDayOfWeek: 0,
@@ -51,7 +57,7 @@ export class PlaceManagementComponent implements OnInit {
     };
   }
 
-  // WYDZIEL KALENDARZ DO KOMPONENTU
+  // CALENDAR TO COMPONENT
   createMenu() {
     const dialogRef = this.dialog.open(CreateMenuDialogComponent, { data: this.ingredients });
 
@@ -99,5 +105,19 @@ export class PlaceManagementComponent implements OnInit {
 
   occasionTypeRemoved(occasionType: OccasionTypeMapModel) {
     this.placeService.disallowOccasionType(this.placeId, occasionType.value).subscribe(() => this.getPlace());
+  }
+
+  createHall() {
+    const dialogRef = this.dialog.open(CreateHallDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.hallService.createHall(this.placeId, result).subscribe(() => this.getHalls());
+      }
+    });
+  }
+
+  getHalls() {
+    this.hallService.getHalls(this.placeId).subscribe(halls => this.halls = halls);
   }
 }

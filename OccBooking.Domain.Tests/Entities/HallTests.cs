@@ -15,8 +15,8 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AddPossibleJoinShouldWork()
         {
-            var hall = new Hall(Guid.NewGuid(), 10);
-            var hallToJoin = new Hall(Guid.NewGuid(), 20);
+            var hall = new Hall(Guid.NewGuid(), "Big", 10);
+            var hallToJoin = new Hall(Guid.NewGuid(), "Big", 20);
 
             hall.AddPossibleJoin(hallToJoin);
 
@@ -29,8 +29,8 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AddPossibleJoinShouldFailBecauseOfDuplicationOfPossibleJoins()
         {
-            var hall = new Hall(Guid.NewGuid(), 10);
-            var hallToJoin = new Hall(Guid.NewGuid(), 20);
+            var hall = new Hall(Guid.NewGuid(), "Big", 10);
+            var hallToJoin = new Hall(Guid.NewGuid(), "Big", 20);
 
             hall.AddPossibleJoin(hallToJoin);
             Action action = () => hall.AddPossibleJoin(hallToJoin);
@@ -41,7 +41,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AddPossibleJoinShouldFailBecauseOfNullValue()
         {
-            var hall = new Hall(Guid.NewGuid(), 10);
+            var hall = new Hall(Guid.NewGuid(), "Big", 10);
 
             Action action = () => hall.AddPossibleJoin(null);
 
@@ -52,9 +52,15 @@ namespace OccBooking.Domain.Tests.Entities
         [InlineData(0)]
         [InlineData(-10)]
         [InlineData(int.MinValue)]
-        public void CreationOfHallShouldFail(int capacity)
+        public void CreationOfHallShouldFail_Capacity(int capacity)
         {
-            Assert.Throws<DomainException>(() => new Hall(Guid.NewGuid(), capacity));
+            Assert.Throws<DomainException>(() => new Hall(Guid.NewGuid(), "Big", capacity));
+        }
+
+        [Fact]
+        public void CreationOfHallShouldFail_Name()
+        {
+            Assert.Throws<DomainException>(() => new Hall(Guid.NewGuid(), "", 10));
         }
 
         [Theory]
@@ -63,7 +69,7 @@ namespace OccBooking.Domain.Tests.Entities
         [InlineData(int.MaxValue)]
         public void CreationOfHallShouldWork(int capacity)
         {
-            var hall = new Hall(Guid.NewGuid(), capacity);
+            var hall = new Hall(Guid.NewGuid(), "Big", capacity);
 
             Assert.NotNull(hall);
         }
@@ -84,7 +90,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void MakeReservationShouldWork()
         {
-            var hall = new Hall(Guid.NewGuid(), 40);
+            var hall = new Hall(Guid.NewGuid(), "Big", 40);
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today, TestData.CorrectClient, 50, TestData.CorrectMenu,
                 OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());

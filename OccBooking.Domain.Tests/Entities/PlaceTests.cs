@@ -90,7 +90,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AddHallShouldWork()
         {
-            var hall = new Hall(Guid.NewGuid(), 10);
+            var hall = new Hall(Guid.NewGuid(), "Big", 10);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
             place.AddHall(hall);
 
@@ -113,7 +113,7 @@ namespace OccBooking.Domain.Tests.Entities
             var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
             foreach (var hallSize in hallSizes)
             {
-                var hall = new Hall(Guid.NewGuid(), hallSize);
+                var hall = new Hall(Guid.NewGuid(), "Big", hallSize);
                 place.AddHall(hall);
             }
 
@@ -140,7 +140,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotHaveGivenMenu()
         {
-            var hall = new Hall(Guid.NewGuid(), 100);
+            var hall = new Hall(Guid.NewGuid(), "Big", 100);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var menuForReservation = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
@@ -168,7 +168,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotSupportSuchParty()
         {
-            var hall = new Hall(Guid.NewGuid(), 100);
+            var hall = new Hall(Guid.NewGuid(), "Big", 100);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var amountOfPeopleForReservation = 50;
@@ -195,7 +195,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotSupportOption()
         {
-            var hall = new Hall(Guid.NewGuid(), 100);
+            var hall = new Hall(Guid.NewGuid(), "Big", 100);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var amountOfPeopleForReservation = 50;
@@ -227,8 +227,8 @@ namespace OccBooking.Domain.Tests.Entities
             int amountOfPeople1,
             int amountOfPeople2)
         {
-            var hall1 = new Hall(Guid.NewGuid(), hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), hallSize2);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
@@ -269,9 +269,9 @@ namespace OccBooking.Domain.Tests.Entities
             int amountOfPeople1,
             int amountOfPeople2)
         {
-            var hall1 = new Hall(Guid.NewGuid(), hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), hallSize2);
-            var hall3 = new Hall(Guid.NewGuid(), hallSize3);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
+            var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
@@ -310,8 +310,8 @@ namespace OccBooking.Domain.Tests.Entities
             int hallSize2,
             int amountOfPeople1)
         {
-            var hall1 = new Hall(Guid.NewGuid(), hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), hallSize2);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
@@ -337,9 +337,9 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void CapacityShouldReturnCorrectValue()
         {
-            var hall1 = new Hall(Guid.NewGuid(), 10);
-            var hall2 = new Hall(Guid.NewGuid(), 20);
-            var hall3 = new Hall(Guid.NewGuid(), 30);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
+            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
 
             var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
             place.AddHall(hall1);
@@ -360,9 +360,9 @@ namespace OccBooking.Domain.Tests.Entities
             var placeCost = 50;
             var menuCost = 50;
             var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
-            var hall1 = new Hall(Guid.NewGuid(), 30);
-            var hall2 = new Hall(Guid.NewGuid(), 30);
-            var hall3 = new Hall(Guid.NewGuid(), 30);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
@@ -418,9 +418,9 @@ namespace OccBooking.Domain.Tests.Entities
             var placeCost = 50;
             var menuCost = 50;
             var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
-            var hall1 = new Hall(Guid.NewGuid(), 30);
-            var hall2 = new Hall(Guid.NewGuid(), 30);
-            var hall3 = new Hall(Guid.NewGuid(), 30);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
@@ -462,7 +462,7 @@ namespace OccBooking.Domain.Tests.Entities
             place.MakeReservationRequest(reservation3);
             place.MakeReservationRequest(reservation4);
 
-            var hall4 = new Hall(Guid.NewGuid(), 30);
+            var hall4 = new Hall(Guid.NewGuid(), "Big", 30);
             Action action = () => place.ValidateAcceptReservationRequest(reservation1, new List<Hall>() {hall4});
 
             var exception = Assert.Throws<DomainException>(action);
@@ -475,9 +475,9 @@ namespace OccBooking.Domain.Tests.Entities
             var placeCost = 50;
             var menuCost = 50;
             var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
-            var hall1 = new Hall(Guid.NewGuid(), 30);
-            var hall2 = new Hall(Guid.NewGuid(), 30);
-            var hall3 = new Hall(Guid.NewGuid(), 30);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
@@ -531,9 +531,9 @@ namespace OccBooking.Domain.Tests.Entities
             var placeCost = 50;
             var menuCost = 50;
             var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
-            var hall1 = new Hall(Guid.NewGuid(), 30);
-            var hall2 = new Hall(Guid.NewGuid(), 30);
-            var hall3 = new Hall(Guid.NewGuid(), 30);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
@@ -586,9 +586,9 @@ namespace OccBooking.Domain.Tests.Entities
             var placeCost = 50;
             var menuCost = 50;
             var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
-            var hall1 = new Hall(Guid.NewGuid(), 30);
-            var hall2 = new Hall(Guid.NewGuid(), 30);
-            var hall3 = new Hall(Guid.NewGuid(), 30);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);

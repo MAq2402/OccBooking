@@ -17,6 +17,7 @@ import { PlaceDetailsComponent } from "./place-details/place-details.component";
 import { MakeReservationDialogComponent } from './place-details/make-reservation-dialog/make-reservation-dialog.component';
 import { CreateMenuDialogComponent } from './owner/place-management/create-menu-dialog/create-menu-dialog.component';
 import { CreateOptionDialogComponent } from './owner/place-management/create-option-dialog/create-option-dialog.component';
+import { CreateHallDialogComponent } from './owner/place-management/create-hall-dialog/create-hall-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,6 @@ import { CreateOptionDialogComponent } from './owner/place-management/create-opt
   schemas: [NO_ERRORS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [MakeReservationDialogComponent, CreateMenuDialogComponent, CreateOptionDialogComponent]
+  entryComponents: [MakeReservationDialogComponent, CreateMenuDialogComponent, CreateOptionDialogComponent, CreateHallDialogComponent]
 })
 export class AppModule { }

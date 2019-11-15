@@ -11,29 +11,45 @@ namespace OccBooking.Domain.Entities
         private List<HallJoin> possibleJoinsWhereIsFirst = new List<HallJoin>();
         private List<HallJoin> possibleJoinsWhereIsSecond = new List<HallJoin>();
         private List<HallReservation> hallReservations = new List<HallReservation>();
-        public Hall(Guid id, int capacity) : base(id)
+
+        public Hall(Guid id, string name, int capacity) : base(id)
         {
             SetCapacity(capacity);
+            SetName(name);
         }
 
         private Hall()
         {
-
         }
+
+        public string Name { get; private set; }
         public int Capacity { get; private set; }
         public Place Place { get; private set; }
         public IEnumerable<HallJoin> PossibleJoinsWhereIsFirst => possibleJoinsWhereIsFirst;
         public IEnumerable<HallJoin> PossibleJoinsWhereIsSecond => possibleJoinsWhereIsSecond;
         public IEnumerable<HallJoin> PossibleJoins => possibleJoinsWhereIsFirst.Concat(possibleJoinsWhereIsSecond);
         public IEnumerable<HallReservation> HallReservations => hallReservations;
+
         private void SetCapacity(int capacity)
         {
             if (capacity <= 0)
             {
                 throw new DomainException("Capacity of hall has to be greater than o");
             }
+
             Capacity = capacity;
         }
+
+        private void SetName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new DomainException("Hall name has not been provided");
+            }
+
+            Name = name;
+        }
+
         public void AddPossibleJoin(Hall hall)
         {
             if (hall == null)
