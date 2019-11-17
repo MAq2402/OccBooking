@@ -52,4 +52,8 @@ export class PlaceService {
   disallowOccasionType(placeId: string, type: string): Observable<any> {
     return this.http.put(`${environment.WEB_API_ENDPOINT}places/${placeId}/occasionTypes/${type}/disallow`, {});
   }
+
+  getReservedDays(placeId: string): Observable<Date[]> {
+    return this.http.get<Date[]>(`${environment.WEB_API_ENDPOINT}places/${placeId}/reservedDays`);
+  }
 }

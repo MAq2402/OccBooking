@@ -145,6 +145,7 @@ namespace OccBooking.Domain.Entities
             ValidateAcceptReservationRequest(request, halls);
 
             request.Accept();
+
             MakeHallReservations(request, halls);
 
             RejectReservationsRequestsIfNotEnoughCapacity();
