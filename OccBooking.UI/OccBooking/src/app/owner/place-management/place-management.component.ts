@@ -26,7 +26,6 @@ export class PlaceManagementComponent implements OnInit {
   menus: MenuModel[];
   halls: HallModel[];
   placeId: string;
-  dates: Date[];
 
   constructor(private activatedRoute: ActivatedRoute,
               private placeService: PlaceService,

@@ -69,5 +69,11 @@ namespace OccBooking.Web.Controllers
         {
             return FromUpdate(await CommandAsync(new DisallowOccasionTypeCommand(new Guid(placeId), occasionType)));
         }
+
+        [HttpGet("places/{placeId}/reservedDays")]
+        public async Task<IActionResult> GetReservedDays(string placeId)
+        {
+            return FromCollection(await QueryAsync(new GetReservedDaysQuery(new Guid(placeId))));
+        }
     }
 }

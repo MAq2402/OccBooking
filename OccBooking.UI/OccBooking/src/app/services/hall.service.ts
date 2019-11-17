@@ -18,4 +18,8 @@ export class HallService {
   createHall(placeId: string, model: HallModel): Observable<any> {
     return this.http.post<any>(`${environment.WEB_API_ENDPOINT}places/${placeId}/halls`, model);
   }
+
+  makeEmptyReservations(placeId: string, datesToSend: Date[]): Observable<any> {
+    return this.http.put<any>(`${environment.WEB_API_ENDPOINT}places/${placeId}/halls`, datesToSend);
+  }
 }
