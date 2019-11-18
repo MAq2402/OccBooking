@@ -8,6 +8,7 @@ import { CreateOptionDialogComponent } from './place-management/create-option-di
 import { OccasionalTypesSectionComponent } from './place-management/occassional-types-section/occasional-types-section.component';
 import { CreateHallDialogComponent } from './place-management/create-hall-dialog/create-hall-dialog.component';
 import { CalendarSectionComponent } from './place-management/calendar-section/calendar-section.component';
+import { HallManagementComponent } from './hall-management/hall-management.component';
 
 @NgModule({
   declarations: [PlaceComponent,
@@ -16,7 +17,8 @@ import { CalendarSectionComponent } from './place-management/calendar-section/ca
     CreateOptionDialogComponent,
     OccasionalTypesSectionComponent,
     CreateHallDialogComponent,
-    CalendarSectionComponent],
+    CalendarSectionComponent,
+    HallManagementComponent],
   imports: [
     SharedModule,
     OwnerRoutingModule

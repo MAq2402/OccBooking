@@ -20,5 +20,24 @@ namespace OccBooking.Persistance.Repositories
             return await _dbContext.Halls.Include(h => h.Place).Include(h => h.HallReservations)
                 .Where(h => h.Place.Id == placeId).ToListAsync();
         }
+
+        public async Task<Hall> GetHallAsync(Guid hallId)
+        {
+            return await _dbContext.Halls.Include(h => h.PossibleJoinsWhereIsFirst).ThenInclude(j => j.FirstHall)
+                .Include(h => h.PossibleJoinsWhereIsFirst).ThenInclude(j => j.SecondHall)
+                .Include(h => h.PossibleJoinsWhereIsSecond).ThenInclude(j => j.SecondHall).Include(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.FirstHall).FirstOrDefaultAsync(h => h.Id == hallId);
+        }
+
+        public async Task<HallJoin> GetJoinAsync(Hall first, Hall second)
+        {
+            return await _dbContext.HallJoins.Include(j => j.FirstHall).Include(j => j.SecondHall)
+                .FirstOrDefaultAsync(j => j.ParticipatesIn(first) && j.ParticipatesIn(second));
+        }
+
+        public async Task RemoveHallJoinAsync(HallJoin joinToDelete)
+        {
+            await Task.FromResult(_dbContext.Remove(joinToDelete));
+        }
     }
 }

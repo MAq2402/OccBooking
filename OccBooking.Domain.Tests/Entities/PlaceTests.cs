@@ -335,7 +335,7 @@ namespace OccBooking.Domain.Tests.Entities
         }
 
         [Fact]
-        public void CapacityShouldReturnCorrectValue()
+        public void CapacityShouldReturnCorrectValue_1()
         {
             var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
             var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
@@ -349,6 +349,27 @@ namespace OccBooking.Domain.Tests.Entities
             hall1.AddPossibleJoin(hall3);
 
             var expected = 40;
+            var actual = place.Capacity;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void CapacityShouldReturnCorrectValue_2()
+        {
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
+            var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
+            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
+
+            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            place.AddHall(hall1);
+            place.AddHall(hall2);
+            place.AddHall(hall3);
+
+            hall1.AddPossibleJoin(hall3);
+            hall3.AddPossibleJoin(hall2);
+
+            var expected = 60;
             var actual = place.Capacity;
 
             Assert.Equal(expected, actual);
@@ -635,6 +656,18 @@ namespace OccBooking.Domain.Tests.Entities
 
             var exception = Assert.Throws<DomainException>(action);
             Assert.Equal("Some or all given halls are already reserved", exception.Message);
+        }
+
+        [Fact]
+        public void MakeEmptyReservationShouldWork()
+        {
+            var place = CorrectPlace;
+            place.MakeEmptyReservation(DateTime.Today);
+
+            var expected = 1;
+            var actual = place.EmptyReservations.Count();
+
+            Assert.Equal(expected, actual);
         }
     }
 }

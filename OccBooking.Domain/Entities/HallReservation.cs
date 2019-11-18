@@ -9,33 +9,17 @@ namespace OccBooking.Domain.Entities
 {
     public class HallReservation : Entity
     {
-        public Hall Hall { get; private set; }
-        public ReservationRequest ReservationRequest { get; private set; }
-        public DateTime Date { get; private set; }
+        public HallReservation(ReservationRequest reservationRequest)
+        {
+            ReservationRequest = reservationRequest;
+        }
 
         private HallReservation()
         {
         }
 
-        private HallReservation(ReservationRequest reservationRequest)
-        {
-            ReservationRequest = reservationRequest;
-            Date = ReservationRequest.DateTime;
-        }
+        public Hall Hall { get; private set; }
+        public ReservationRequest ReservationRequest { get; private set; }
 
-        private HallReservation(DateTime date)
-        {
-            Date = date;
-        }
-
-        public static HallReservation Create(ReservationRequest reservationRequest)
-        {
-            return new HallReservation(reservationRequest);
-        }
-
-        public static HallReservation CreateEmpty(DateTime date)
-        {
-            return new HallReservation(date);
-        }
     }
 }

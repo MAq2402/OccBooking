@@ -57,7 +57,7 @@ namespace OccBooking.Domain.Entities
                 throw new DomainException("Hall has not been provided");
             }
 
-            if (PossibleJoins.Any(j => j.FirstHall == hall || j.SecondHall == hall))
+            if (PossibleJoins.Any(j => j.ParticipatesIn(hall)))
             {
                 throw new DomainException("Provided hall is already possible join to this hall");
             }
@@ -69,16 +69,12 @@ namespace OccBooking.Domain.Entities
 
         public bool IsFreeOnDate(DateTime date)
         {
-            return HallReservations.All(hr => hr.Date != date);
+            return HallReservations.All(hr => hr.ReservationRequest.DateTime != date);
         }
 
         public void MakeReservation(ReservationRequest request)
         {
-            hallReservations.Add(HallReservation.Create(request));
-        }
-        public void MakeEmptyReservation(DateTime date)
-        {
-            hallReservations.Add(HallReservation.CreateEmpty(date));
+            hallReservations.Add(new HallReservation(request));
         }
     }
 }

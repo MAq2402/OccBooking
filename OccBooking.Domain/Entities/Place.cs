@@ -15,6 +15,7 @@ namespace OccBooking.Domain.Entities
         private List<ReservationRequest> reservationReqeusts = new List<ReservationRequest>();
         private List<Menu> menus = new List<Menu>();
         private List<Hall> halls = new List<Hall>();
+        private List<EmptyPlaceReservation> emptyReservations = new List<EmptyPlaceReservation>();
 
         public Place(Guid id, string name, bool hasRooms, decimal costPerPerson, string description,
             Address address) : base(id)
@@ -33,6 +34,7 @@ namespace OccBooking.Domain.Entities
         public IEnumerable<ReservationRequest> ReservationRequests => reservationReqeusts;
         public IEnumerable<Menu> Menus => menus;
         public IEnumerable<Hall> Halls => halls;
+        public IEnumerable<EmptyPlaceReservation> EmptyReservations => emptyReservations;
 
         public OccasionTypes AvailableOccasionTypes
         {
@@ -172,6 +174,11 @@ namespace OccBooking.Domain.Entities
             {
                 throw new DomainException("Some or all given halls are already reserved");
             }
+        }
+
+        public void MakeEmptyReservation(DateTime date)
+        {
+            emptyReservations.Add(new EmptyPlaceReservation(date));
         }
 
         private void MakeHallReservations(ReservationRequest request, IEnumerable<Hall> halls)

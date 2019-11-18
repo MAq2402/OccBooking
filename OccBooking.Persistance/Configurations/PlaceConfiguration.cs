@@ -33,6 +33,9 @@ namespace OccBooking.Persistance.Configurations
                 .HasConversion(x => x.ToString(), y => (OccasionTypes) y);
 
             builder.OwnsOne(p => p.Address);
+
+            builder.HasMany(p => p.EmptyReservations)
+                .WithOne(r => r.Place);
         }
     }
 }

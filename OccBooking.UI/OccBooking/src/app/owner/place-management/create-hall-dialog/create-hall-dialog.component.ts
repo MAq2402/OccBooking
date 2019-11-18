@@ -30,7 +30,9 @@ export class CreateHallDialogComponent implements OnInit {
     const model: HallModel = {
       id: null,
       name: this.formGroup.controls['name'].value,
-      capacity: this.formGroup.controls['capacity'].value
+      capacity: this.formGroup.controls['capacity'].value,
+      placeId: null,
+      joins: null,
     };
 
     this.dialogRef.close(model);
