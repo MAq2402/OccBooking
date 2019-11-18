@@ -1,0 +1,9 @@
+<mat-card>
+    <mat-card-content>
+        <h2 class="example-h2">Konfiguracja połaczeń sal</h2>
+        <section class="example-section">
+            <mat-checkbox *ngFor="let join of hallJoins" class="example-margin" [(ngModel)]="join.isPossible">{{join.hallName}}</mat-checkbox>
+            <button mat-raised-button color="primary" (click)="submit()">Zapisz</button>
+        </section>
+    </mat-card-content>
+</mat-card>

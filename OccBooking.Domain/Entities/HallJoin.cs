@@ -18,5 +18,10 @@ namespace OccBooking.Domain.Entities
 
         public Hall FirstHall { get; private set; }
         public Hall SecondHall { get; private set; }
+
+        public bool ParticipatesIn(Hall hall)
+        {
+            return FirstHall == hall || SecondHall == hall;
+        }
     }
 }

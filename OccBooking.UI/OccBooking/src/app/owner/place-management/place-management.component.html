@@ -47,10 +47,10 @@
                 <h3 mat-subheader>Sale<span class="spacer"></span><button mat-icon-button>
                         <mat-icon (click)="createHall()" color="primary">add</mat-icon>
                     </button></h3>
-                <mat-list-item *ngFor="let hall of halls">
+                <a routerLink="/owner/hall-management/{{hall.id}}" *ngFor="let hall of halls"><mat-list-item>
                     <mat-icon mat-list-icon>restaurant_menu</mat-icon>
                     <h4 mat-line>{{hall.name}}</h4>
-                </mat-list-item>
+                </mat-list-item></a>
                 <mat-divider></mat-divider>
             </mat-list>
             <mat-list>

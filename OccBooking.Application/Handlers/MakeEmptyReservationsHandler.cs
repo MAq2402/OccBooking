@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
@@ -11,26 +12,32 @@ namespace OccBooking.Application.Handlers
 {
     public class MakeEmptyReservationsHandler : ICommandHandler<MakeEmptyReservationsCommand>
     {
-        private IHallRepository _hallRepository;
+        private IPlaceRepository _placeRepository;
 
-        public MakeEmptyReservationsHandler(IHallRepository hallRepository)
+        public MakeEmptyReservationsHandler(IPlaceRepository placeRepository)
         {
-            _hallRepository = hallRepository;
+            _placeRepository = placeRepository;
         }
 
         public async Task<Result> HandleAsync(MakeEmptyReservationsCommand command)
         {
-            var halls = await _hallRepository.GetHallsAsync(command.PlaceId);
+            var place = await _placeRepository.GetPlaceAsync(command.PlaceId);
 
-            foreach (var hall in halls)
+            if (place == null)
             {
-                foreach (var date in command.Dates)
+                return Result.Fail("Place with given id does not exist");
+            }
+
+            foreach (var date in command.Dates)
+            {
+                if (place.EmptyReservations.All(r =>
+                    r.Date != date.LocalDateTime))
                 {
-                    hall.MakeEmptyReservation(date.LocalDateTime.Date);
+                    place.MakeEmptyReservation(date.LocalDateTime);
                 }
             }
 
-            await _hallRepository.SaveAsync();
+            await _placeRepository.SaveAsync();
             return Result.Ok();
         }
     }
