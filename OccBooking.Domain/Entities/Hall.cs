@@ -67,29 +67,6 @@ namespace OccBooking.Domain.Entities
             hall.possibleJoinsWhereIsSecond.Add(join);
         }
 
-        public void RemovePossibleJoin(HallJoin hallJoin)
-        {
-            if (hallJoin == null)
-            {
-                throw new DomainException("Hall join has not been provided");
-            }
-
-            if (possibleJoinsWhereIsFirst.Contains(hallJoin))
-            {
-                possibleJoinsWhereIsFirst.Remove(hallJoin);
-
-            }
-            else if (possibleJoinsWhereIsSecond.Contains(hallJoin))
-            {
-                possibleJoinsWhereIsSecond.Remove(hallJoin);
-            }
-            else
-            {
-                throw new DomainException("Hall does not participate in given join");
-            }
-
-        }
-
         public bool IsFreeOnDate(DateTime date)
         {
             return HallReservations.All(hr => hr.ReservationRequest.DateTime != date);

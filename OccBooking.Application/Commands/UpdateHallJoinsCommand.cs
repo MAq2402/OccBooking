@@ -15,6 +15,6 @@ namespace OccBooking.Application.Commands
         }
 
         public Guid HallId { get; }
-        public IEnumerable<PossibleJoinDto> Joins { get; set; } = new List<PossibleJoinDto>();
+        public IEnumerable<PossibleJoinDto> Joins { get; }
     }
 }

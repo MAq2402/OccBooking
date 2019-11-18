@@ -14,7 +14,6 @@ namespace OccBooking.Application.Mappings.Profiles
             CreateMap<Hall, HallDto>();
             CreateMap<Hall, ExtendedHallDto>()
                 .ForMember(dest => dest.PlaceId, opt => opt.MapFrom(src => src.Place.Id));
-            //.ForMember(dest => dest.Joins, opt => opt.MapFrom(src => src.Joins))
         }
     }
 }

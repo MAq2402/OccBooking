@@ -657,5 +657,17 @@ namespace OccBooking.Domain.Tests.Entities
             var exception = Assert.Throws<DomainException>(action);
             Assert.Equal("Some or all given halls are already reserved", exception.Message);
         }
+
+        [Fact]
+        public void MakeEmptyReservationShouldWork()
+        {
+            var place = CorrectPlace;
+            place.MakeEmptyReservation(DateTime.Today);
+
+            var expected = 1;
+            var actual = place.EmptyReservations.Count();
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

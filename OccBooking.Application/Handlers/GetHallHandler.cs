@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
+using OccBooking.Domain.Entities;
 using OccBooking.Persistance.DbContexts;
 using OccBooking.Persistance.Repositories;
 
@@ -35,18 +36,22 @@ namespace OccBooking.Application.Handlers
                 return Result.Fail<ExtendedHallDto>("Hall with given Id does not exist");
             }
 
-            var joins = _dbContext.HallJoins.Include(j => j.FirstHall).Include(j => j.SecondHall)
-                .Where(j => j.FirstHall == hall || j.SecondHall == hall);
-            var result = _mapper.Map<ExtendedHallDto>(hall);
+            var result = MapToResult(hall);
 
+            return Result.Ok(result);
+        }
+
+        private ExtendedHallDto MapToResult(Hall hall)
+        {
+            var result = _mapper.Map<ExtendedHallDto>(hall);
             foreach (var join in hall.PossibleJoins)
             {
                 result.Joins.Add(join.FirstHall == hall
-                    ? new PossibleJoinDto() {HallId = join.SecondHall.Id }
-                    : new PossibleJoinDto() {HallId = join.FirstHall.Id });
+                    ? new PossibleJoinDto() {HallId = join.SecondHall.Id, IsPossible = true}
+                    : new PossibleJoinDto() {HallId = join.FirstHall.Id, IsPossible = true});
             }
 
-            return Result.Ok(result);
+            return result;
         }
     }
 }

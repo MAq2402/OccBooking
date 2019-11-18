@@ -35,7 +35,6 @@ export class PlaceManagementComponent implements OnInit {
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.placeId);
 
     this.getPlace();
     this.menuSerivce.getIngredients().subscribe(ingredients => this.ingredients = ingredients);
