@@ -6,7 +6,7 @@ using OccBooking.Persistance.Entities;
 
 namespace OccBooking.Application.Queries
 {
-    public class IngredientsQuery : IQuery<IEnumerable<Ingredient>>
+    public class IngredientsQuery : IQuery<IEnumerable<string>>
     {
     }
 }

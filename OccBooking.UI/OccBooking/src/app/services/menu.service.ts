@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { IngredientModel } from '../models/ingredient.model';
+import { MealModel } from '../models/meal.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuService {
-
   constructor(private httpClient: HttpClient) { }
 
   getIngredients(): Observable<IngredientModel[]> {
@@ -23,4 +23,9 @@ export class MenuService {
   getMenus(placeId: string): Observable<MenuModel[]> {
     return this.httpClient.get<MenuModel[]>(`${environment.WEB_API_ENDPOINT}places/${placeId}/menus`);
   }
+
+  addMeal(menuId: any, model: MealModel): Observable<void> {
+    return this.httpClient.post<void>(`${environment.WEB_API_ENDPOINT}menus/${menuId}/meals`, model);
+  }
+
 }

@@ -23,22 +23,13 @@
             <mat-card-title>Konfiguracja</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <mat-list>
-                <h3 mat-subheader>Zestawy potraw<span class="spacer"></span><button mat-icon-button>
-                        <mat-icon (click)="createMenu()" color="primary">add</mat-icon>
-                    </button></h3>
-                <mat-list-item *ngFor="let menu of menus">
-                    <mat-icon mat-list-icon>restaurant_menu</mat-icon>
-                    <h4 mat-line>{{menu.name}}</h4>
-                </mat-list-item>
-                <mat-divider></mat-divider>
-            </mat-list>
+            <app-menu-section></app-menu-section>
             <mat-list>
                 <h3 mat-subheader>Dodatkowe opcje<span class="spacer"></span><button mat-icon-button>
                         <mat-icon (click)="createAdditionalOption()" color="primary">add</mat-icon>
                     </button></h3>
                 <mat-list-item *ngFor="let option of place?.additionalOptions">
-                    <mat-icon mat-list-icon>restaurant_menu</mat-icon>
+                    <mat-icon mat-list-icon>star</mat-icon>
                     <h4 mat-line>{{option.name}} - {{option.cost}}zł</h4>
                 </mat-list-item>
                 <mat-divider></mat-divider>
@@ -48,7 +39,7 @@
                         <mat-icon (click)="createHall()" color="primary">add</mat-icon>
                     </button></h3>
                 <a routerLink="/owner/hall-management/{{hall.id}}" *ngFor="let hall of halls"><mat-list-item>
-                    <mat-icon mat-list-icon>restaurant_menu</mat-icon>
+                    <mat-icon mat-list-icon>account_balance</mat-icon>
                     <h4 mat-line>{{hall.name}}</h4>
                 </mat-list-item></a>
                 <mat-divider></mat-divider>

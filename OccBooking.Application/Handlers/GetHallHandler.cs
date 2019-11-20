@@ -17,19 +17,23 @@ namespace OccBooking.Application.Handlers
 {
     public class GetHallHandler : QueryHandler<GetHallQuery, ExtendedHallDto>
     {
-        private IHallRepository _repository;
-
-        public GetHallHandler(IHallRepository repository,OccBookingDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        public GetHallHandler(OccBookingDbContext dbContext, IMapper mapper) : base(
+            dbContext, mapper)
         {
-            _repository = repository;
         }
 
         public override async Task<Result<ExtendedHallDto>> HandleAsync(GetHallQuery query)
         {
-            var hall =  await _dbContext.Halls.Include(h => h.Place).Include(h => h.PossibleJoinsWhereIsFirst).ThenInclude(j => j.FirstHall)
-                .Include(h => h.PossibleJoinsWhereIsFirst).ThenInclude(j => j.SecondHall)
-                .Include(h => h.PossibleJoinsWhereIsSecond).ThenInclude(j => j.SecondHall).Include(h => h.PossibleJoinsWhereIsSecond)
-                .ThenInclude(j => j.FirstHall).FirstOrDefaultAsync(h => h.Id == query.Id);
+            var hall = await _dbContext.Halls.Include(h => h.Place)
+                .Include(h => h.PossibleJoinsWhereIsFirst)
+                .ThenInclude(j => j.FirstHall)
+                .Include(h => h.PossibleJoinsWhereIsFirst)
+                .ThenInclude(j => j.SecondHall)
+                .Include(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.SecondHall)
+                .Include(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.FirstHall)
+                .FirstOrDefaultAsync(h => h.Id == query.Id);
 
             if (hall == null)
             {
