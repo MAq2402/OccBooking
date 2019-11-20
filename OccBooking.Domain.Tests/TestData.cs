@@ -18,7 +18,7 @@ namespace OccBooking.Domain.Tests
 
         public static ReservationRequest CorrectReservationRequest => new ReservationRequest(
             new Guid("581feae6-c4ba-42d8-a126-eba9bf68f82e"),
-            DateTime.Today, TestData.CorrectClient, 50, TestData.CorrectMenu,
+            DateTime.Today, CorrectClient, 50, CorrectMenu,
             OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
 
         public static Place CorrectPlace => new Place(new Guid("619e8c4e-69ae-482a-98eb-492afe60352b"), "Calvados",

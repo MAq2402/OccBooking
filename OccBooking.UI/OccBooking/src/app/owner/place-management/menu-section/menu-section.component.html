@@ -1,0 +1,12 @@
+<mat-list>
+    <h3 mat-subheader>Zestawy potraw<span class="spacer"></span><button mat-icon-button>
+            <mat-icon (click)="createMenu()" color="primary">add</mat-icon>
+        </button></h3>
+    <mat-list-item *ngFor="let menu of menus">
+        <mat-icon mat-list-icon>restaurant_menu</mat-icon>
+        <h4 mat-line>{{menu.name}}</h4>
+        <span class="spacer"></span>
+        <mat-icon (click)="addMeal(menu.id)">menu_book</mat-icon>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+</mat-list>

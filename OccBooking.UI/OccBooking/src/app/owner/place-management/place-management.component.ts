@@ -22,38 +22,19 @@ import { CreateHallDialogComponent } from './create-hall-dialog/create-hall-dial
 export class PlaceManagementComponent implements OnInit {
 
   place: PlaceModel;
-  ingredients: IngredientModel[];
-  menus: MenuModel[];
   halls: HallModel[];
   placeId: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private placeService: PlaceService,
               public dialog: MatDialog,
-              private menuSerivce: MenuService,
               private hallService: HallService) { }
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.getPlace();
-    this.menuSerivce.getIngredients().subscribe(ingredients => this.ingredients = ingredients);
-    this.getMenus();
     this.getHalls();
-  }
-
-  createMenu() {
-    const dialogRef = this.dialog.open(CreateMenuDialogComponent, { data: this.ingredients });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.menuSerivce.createMenu(this.placeId, result).subscribe(() => this.getMenus());
-      }
-    });
-  }
-
-  private getMenus() {
-    this.menuSerivce.getMenus(this.placeId).subscribe(menus => this.menus = menus);
   }
 
   createAdditionalOption() {

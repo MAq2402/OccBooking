@@ -21,7 +21,7 @@ namespace OccBooking.Domain.Entities
         {
         }
 
-        public IEnumerable<Meal> Meals => meals.AsReadOnly();
+        public IEnumerable<Meal> Meals => meals;
         public string Name { get; private set; }
         public MenuType Type { get; private set; }
         public decimal CostPerPerson { get; private set; }

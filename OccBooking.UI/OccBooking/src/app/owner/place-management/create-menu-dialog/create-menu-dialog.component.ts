@@ -40,6 +40,7 @@ export class CreateMenuDialogComponent implements OnInit {
 
   submit() {
     const model: MenuModel = {
+      id: null,
       name: this.formGroup.controls['name'].value,
       type: this.formGroup.controls['type'].value,
       costPerPerson: this.formGroup.controls['costPerPerson'].value,
