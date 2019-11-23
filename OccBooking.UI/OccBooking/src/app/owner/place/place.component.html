@@ -44,6 +44,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+
         </div>
         <div>
           <button mat-button mat-button matStepperPrevious>Powrót</button>
@@ -52,6 +53,12 @@
       </form>
     </mat-step>
     <mat-step>
+      <form [formGroup]="fileFormGroup">
+        <mat-form-field>
+          <ngx-mat-file-input  formControlName="image" placeholder="Dodaj zdjęcie"></ngx-mat-file-input>
+          <mat-icon matSuffix>folder</mat-icon>
+        </mat-form-field>
+      </form>
       <ng-template matStepLabel>Potwierdzenie</ng-template>
       Potwierdź dodanie swojego domu przyjęć/sali
       <div>

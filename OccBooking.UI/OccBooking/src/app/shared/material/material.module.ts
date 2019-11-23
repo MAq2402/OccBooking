@@ -14,6 +14,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+
 
 @NgModule({
   declarations: [],
@@ -32,7 +34,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatDialogModule,
     MatListModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MaterialFileInputModule
   ],
   exports: [
     MatButtonModule,
@@ -49,7 +52,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatDialogModule,
     MatListModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MaterialFileInputModule
   ]
 })
 export class MaterialModule { }

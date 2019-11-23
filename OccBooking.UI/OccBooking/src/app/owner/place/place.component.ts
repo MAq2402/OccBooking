@@ -5,6 +5,8 @@ import { UserModel } from 'src/app/auth/models/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { provinces } from 'src/app/shared/provinces';
 import { PlaceService } from 'src/app/services/place.service';
+import { HttpRequest } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-place',
@@ -17,9 +19,12 @@ export class PlaceComponent implements OnInit {
 
   baseInfromationFormGroup: FormGroup;
   addressFormGroup: FormGroup;
+  fileFormGroup: FormGroup;
   hasRooms = false;
 
-  constructor(private formBuilder: FormBuilder, private placeService: PlaceService, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder,
+              private placeService: PlaceService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
@@ -39,6 +44,10 @@ export class PlaceComponent implements OnInit {
       zipCode: ['', Validators.required],
       province: ['', Validators.required]
     });
+
+    this.fileFormGroup = this.formBuilder.group({
+      image: ['', Validators.nullValidator]
+    });
   }
 
   submit() {
@@ -54,9 +63,29 @@ export class PlaceComponent implements OnInit {
       province: this.addressFormGroup.controls['province'].value,
       additionalOptions: null,
       occasionTypes: null,
-      occasionTypesMaps: null
+      occasionTypesMaps: null,
+      image: null
     };
+    
 
-    this.placeService.createPlace(this.currentUser.ownerId, model).subscribe();
+    this.placeService.createPlace(this.currentUser.ownerId, model).subscribe(place => {
+      this.upload(this.fileFormGroup.controls['image'].value.files, place.id);
+    });
+  }
+
+  upload(files, placeId: string) {
+    if (files.length === 0)
+      return;
+
+    const formData = new FormData();
+
+    for (let file of files) {
+      formData.append(file.name, file);
+
+    }
+
+    const uploadReq = new HttpRequest('POST', `${environment.WEB_API_ENDPOINT}places/${placeId}/upload`, formData);
+
+    this.placeService.uploadFile(uploadReq);
   }
 }

@@ -18,5 +18,6 @@ namespace OccBooking.Application.DTOs
         public string Province { get; set; }
         public IEnumerable<AdditionalOptionDto> AdditionalOptions { get; set; } = new List<AdditionalOptionDto>();
         public List<string> OccasionTypes { get; set; } = new List<string>();
+        public string Image { get; set; }
     }
 }

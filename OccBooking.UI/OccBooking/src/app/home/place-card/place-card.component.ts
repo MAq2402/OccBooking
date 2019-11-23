@@ -9,11 +9,16 @@ declare var require: any;
 })
 export class PlaceCardComponent implements OnInit {
 
-  imgUrl = require('../35088_1.jpg');
+  imgUrl: any;
   @Input() place: PlaceModel;
   constructor() { }
 
   ngOnInit() {
+    if (this.place.image) {
+      this.imgUrl = 'data:image/png;base64,' + this.place.image;
+    } else {
+      this.imgUrl = require('../default-image.jpg');
+    }
   }
 
 }

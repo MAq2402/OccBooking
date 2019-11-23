@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlaceModel } from '../../models/place.model';
 import { CreateMenuDialogComponent } from './create-menu-dialog/create-menu-dialog.component';
@@ -14,6 +14,14 @@ import { HallService } from 'src/app/services/hall.service';
 import { HallModel } from 'src/app/models/hall.model';
 import { CreateHallDialogComponent } from './create-hall-dialog/create-hall-dialog.component';
 
+
+// @Directive({
+//   selector: '[profileImage]',
+//   providers: [BROWSER_SANITIZATION_PROVIDERS],  
+//   host: {  
+//     '[src]': 'sanitizedImageData'  
+//   }  
+// }) 
 @Component({
   selector: 'app-place-management',
   templateUrl: './place-management.component.html',
@@ -50,6 +58,10 @@ export class PlaceManagementComponent implements OnInit {
   private getPlace() {
     this.placeService.getPlace(this.placeId).subscribe(place => {
       this.place = place;
+      if (this.place.image) {
+        this.place.image = 'data:image/png;base64,' + place.image;
+      }
+
       this.place.occasionTypesMaps = this.mapToOccasionTypeMap(this.place.occasionTypes);
     });
   }
