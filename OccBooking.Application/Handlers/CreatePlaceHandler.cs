@@ -23,7 +23,7 @@ namespace OccBooking.Application.Handlers
 
         public async Task<Result> HandleAsync(CreatePlaceCommand command)
         {
-            var place = new Place(Guid.NewGuid(), command.Name, command.HasRooms, command.CostPerPerson,
+            var place = new Place(command.Id, command.Name, command.HasRooms, command.CostPerPerson,
                 command.Description, new Address(command.Street, command.City, command.ZipCode, command.Province));
 
             var owner = await _ownerRepository.GetAsync(command.OwnerId);

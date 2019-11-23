@@ -14,4 +14,5 @@ export class PlaceModel {
     additionalOptions: AdditionalOptionModel[];
     occasionTypes: string[];
     occasionTypesMaps: OccasionTypeMapModel[];
+    image: any;
 }

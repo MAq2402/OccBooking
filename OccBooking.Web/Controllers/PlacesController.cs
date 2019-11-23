@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OccBooking.Application.Commands;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Dispatchers;
-using OccBooking.Domain.Enums;
 
 namespace OccBooking.Web.Controllers
 {
@@ -43,9 +43,19 @@ namespace OccBooking.Web.Controllers
         [HttpPost("{ownerId}/places")]
         public async Task<IActionResult> CreatePlaceAsync(string ownerId, PlaceForCreationDto model)
         {
-            return FromCreation(await CommandAsync(new CreatePlaceCommand(model.Name, model.HasRooms,
+            var command = new CreatePlaceCommand(model.Name, model.HasRooms,
                 model.CostPerPerson, model.Description, model.Street, model.City, model.ZipCode, model.Province,
-                new Guid(ownerId))));
+                new Guid(ownerId));
+
+            var commandResult = await CommandAsync(command);
+
+            if (commandResult.IsFailure)
+            {
+                return BadRequest(commandResult.Error);
+            }
+
+            var place = await QueryAsync(new GetPlaceQuery(command.Id));
+            return CreatedAtRoute(null, place.Value);
         }
 
         [Authorize]
@@ -74,6 +84,20 @@ namespace OccBooking.Web.Controllers
         public async Task<IActionResult> GetReservedDays(string placeId)
         {
             return FromCollection(await QueryAsync(new GetReservedDaysQuery(new Guid(placeId))));
+        }
+
+        [HttpPost("places/{placeId}/upload")]
+        public async Task<IActionResult> UploadFile(string placeId)
+        {
+            if (!Request.Form.Files.Any())
+            {
+                return BadRequest();
+            }
+
+            var file = Request.Form.Files.First();
+
+            return FromCreation(
+                await CommandAsync(new UploadPlaceImageCommand(new Infrastructure.File(file), new Guid(placeId))));
         }
     }
 }

@@ -10,6 +10,7 @@ namespace OccBooking.Application.Commands
         public CreatePlaceCommand(string name, bool hasRooms, decimal costPerPerson, string description, string street,
             string city, string zipCode, string province, Guid ownerId)
         {
+            Id = Guid.NewGuid();
             Name = name;
             HasRooms = hasRooms;
             CostPerPerson = costPerPerson;
@@ -21,6 +22,7 @@ namespace OccBooking.Application.Commands
             OwnerId = ownerId;
         }
 
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public bool HasRooms { get; private set; }
         public decimal CostPerPerson { get; private set; }

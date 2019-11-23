@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PlaceFilterModel } from 'src/app/home/models/place-filter.model';
 import { PlaceModel } from '../models/place.model';
@@ -13,8 +13,8 @@ export class PlaceService {
 
   constructor(private http: HttpClient) { }
 
-  createPlace(ownerId: string, model: PlaceModel): Observable<any> {
-    return this.http.post<any>(`${environment.WEB_API_ENDPOINT}${ownerId}/places`, model);
+  createPlace(ownerId: string, model: PlaceModel): Observable<PlaceModel> {
+    return this.http.post<PlaceModel>(`${environment.WEB_API_ENDPOINT}${ownerId}/places`, model);
   }
 
   getPlaces(filterModel: PlaceFilterModel = null): Observable<PlaceModel[]> {
@@ -55,5 +55,10 @@ export class PlaceService {
 
   getReservedDays(placeId: string): Observable<Date[]> {
     return this.http.get<Date[]>(`${environment.WEB_API_ENDPOINT}places/${placeId}/reservedDays`);
+  }
+
+  uploadFile(placeId: string, formData: FormData) {
+    const uploadReq = new HttpRequest('POST', `${environment.WEB_API_ENDPOINT}places/${placeId}/upload`, formData);
+    this.http.request(uploadReq).subscribe();
   }
 }

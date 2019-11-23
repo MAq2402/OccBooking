@@ -5,7 +5,9 @@
             <mat-card-title>Shiba Inu</mat-card-title>
             <mat-card-subtitle>Dog Breed</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <div *ngIf="place && place.image">
+            <img mat-card-image class="rounded" [src]="place?.image">
+        </div>
         <mat-card-content>
             <p>
                 The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
@@ -38,10 +40,12 @@
                 <h3 mat-subheader>Sale<span class="spacer"></span><button mat-icon-button>
                         <mat-icon (click)="createHall()" color="primary">add</mat-icon>
                     </button></h3>
-                <a routerLink="/owner/hall-management/{{hall.id}}" *ngFor="let hall of halls"><mat-list-item>
-                    <mat-icon mat-list-icon>account_balance</mat-icon>
-                    <h4 mat-line>{{hall.name}}</h4>
-                </mat-list-item></a>
+                <a routerLink="/owner/hall-management/{{hall.id}}" *ngFor="let hall of halls">
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>account_balance</mat-icon>
+                        <h4 mat-line>{{hall.name}}</h4>
+                    </mat-list-item>
+                </a>
                 <mat-divider></mat-divider>
             </mat-list>
             <mat-list>
