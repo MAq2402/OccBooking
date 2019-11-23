@@ -5,8 +5,6 @@ import { UserModel } from 'src/app/auth/models/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { provinces } from 'src/app/shared/provinces';
 import { PlaceService } from 'src/app/services/place.service';
-import { HttpRequest } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-place',
@@ -66,26 +64,18 @@ export class PlaceComponent implements OnInit {
       occasionTypesMaps: null,
       image: null
     };
-    
 
     this.placeService.createPlace(this.currentUser.ownerId, model).subscribe(place => {
-      this.upload(this.fileFormGroup.controls['image'].value.files, place.id);
+      this.upload(this.fileFormGroup.controls['image'].value.files[0], place.id);
     });
   }
 
-  upload(files, placeId: string) {
-    if (files.length === 0)
-      return;
-
-    const formData = new FormData();
-
-    for (let file of files) {
+   private upload(file, placeId: string) {
+    if (file) {
+      const formData = new FormData();
       formData.append(file.name, file);
 
+      this.placeService.uploadFile(placeId, formData);
     }
-
-    const uploadReq = new HttpRequest('POST', `${environment.WEB_API_ENDPOINT}places/${placeId}/upload`, formData);
-
-    this.placeService.uploadFile(uploadReq);
   }
 }

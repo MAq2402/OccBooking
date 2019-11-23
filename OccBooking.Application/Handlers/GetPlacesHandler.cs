@@ -34,17 +34,20 @@ namespace OccBooking.Application.Handlers
                     .FilterByOccasionTypes(query.PlaceFilter.OccasionType);
             }
 
-            var result = _mapper.Map<IEnumerable<PlaceDto>>(await places.ToListAsync());
-            foreach (var place in result)
+            var result = new List<PlaceDto>();
+            foreach (var place in places)
             {
+                var placeForResult = _mapper.Map<PlaceDto>(place);
+              
                 var image = await _dbContext.PlaceImages.FirstOrDefaultAsync(i => i.PlaceId == place.Id);
                 if (image != null)
                 {
-                    place.Image = Convert.ToBase64String(image.Content);
+                    placeForResult.Image = Convert.ToBase64String(image.Content);
                 }
+                result.Add(placeForResult);
             }
 
-            return Result.Ok(result);
+            return Result.Ok<IEnumerable<PlaceDto>>(result);
         }
     }
 }

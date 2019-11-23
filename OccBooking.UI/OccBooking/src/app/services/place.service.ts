@@ -57,7 +57,8 @@ export class PlaceService {
     return this.http.get<Date[]>(`${environment.WEB_API_ENDPOINT}places/${placeId}/reservedDays`);
   }
 
-  uploadFile(uploadReq: HttpRequest<FormData>) {
+  uploadFile(placeId: string, formData: FormData) {
+    const uploadReq = new HttpRequest('POST', `${environment.WEB_API_ENDPOINT}places/${placeId}/upload`, formData);
     this.http.request(uploadReq).subscribe();
   }
 }

@@ -6,7 +6,7 @@
             <mat-card-subtitle>Dog Breed</mat-card-subtitle>
         </mat-card-header>
         <div *ngIf="place && place.image">
-            <img [src]="place?.image">
+            <img mat-card-image class="rounded" [src]="place?.image">
         </div>
         <mat-card-content>
             <p>

@@ -11,15 +11,16 @@ namespace OccBooking.Web.Infrastructure
 {
     public class File : IFile
     {
+        private readonly IFormFile file;
+
         public File(IFormFile formFile)
         {
-            FormFile = formFile;
+            file = formFile;
         }
 
-        public IFormFile FormFile { get; }
         public async Task CopyToAsync(MemoryStream memoryStream)
         {
-            await FormFile.CopyToAsync(memoryStream);
+            await file.CopyToAsync(memoryStream);
         }
     }
 }

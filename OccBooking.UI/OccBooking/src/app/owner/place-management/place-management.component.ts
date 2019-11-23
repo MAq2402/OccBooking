@@ -13,15 +13,8 @@ import { occasionTypes } from 'src/app/shared/occasionTypes';
 import { HallService } from 'src/app/services/hall.service';
 import { HallModel } from 'src/app/models/hall.model';
 import { CreateHallDialogComponent } from './create-hall-dialog/create-hall-dialog.component';
+declare var require: any;
 
-
-// @Directive({
-//   selector: '[profileImage]',
-//   providers: [BROWSER_SANITIZATION_PROVIDERS],  
-//   host: {  
-//     '[src]': 'sanitizedImageData'  
-//   }  
-// }) 
 @Component({
   selector: 'app-place-management',
   templateUrl: './place-management.component.html',
@@ -34,9 +27,9 @@ export class PlaceManagementComponent implements OnInit {
   placeId: string;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private placeService: PlaceService,
-              public dialog: MatDialog,
-              private hallService: HallService) { }
+    private placeService: PlaceService,
+    public dialog: MatDialog,
+    private hallService: HallService) { }
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -60,6 +53,8 @@ export class PlaceManagementComponent implements OnInit {
       this.place = place;
       if (this.place.image) {
         this.place.image = 'data:image/png;base64,' + place.image;
+      } else {
+        this.place.image = require('../../../assets/default-image.jpg');
       }
 
       this.place.occasionTypesMaps = this.mapToOccasionTypeMap(this.place.occasionTypes);

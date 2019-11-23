@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OccBooking.Application.Commands;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Dispatchers;
-using OccBooking.Domain.Enums;
 
 namespace OccBooking.Web.Controllers
 {
@@ -49,11 +46,12 @@ namespace OccBooking.Web.Controllers
             var command = new CreatePlaceCommand(model.Name, model.HasRooms,
                 model.CostPerPerson, model.Description, model.Street, model.City, model.ZipCode, model.Province,
                 new Guid(ownerId));
-            var result = await CommandAsync(command);
 
-            if (result.IsFailure)
+            var commandResult = await CommandAsync(command);
+
+            if (commandResult.IsFailure)
             {
-                return BadRequest(result.Error);
+                return BadRequest(commandResult.Error);
             }
 
             var place = await QueryAsync(new GetPlaceQuery(command.Id));
@@ -91,7 +89,12 @@ namespace OccBooking.Web.Controllers
         [HttpPost("places/{placeId}/upload")]
         public async Task<IActionResult> UploadFile(string placeId)
         {
-            var file = Request.Form.Files[0];
+            if (!Request.Form.Files.Any())
+            {
+                return BadRequest();
+            }
+
+            var file = Request.Form.Files.First();
 
             return FromCreation(
                 await CommandAsync(new UploadPlaceImageCommand(new Infrastructure.File(file), new Guid(placeId))));

@@ -35,7 +35,6 @@ namespace OccBooking.Application.Handlers
             if (image != null)
             {
                 result.Image = Convert.ToBase64String(image.Content);
-
             }
 
             return Result.Ok(result);

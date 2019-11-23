@@ -17,8 +17,7 @@ export class PlaceCardComponent implements OnInit {
     if (this.place.image) {
       this.imgUrl = 'data:image/png;base64,' + this.place.image;
     } else {
-      this.imgUrl = require('../default-image.jpg');
+      this.imgUrl = require('../../../assets/default-image.jpg');
     }
   }
-
 }
