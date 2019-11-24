@@ -1,1 +1,1 @@
-<button mat-raised-button color="primary" (click)="openMakeReservationDialog()">Złóż rezerwację</button>
+<button [disabled]="!place.isConfigured" mat-raised-button color="primary" (click)="openMakeReservationDialog()">Złóż rezerwację</button>

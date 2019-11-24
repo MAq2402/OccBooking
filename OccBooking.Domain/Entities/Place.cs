@@ -17,12 +17,11 @@ namespace OccBooking.Domain.Entities
         private List<Hall> halls = new List<Hall>();
         private List<EmptyPlaceReservation> emptyReservations = new List<EmptyPlaceReservation>();
 
-        public Place(Guid id, string name, bool hasRooms, decimal costPerPerson, string description,
+        public Place(Guid id, string name, bool hasRooms, string description,
             Address address) : base(id)
         {
             SetName(name);
             HasRooms = hasRooms;
-            SetCostPerPerson(costPerPerson);
             Description = description;
             Address = address;
         }
@@ -49,11 +48,11 @@ namespace OccBooking.Domain.Entities
 
         public string Name { get; private set; }
         public bool HasRooms { get; private set; }
-        public decimal CostPerPerson { get; private set; }
         public string Description { get; private set; }
         public Owner Owner { get; private set; }
         public Address Address { get; private set; }
         public int Capacity => CalculateCapacity(halls);
+        public bool IsConfigured => halls.Any() && menus.Any() && AvailableOccasionTypes.Any();
 
         private void SetName(string name)
         {
@@ -63,16 +62,6 @@ namespace OccBooking.Domain.Entities
             }
 
             Name = name;
-        }
-
-        private void SetCostPerPerson(decimal costPerPerson)
-        {
-            if (costPerPerson < 0)
-            {
-                throw new DomainException("Cost per person can not be lower than zero");
-            }
-
-            CostPerPerson = costPerPerson;
         }
 
         public void AddHall(Hall hall)
@@ -113,16 +102,14 @@ namespace OccBooking.Domain.Entities
         public void MakeReservationRequest(ReservationRequest request)
         {
             ValidateMakeReservationRequest(request);
-
-            request.CalculateCost(CostPerPerson);
             reservationReqeusts.Add(request);
         }
 
         public void ValidateMakeReservationRequest(ReservationRequest request)
         {
-            if (!Menus.Contains(request.Menu))
+            if (!request.MenuOrders.Select(x => x.Menu).All(m => Menus.Contains(m)))
             {
-                throw new DomainException("Place does not contain such a menu");
+                throw new DomainException("Place does not contain some or all menus in reservation request");
             }
 
             if (!AvailableOccasionTypes.Contains(request.OccasionType))

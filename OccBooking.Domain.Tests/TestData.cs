@@ -16,12 +16,14 @@ namespace OccBooking.Domain.Tests
         public static Menu CorrectMenu => new Menu(new Guid("17d7256c-782f-4832-b2a0-023f8ebb55f0"), "Standard",
             MenuType.Vegetarian, 10);
 
+        public static List<MenuOrder> CorrectMenuOrders => new List<MenuOrder>() {new MenuOrder(CorrectMenu, 100)};
+
         public static ReservationRequest CorrectReservationRequest => new ReservationRequest(
             new Guid("581feae6-c4ba-42d8-a126-eba9bf68f82e"),
-            DateTime.Today, CorrectClient, 50, CorrectMenu,
-            OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
+            DateTime.Today, CorrectClient,
+            OccasionType.FuneralMeal, new List<PlaceAdditionalOption>(), CorrectMenuOrders);
 
         public static Place CorrectPlace => new Place(new Guid("619e8c4e-69ae-482a-98eb-492afe60352b"), "Calvados",
-            false, 100, "", CorrectAddress);
+            false, "", CorrectAddress);
     }
 }

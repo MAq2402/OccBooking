@@ -12,15 +12,15 @@ namespace OccBooking.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<ReservationRequest> builder)
         {
-            builder.HasOne(r => r.Menu);
+            builder.HasMany(r => r.MenuOrders).WithOne(o => o.ReservationRequest);
 
-            builder.OwnsOne(r => r.Client,  ba => ba.OwnsOne(c => c.Name));
+            builder.OwnsOne(r => r.Client, ba => ba.OwnsOne(c => c.Name));
             builder.OwnsOne(r => r.Client, ba => ba.OwnsOne(c => c.Email));
             builder.OwnsOne(r => r.Client, ba => ba.OwnsOne(c => c.PhoneNumber));
             builder.OwnsOne(r => r.OccasionType);
 
             builder.Property(p => p.AdditionalOptions)
-                .HasConversion<string>(x => x.ToString(), y => (PlaceAdditionalOptions)y);
+                .HasConversion<string>(x => x.ToString(), y => (PlaceAdditionalOptions) y);
         }
     }
 }

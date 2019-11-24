@@ -15,4 +15,5 @@ export class PlaceModel {
     occasionTypes: string[];
     occasionTypesMaps: OccasionTypeMapModel[];
     image: any;
+    isConfigured: boolean;
 }

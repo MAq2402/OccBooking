@@ -62,7 +62,8 @@ export class PlaceComponent implements OnInit {
       additionalOptions: null,
       occasionTypes: null,
       occasionTypesMaps: null,
-      image: null
+      image: null,
+      isConfigured: null
     };
 
     this.placeService.createPlace(this.currentUser.ownerId, model).subscribe(place => {

@@ -19,5 +19,6 @@ namespace OccBooking.Application.DTOs
         public IEnumerable<AdditionalOptionDto> AdditionalOptions { get; set; } = new List<AdditionalOptionDto>();
         public List<string> OccasionTypes { get; set; } = new List<string>();
         public string Image { get; set; }
+        public bool IsConfigured { get; set; }
     }
 }

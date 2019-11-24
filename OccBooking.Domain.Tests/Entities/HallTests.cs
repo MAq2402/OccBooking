@@ -7,6 +7,7 @@ using System.Text;
 using OccBooking.Domain.Enums;
 using OccBooking.Domain.ValueObjects;
 using Xunit;
+using static OccBooking.Domain.Tests.TestData;
 
 namespace OccBooking.Domain.Tests.Entities
 {
@@ -79,8 +80,8 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var hall = TestData.CorrectHall;
             var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today, TestData.CorrectClient, 50, TestData.CorrectMenu,
-                OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
+                DateTime.Today, TestData.CorrectClient, OccasionType.FuneralMeal,
+                new List<PlaceAdditionalOption>(), CorrectMenuOrders);
             hall.MakeReservation(reservation);
 
             Assert.True(hall.IsFreeOnDate(DateTime.Today.AddDays(1)));
@@ -92,8 +93,8 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var hall = new Hall(Guid.NewGuid(), "Big", 40);
             var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today, TestData.CorrectClient, 50, TestData.CorrectMenu,
-                OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
+                DateTime.Today, TestData.CorrectClient, OccasionType.FuneralMeal,
+                new List<PlaceAdditionalOption>(), CorrectMenuOrders);
 
             hall.MakeReservation(reservation);
 

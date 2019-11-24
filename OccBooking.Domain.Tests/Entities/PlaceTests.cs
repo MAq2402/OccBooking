@@ -4,38 +4,39 @@ using OccBooking.Domain.Enums;
 using OccBooking.Domain.Exceptions;
 using OccBooking.Domain.ValueObjects;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using static OccBooking.Domain.Tests.TestData;
+using static OccBooking.Domain.Tests.DataFactories.IsPlaceConfiguredDataFactory;
 
 namespace OccBooking.Domain.Tests.Entities
 {
     public class PlaceTests
     {
         [Theory]
-        [InlineData("", 10)]
-        [InlineData("Calvados", -1)]
-        public void CreationShouldFail(string name, int costPerPerson)
+        [InlineData("")]
+        public void CreationShouldFail(string name)
         {
-            Assert.Throws<DomainException>(() => new Place(Guid.NewGuid(), name, false, costPerPerson, "", CorrectAddress));
+            Assert.Throws<DomainException>(() =>
+                new Place(Guid.NewGuid(), name, false, "", CorrectAddress));
         }
 
         [Fact]
         public void CreationShouldWork()
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "Nice place", CorrectAddress);
+            var place = new Place(Guid.NewGuid(), "Calvados", false, "Nice place", CorrectAddress);
 
             Assert.Equal("Calvados", place.Name);
             Assert.False(place.HasRooms);
-            Assert.Equal(10, place.CostPerPerson);
             Assert.Equal("Nice place", place.Description);
         }
 
         [Fact]
         public void AssignMenuShouldWork()
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
 
             place.AssignMenu(menu);
@@ -46,7 +47,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AssignMenuShouldFail()
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
 
             Action action = () => place.AssignMenu(null);
 
@@ -56,7 +57,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AllowPartyShouldWork()
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
 
             place.AllowParty(OccasionType.Wedding);
 
@@ -66,7 +67,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void DisallowPartyShouldWork()
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
 
             place.AllowParty(OccasionType.Wedding);
             place.AllowParty(OccasionType.FuneralMeal);
@@ -79,7 +80,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void SupportAdditionalOptionShouldWork()
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             var option = new PlaceAdditionalOption("Flowers", 200);
 
             place.SupportAdditionalOption(option);
@@ -91,7 +92,7 @@ namespace OccBooking.Domain.Tests.Entities
         public void AddHallShouldWork()
         {
             var hall = new Hall(Guid.NewGuid(), "Big", 10);
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             place.AddHall(hall);
 
             Assert.Contains(hall, place.Halls);
@@ -100,17 +101,16 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AddHallShouldFail()
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
 
             Assert.Throws<DomainException>(() => place.AddHall(null));
         }
 
         [Theory]
-        [InlineData(10, 10, 10, new[] {10}, 200)]
-        public void MakeReservationShouldWork(int menuCost, int placeCost, int amountOfPeople, int[] hallSizes,
-            int expected)
+        [InlineData(10, 10, new[] {10})]
+        public void MakeReservationShouldWork(int menuCost, int amountOfPeople, int[] hallSizes)
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
+            var place = CorrectPlace;
             foreach (var hallSize in hallSizes)
             {
                 var hall = new Hall(Guid.NewGuid(), "Big", hallSize);
@@ -124,27 +124,23 @@ namespace OccBooking.Domain.Tests.Entities
 
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                amountOfPeople,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople) });
 
             place.MakeReservationRequest(reservation);
-            var actual = reservation.Cost;
 
             Assert.Contains(reservation, place.ReservationRequests);
-            Assert.Equal(expected, actual);
         }
 
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotHaveGivenMenu()
         {
             var hall = new Hall(Guid.NewGuid(), "Big", 100);
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var menuForReservation = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
-            var amountOfPeopleForReservation = 50;
 
             place.AllowParty(OccasionType.Wedding);
             place.SupportAdditionalOption(new PlaceAdditionalOption("Photos", 100));
@@ -153,25 +149,24 @@ namespace OccBooking.Domain.Tests.Entities
 
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Now,
-                TestData.CorrectClient,
-                amountOfPeopleForReservation,
-                menuForReservation,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() {new MenuOrder(menuForReservation, 100)}
+            );
 
             Action action = () => place.ValidateMakeReservationRequest(reservation);
 
             var execption = Assert.Throws<DomainException>(action);
-            Assert.Equal("Place does not contain such a menu", execption.Message);
+            Assert.Equal("Place does not contain some or all menus in reservation request", execption.Message);
         }
 
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotSupportSuchParty()
         {
             var hall = new Hall(Guid.NewGuid(), "Big", 100);
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
-            var amountOfPeopleForReservation = 50;
 
             place.AllowParty(OccasionType.Wedding);
             place.SupportAdditionalOption(new PlaceAdditionalOption("Photos", 100));
@@ -180,11 +175,10 @@ namespace OccBooking.Domain.Tests.Entities
 
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Now,
-                TestData.CorrectClient,
-                amountOfPeopleForReservation,
-                menu,
+                CorrectClient,
                 OccasionType.FuneralMeal,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() {new MenuOrder(menu, 100)});
 
             Action action = () => place.ValidateMakeReservationRequest(reservation);
 
@@ -196,7 +190,7 @@ namespace OccBooking.Domain.Tests.Entities
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotSupportOption()
         {
             var hall = new Hall(Guid.NewGuid(), "Big", 100);
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var amountOfPeopleForReservation = 50;
 
@@ -207,11 +201,10 @@ namespace OccBooking.Domain.Tests.Entities
 
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Now,
-                TestData.CorrectClient,
-                amountOfPeopleForReservation,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>() {new PlaceAdditionalOption("Photos", 50)});
+                new List<PlaceAdditionalOption>() {new PlaceAdditionalOption("Photos", 50)},
+                new List<MenuOrder>() { new MenuOrder(menu, 100) });
 
             Action action = () => place.ValidateMakeReservationRequest(reservation);
 
@@ -229,7 +222,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
             var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
@@ -238,18 +231,16 @@ namespace OccBooking.Domain.Tests.Entities
             place.AddHall(hall2);
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                amountOfPeople1,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople1) });
             var reservation1 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                amountOfPeople2,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople2) });
 
             place.MakeReservationRequest(reservation);
             place.AcceptReservationRequest(reservation, new[] {hall1, hall2});
@@ -272,7 +263,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
             var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
             var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3);
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
@@ -280,24 +271,22 @@ namespace OccBooking.Domain.Tests.Entities
             place.AddHall(hall1);
             place.AddHall(hall2);
             place.AddHall(hall3);
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                TestData.CorrectClient,
-                amountOfPeople1,
-                menu,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
             var reservation1 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                amountOfPeople2,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople1) });
+            var reservation2 = new ReservationRequest(Guid.NewGuid(),
+                DateTime.Today,
+                CorrectClient,
+                OccasionType.Wedding,
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople2) });
 
-            place.MakeReservationRequest(reservation);
-            place.AcceptReservationRequest(reservation, new[] {hall1, hall2});
-            Action action = () => place.ValidateMakeReservationRequest(reservation1);
+            place.MakeReservationRequest(reservation1);
+            place.AcceptReservationRequest(reservation1, new[] {hall1, hall2});
+            Action action = () => place.ValidateMakeReservationRequest(reservation2);
 
             var exception = Assert.Throws<DomainException>(action);
             Assert.Equal("Making reservation on this date and with this amount of people is impossible",
@@ -312,7 +301,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
             var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
@@ -321,11 +310,10 @@ namespace OccBooking.Domain.Tests.Entities
             place.AddHall(hall2);
             var reservation = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                amountOfPeople1,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople1) });
 
             Action action = () => place.ValidateMakeReservationRequest(reservation);
 
@@ -341,7 +329,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
             var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
 
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             place.AddHall(hall1);
             place.AddHall(hall2);
             place.AddHall(hall3);
@@ -361,7 +349,7 @@ namespace OccBooking.Domain.Tests.Entities
             var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
             var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
 
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 10, "", CorrectAddress);
+            var place = CorrectPlace;
             place.AddHall(hall1);
             place.AddHall(hall2);
             place.AddHall(hall3);
@@ -378,9 +366,8 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AcceptShouldWork()
         {
-            var placeCost = 50;
             var menuCost = 50;
-            var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
+            var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -394,32 +381,28 @@ namespace OccBooking.Domain.Tests.Entities
             place.AddHall(hall3);
             var reservation1 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                30,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 30) });
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -438,7 +421,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var placeCost = 50;
             var menuCost = 50;
-            var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
+            var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -452,32 +435,28 @@ namespace OccBooking.Domain.Tests.Entities
             place.AddHall(hall3);
             var reservation1 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                30,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 30) });
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -495,7 +474,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var placeCost = 50;
             var menuCost = 50;
-            var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
+            var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -509,32 +488,28 @@ namespace OccBooking.Domain.Tests.Entities
             place.AddHall(hall3);
             var reservation1 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                30,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 30) });
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -551,7 +526,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var placeCost = 50;
             var menuCost = 50;
-            var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
+            var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -565,32 +540,28 @@ namespace OccBooking.Domain.Tests.Entities
             place.AddHall(hall3);
             var reservation1 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                30,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 30) });
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -606,7 +577,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var placeCost = 50;
             var menuCost = 50;
-            var place = new Place(Guid.NewGuid(), "Calvados", false, placeCost, "", CorrectAddress);
+            var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -620,32 +591,28 @@ namespace OccBooking.Domain.Tests.Entities
             place.AddHall(hall3);
             var reservation1 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
-                TestData.CorrectClient,
-                50,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 50) });
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
-                TestData.CorrectClient,
-                30,
-                menu,
+                CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>());
+                new List<PlaceAdditionalOption>(),
+                new List<MenuOrder>() { new MenuOrder(menu, 30) });
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -668,6 +635,45 @@ namespace OccBooking.Domain.Tests.Entities
             var actual = place.EmptyReservations.Count();
 
             Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [ClassData(typeof(IsPlaceConfiguredShouldReturnFalseTestData))]
+        public void IsPlaceConfiguredShouldReturnGivenResult(IEnumerable<Hall> halls, IEnumerable<Menu> menus,
+            OccasionTypes occasionTypes, bool expected)
+        {
+            var place = CorrectPlace;
+            foreach (var hall in halls)
+            {
+                place.AddHall(hall);
+            }
+
+            foreach (var menu in menus)
+            {
+                place.AssignMenu(menu);
+            }
+
+            foreach (var occasionType in occasionTypes)
+            {
+                place.AllowParty(occasionType);
+            }
+
+            var actual = place.IsConfigured;
+
+            Assert.Equal(expected, actual);
+        }
+
+        private class IsPlaceConfiguredShouldReturnFalseTestData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return WithAllRequiredData;
+                yield return WithoutHalls;
+                yield return WithoutMenus;
+                yield return WithoutOccasionTypes;
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

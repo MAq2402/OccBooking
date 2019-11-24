@@ -25,7 +25,7 @@ namespace OccBooking.Domain.Tests.Entities
         public void AddPlaceShouldWork()
         {
             var owner = new Owner(Guid.NewGuid(), "Michał", "Miciak", "michal@miciak.com", "111111111");
-            var place = new Place(Guid.NewGuid(), "Calvados", false, 0, "", CorrectAddress);
+            var place = CorrectPlace;
 
             owner.AddPlace(place);
             var expected = true;

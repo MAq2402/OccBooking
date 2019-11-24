@@ -11,43 +11,44 @@ namespace OccBooking.Domain.Entities
     public class ReservationRequest : AggregateRoot
     {
         private string additionalOptions = string.Empty;
+        private List<MenuOrder> _menuOrders;
 
         public ReservationRequest(Guid id,
             DateTime dateTime,
             Client client,
-            int amountOfPeople,
-            Menu menu,
             OccasionType occasionType,
-            IEnumerable<PlaceAdditionalOption> additionalOptions) : base(id)
+            IEnumerable<PlaceAdditionalOption> additionalOptions,
+            IEnumerable<MenuOrder> menuOrders) : base(id)
         {
             SetDateTime(dateTime);
             SetClient(client);
-            SetAmountOfPeople(amountOfPeople);
-            SetMenu(menu);
+            SetMenuOrders(menuOrders);
             OccasionType = occasionType;
             AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
+            CalculateCost();
+            CalculateAmountOfPeople();
         }
 
         private ReservationRequest()
         {
-
         }
 
         public PlaceAdditionalOptions AdditionalOptions
         {
-            get { return (PlaceAdditionalOptions)additionalOptions; }
+            get { return (PlaceAdditionalOptions) additionalOptions; }
             set { additionalOptions = value; }
         }
+
         public DateTime DateTime { get; private set; }
         public Client Client { get; private set; }
-        public int AmountOfPeople { get; private set; }
         public Place Place { get; private set; }
-        public Menu Menu { get; private set; }
+        public IEnumerable<MenuOrder> MenuOrders => _menuOrders;
         public decimal Cost { get; private set; }
         public bool IsAccepted { get; private set; }
         public bool IsRejected { get; private set; }
         public OccasionType OccasionType { get; private set; }
         public bool IsAnswered => IsRejected || IsAccepted;
+        public int AmountOfPeople { get; private set; }
 
         private void SetDateTime(DateTime dateTime)
         {
@@ -59,14 +60,9 @@ namespace OccBooking.Domain.Entities
             DateTime = dateTime;
         }
 
-        private void SetMenu(Menu menu)
+        private void SetMenuOrders(IEnumerable<MenuOrder> menuOrders)
         {
-            if (menu == null)
-            {
-                throw new DomainException("Menu for reservation has not been provided");
-            }
-
-            Menu = menu;
+            _menuOrders = menuOrders.ToList();
         }
 
         private void SetClient(Client client)
@@ -77,16 +73,6 @@ namespace OccBooking.Domain.Entities
             }
 
             Client = client;
-        }
-
-        private void SetAmountOfPeople(int amountOfPeople)
-        {
-            if (amountOfPeople <= 0)
-            {
-                throw new DomainException("Reservation amount of people has to be greater than 0");
-            }
-
-            AmountOfPeople = amountOfPeople;
         }
 
         public void Accept()
@@ -111,11 +97,15 @@ namespace OccBooking.Domain.Entities
             IsRejected = true;
         }
 
-        public void CalculateCost(decimal placeCostForPerson)
+        private void CalculateCost()
         {
-            Cost = AmountOfPeople * placeCostForPerson +
-                   Menu.CostPerPerson * AmountOfPeople +
+            Cost = _menuOrders.Sum(o => o.Cost) +
                    AdditionalOptions.Sum(o => o.Cost);
+        }
+
+        private void CalculateAmountOfPeople()
+        {
+            AmountOfPeople = MenuOrders.Sum(o => o.AmountOfPeople);
         }
     }
 }

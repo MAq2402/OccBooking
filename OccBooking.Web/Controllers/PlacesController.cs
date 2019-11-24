@@ -43,8 +43,8 @@ namespace OccBooking.Web.Controllers
         [HttpPost("{ownerId}/places")]
         public async Task<IActionResult> CreatePlaceAsync(string ownerId, PlaceForCreationDto model)
         {
-            var command = new CreatePlaceCommand(model.Name, model.HasRooms,
-                model.CostPerPerson, model.Description, model.Street, model.City, model.ZipCode, model.Province,
+            var command = new CreatePlaceCommand(model.Name, model.HasRooms, model.Description, model.Street,
+                model.City, model.ZipCode, model.Province,
                 new Guid(ownerId));
 
             var commandResult = await CommandAsync(command);
