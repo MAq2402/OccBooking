@@ -53,6 +53,7 @@ namespace OccBooking.Domain.Entities
         public Address Address { get; private set; }
         public int Capacity => CalculateCapacity(halls);
         public bool IsConfigured => halls.Any() && menus.Any() && AvailableOccasionTypes.Any();
+        public decimal? MinimalCostPerPerson => menus.Any() ? menus.Min(m => m.CostPerPerson) : (decimal?)null;
 
         private void SetName(string name)
         {

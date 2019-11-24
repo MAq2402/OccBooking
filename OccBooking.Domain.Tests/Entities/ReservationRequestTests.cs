@@ -40,18 +40,6 @@ namespace OccBooking.Domain.Tests.Entities
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
-        //[Fact]
-        //public void CreationShouldWork()
-        //{
-        //    var menuOrder = 
-        //    var reservation = new ReservationRequest(Guid.NewGuid(), DateTime.Today, CorrectClient,
-        //        OccasionType.FuneralMeal, new List<PlaceAdditionalOption>(),
-        //        CorrectMenuOrders);
-
-        //    var exptectedCost =
-        //    Assert.Equal();
-        //}
-
         [Fact]
         public void AcceptShouldFailBecauseAccepted()
         {
@@ -122,7 +110,8 @@ namespace OccBooking.Domain.Tests.Entities
 
         [Theory]
         [ClassData(typeof(DataForReservationCreation))]
-        public void CalculateCostShouldWork(IEnumerable<MenuOrder> menuOrders, PlaceAdditionalOptions options, decimal expectedCost,
+        public void CalculateCostShouldWork(IEnumerable<MenuOrder> menuOrders, PlaceAdditionalOptions options,
+            decimal expectedCost,
             int expectedAmountOfPeople)
         {
             var reservation = new ReservationRequest(Guid.NewGuid(),

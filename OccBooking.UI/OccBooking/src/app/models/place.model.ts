@@ -5,7 +5,7 @@ export class PlaceModel {
     id: string;
     name: string;
     hasRooms: boolean;
-    costPerPerson: number;
+    minimalCostPerPerson?: number;
     description: string;
     street: string;
     city: string;

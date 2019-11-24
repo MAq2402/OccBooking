@@ -675,5 +675,33 @@ namespace OccBooking.Domain.Tests.Entities
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
+
+        [Theory]
+        [ClassData(typeof(MinimalCostPerPersonShouldReturnCorrectValueData))]
+        public void MinimalCostPerPersonShouldReturnCorrectValue(decimal? expected, decimal[] menuCosts)
+        {
+            var place = CorrectPlace;
+            foreach (var cost in menuCosts)
+            {
+                var menu = new Menu(Guid.NewGuid(), "Delicious", MenuType.Normal, cost);
+                place.AssignMenu(menu);
+            }
+
+            var actual = place.MinimalCostPerPerson;
+
+            Assert.Equal(expected, actual);
+        }
+
+        private class MinimalCostPerPersonShouldReturnCorrectValueData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { 100.0m, new decimal[] {100}};
+                yield return new object[] { null, new decimal[] {} };
+                yield return new object[] { 50.0m, new decimal[] { 100, 50, 200, 300, 400, 51 } };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
     }
 }

@@ -12,8 +12,8 @@
                     {{place.description}}
                 </div>
                 <div class="footer">
-                    <span> {{place.city}} ({{place.province}}), ul. {{place.street}}</span><br><span> Koszt na osobę: od
-                        {{place.costPerPerson}}zł</span>
+                    <span> {{place.city}} ({{place.province}}), ul. {{place.street}}</span><br><span *ngIf="place.minimalCostPerPerson"> Koszt na osobę: od
+                        {{place.minimalCostPerPerson}}zł</span>
                 </div>
             </div>
         </div>

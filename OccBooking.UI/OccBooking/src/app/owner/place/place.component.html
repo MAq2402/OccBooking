@@ -5,13 +5,10 @@
       <form [formGroup]="baseInfromationFormGroup">
         <ng-template matStepLabel>Podstawowe informacje</ng-template>
         <div class="row">
-          <mat-form-field class="col-sm-4">
+          <mat-form-field class="col-sm-6">
             <input matInput placeholder="Nazwa" formControlName="name" required>
           </mat-form-field>
-          <mat-checkbox class="col-sm-4" formControlName="hasRooms">Pokoje dla gości</mat-checkbox>
-          <mat-form-field class="col-sm-4">
-            <input matInput type="number" placeholder="Cena na osobę" formControlName="costPerPerson" required>
-          </mat-form-field>
+          <mat-checkbox class="col-sm-6" formControlName="hasRooms">Pokoje dla gości</mat-checkbox>
         </div>
         <div class="row">
           <mat-form-field class="col-sm-12">
