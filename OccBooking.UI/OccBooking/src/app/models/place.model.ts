@@ -5,7 +5,7 @@ export class PlaceModel {
     id: string;
     name: string;
     hasRooms: boolean;
-    costPerPerson: number;
+    minimalCostPerPerson?: number;
     description: string;
     street: string;
     city: string;
@@ -15,4 +15,5 @@ export class PlaceModel {
     occasionTypes: string[];
     occasionTypesMaps: OccasionTypeMapModel[];
     image: any;
+    isConfigured: boolean;
 }

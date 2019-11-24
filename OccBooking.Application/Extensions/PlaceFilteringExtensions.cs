@@ -30,12 +30,12 @@ namespace OccBooking.Application.Extensions
         {
             if (minCostPerPerson.HasValue)
             {
-                places = places.Where(p => p.CostPerPerson >= minCostPerPerson.Value);
+                places = places.Where(p => p.MinimalCostPerPerson.HasValue && p.MinimalCostPerPerson >= minCostPerPerson.Value);
             }
 
             if (maxCostPerPerson.HasValue)
             {
-                places = places.Where(p => p.CostPerPerson <= maxCostPerPerson.Value);
+                places = places.Where(p => p.MinimalCostPerPerson.HasValue && p.MinimalCostPerPerson <= maxCostPerPerson.Value);
             }
 
             return places;

@@ -32,7 +32,6 @@ export class PlaceComponent implements OnInit {
     this.baseInfromationFormGroup = this.formBuilder.group({
       name: ['', Validators.required],
       hasRooms: ['', Validators.nullValidator],
-      costPerPerson: ['', Validators.required],
       description: ['', Validators.nullValidator]
     });
 
@@ -53,7 +52,6 @@ export class PlaceComponent implements OnInit {
       id: null,
       name: this.baseInfromationFormGroup.controls['name'].value,
       hasRooms: this.baseInfromationFormGroup.controls['hasRooms'].value,
-      costPerPerson: this.baseInfromationFormGroup.controls['costPerPerson'].value,
       description: this.baseInfromationFormGroup.controls['description'].value,
       street: this.addressFormGroup.controls['street'].value,
       city: this.addressFormGroup.controls['city'].value,
@@ -62,11 +60,14 @@ export class PlaceComponent implements OnInit {
       additionalOptions: null,
       occasionTypes: null,
       occasionTypesMaps: null,
-      image: null
+      image: null,
+      isConfigured: null
     };
 
     this.placeService.createPlace(this.currentUser.ownerId, model).subscribe(place => {
-      this.upload(this.fileFormGroup.controls['image'].value.files[0], place.id);
+      if (this.fileFormGroup.controls['image'].value) {
+        this.upload(this.fileFormGroup.controls['image'].value.files[0], place.id);
+      }
     });
   }
 

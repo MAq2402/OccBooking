@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
+using static OccBooking.Domain.Tests.TestData;
 
 namespace OccBooking.Domain.Tests.Entities
 {
@@ -15,15 +16,14 @@ namespace OccBooking.Domain.Tests.Entities
     {
         [Theory]
         [ClassData(typeof(DataForCreationShouldFail))]
-        public void CreationShouldFail(DateTime dateTime, Client client, int amountOfPeople, Menu menu)
+        public void CreationShouldFail(DateTime dateTime, Client client)
         {
             Action action = () => new ReservationRequest(Guid.NewGuid(),
                 dateTime,
                 client,
-                amountOfPeople,
-                menu,
                 OccasionType.FuneralMeal,
-                Enumerable.Empty<PlaceAdditionalOption>());
+                Enumerable.Empty<PlaceAdditionalOption>(),
+                CorrectMenuOrders);
 
             Assert.Throws<DomainException>(action);
         }
@@ -33,39 +33,17 @@ namespace OccBooking.Domain.Tests.Entities
             public IEnumerator<object[]> GetEnumerator()
             {
                 yield return new object[]
-                    {DateTime.Today.AddDays(-1), TestData.CorrectClient, 50, TestData.CorrectMenu};
-                yield return new object[] {DateTime.Today, null, 50, TestData.CorrectMenu};
-                yield return new object[] {DateTime.Today, TestData.CorrectClient, 0, TestData.CorrectMenu};
-                yield return new object[] {DateTime.Today, TestData.CorrectClient, 50, null};
+                    {DateTime.Today.AddDays(-1), TestData.CorrectClient};
+                yield return new object[] {DateTime.Today, null};
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
         [Fact]
-        public void CreationShouldWork()
-        {
-            var reservation = new ReservationRequest(Guid.NewGuid(), DateTime.Today, TestData.CorrectClient, 50,
-                TestData.CorrectMenu,
-                OccasionType.FuneralMeal, new List<PlaceAdditionalOption>());
-
-            Assert.Equal(DateTime.Today, reservation.DateTime);
-            Assert.Equal(TestData.CorrectClient, reservation.Client);
-            Assert.Equal(50, reservation.AmountOfPeople);
-            Assert.Equal(TestData.CorrectMenu, reservation.Menu);
-            Assert.Equal(OccasionType.FuneralMeal, reservation.OccasionType);
-        }
-
-        [Fact]
         public void AcceptShouldFailBecauseAccepted()
         {
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                TestData.CorrectClient,
-                10,
-                TestData.CorrectMenu,
-                OccasionType.FuneralMeal,
-                Enumerable.Empty<PlaceAdditionalOption>());
+            var reservation = CorrectReservationRequest;
 
             reservation.Accept();
             Action action = () => reservation.Accept();
@@ -76,13 +54,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AcceptShouldFailBecauseRejected()
         {
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                TestData.CorrectClient,
-                10,
-                TestData.CorrectMenu,
-                OccasionType.FuneralMeal,
-                Enumerable.Empty<PlaceAdditionalOption>());
+            var reservation = CorrectReservationRequest;
 
             reservation.Reject();
             Action action = () => reservation.Accept();
@@ -93,14 +65,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void AcceptShouldWork()
         {
-            var halls = new List<Hall>() {new Hall(Guid.NewGuid(), "Big", 10)};
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                TestData.CorrectClient,
-                10,
-                TestData.CorrectMenu,
-                OccasionType.FuneralMeal,
-                Enumerable.Empty<PlaceAdditionalOption>());
+            var reservation = CorrectReservationRequest;
 
             reservation.Accept();
 
@@ -112,13 +77,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void RejectShouldWork()
         {
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                TestData.CorrectClient,
-                10,
-                TestData.CorrectMenu,
-                OccasionType.FuneralMeal,
-                Enumerable.Empty<PlaceAdditionalOption>());
+            var reservation = CorrectReservationRequest;
 
             reservation.Reject();
 
@@ -130,13 +89,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void RejectShouldFailBecauseRejected()
         {
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                TestData.CorrectClient,
-                10,
-                TestData.CorrectMenu,
-                OccasionType.FuneralMeal,
-                Enumerable.Empty<PlaceAdditionalOption>());
+            var reservation = CorrectReservationRequest;
 
             reservation.Reject();
             Action action = () => reservation.Reject();
@@ -147,13 +100,7 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void RejectShouldFailBecauseAccepted()
         {
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                TestData.CorrectClient,
-                10,
-                TestData.CorrectMenu,
-                OccasionType.FuneralMeal,
-                Enumerable.Empty<PlaceAdditionalOption>());
+            var reservation = CorrectReservationRequest;
 
             reservation.Accept();
             Action action = () => reservation.Reject();
@@ -162,32 +109,43 @@ namespace OccBooking.Domain.Tests.Entities
         }
 
         [Theory]
-        [InlineData(10, 10, new[] {5, 5, 5}, 10, 215)]
-        [InlineData(5, 1, new[] {0}, 200, 1005)]
-        public void CalculateCostShouldWork(int amountOfPeople, decimal menuCost, int[] optionsCosts, int placeCost,
-            int expected)
+        [ClassData(typeof(DataForReservationCreation))]
+        public void CalculateCostShouldWork(IEnumerable<MenuOrder> menuOrders, PlaceAdditionalOptions options,
+            decimal expectedCost,
+            int expectedAmountOfPeople)
         {
-            var meal = new Meal(Guid.NewGuid(), "Dumplings", "", MealType.Main, new[] {"Cheese"});
-            var menu = new Menu(Guid.NewGuid(), "Vege", MenuType.Vegetarian, menuCost);
-            var options = new PlaceAdditionalOptions(Enumerable.Empty<PlaceAdditionalOption>());
-            foreach (var optionCost in optionsCosts)
+            var reservation = new ReservationRequest(Guid.NewGuid(),
+                DateTime.Today, CorrectClient,
+                OccasionType.FuneralMeal,
+                options,
+                menuOrders);
+
+            var actualCost = reservation.Cost;
+            var actualAmountOfPeople = reservation.AmountOfPeople;
+
+            Assert.Equal(expectedCost, actualCost);
+            Assert.Equal(expectedAmountOfPeople, actualAmountOfPeople);
+        }
+
+        private class DataForReservationCreation : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
             {
-                options = options.AddOption(new PlaceAdditionalOption("Some", optionCost));
+                yield return new object[]
+                {
+                    new List<MenuOrder>()
+                    {
+                        new MenuOrder(new Menu(Guid.NewGuid(), "Normal", MenuType.Normal, 100), 100),
+                        new MenuOrder(new Menu(Guid.NewGuid(), "VegeTFU", MenuType.Vegetarian, 200), 5)
+                    },
+                    new PlaceAdditionalOptions(new List<PlaceAdditionalOption>()
+                        {new PlaceAdditionalOption("Some", 1000), new PlaceAdditionalOption("Some", 500)}),
+                    12500,
+                    105
+                };
             }
 
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                TestData.CorrectClient,
-                amountOfPeople,
-                menu,
-                OccasionType.FuneralMeal,
-                options);
-
-            reservation.CalculateCost(placeCost);
-
-            var actual = reservation.Cost;
-
-            Assert.Equal(expected, actual);
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace OccBooking.Application.DTOs
         public Guid Id { get; set; }
         public string Name { get; set; }
         public bool HasRooms { get; set; }
-        public decimal CostPerPerson { get; set; }
+        public decimal? MinimalCostPerPerson { get; set; }
         public string Description { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
@@ -19,5 +19,6 @@ namespace OccBooking.Application.DTOs
         public IEnumerable<AdditionalOptionDto> AdditionalOptions { get; set; } = new List<AdditionalOptionDto>();
         public List<string> OccasionTypes { get; set; } = new List<string>();
         public string Image { get; set; }
+        public bool IsConfigured { get; set; }
     }
 }

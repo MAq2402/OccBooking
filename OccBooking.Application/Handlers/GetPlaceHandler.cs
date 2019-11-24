@@ -22,7 +22,8 @@ namespace OccBooking.Application.Handlers
 
         public override async Task<Result<PlaceDto>> HandleAsync(GetPlaceQuery query)
         {
-            var place = await _dbContext.Places.FirstOrDefaultAsync(p => p.Id == query.PlaceId);
+            var place = await _dbContext.Places.Include(p => p.Halls).Include(p => p.Menus)
+                .FirstOrDefaultAsync(p => p.Id == query.PlaceId);
             var image = await _dbContext.PlaceImages.FirstOrDefaultAsync(i => i.PlaceId == query.PlaceId);
 
             if (place == null)

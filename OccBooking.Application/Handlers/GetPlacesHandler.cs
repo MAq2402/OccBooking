@@ -24,7 +24,7 @@ namespace OccBooking.Application.Handlers
 
         public override async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetPlacesQuery query)
         {
-            var places = _dbContext.Places.AsQueryable();
+            var places = _dbContext.Places.Include(p => p.Menus).AsQueryable();
             if (query.PlaceFilter != null)
             {
                 places = places.FilterByName(query.PlaceFilter.Name).FilterByProvince(query.PlaceFilter.Province)

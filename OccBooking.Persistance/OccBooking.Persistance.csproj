@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20191109100932_IngredientsPotates.Designer.cs" />
     <Compile Remove="Migrations\20191109112105_MenuChanges.cs" />
     <Compile Remove="Migrations\20191109112105_MenuChanges.Designer.cs" />
+    <Compile Remove="Migrations\20191123192044_MenuOrder.cs" />
+    <Compile Remove="Migrations\20191123192044_MenuOrder.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
