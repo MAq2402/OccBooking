@@ -127,7 +127,7 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople) });
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople)});
 
             place.MakeReservationRequest(reservation);
 
@@ -204,7 +204,7 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>() {new PlaceAdditionalOption("Photos", 50)},
-                new List<MenuOrder>() { new MenuOrder(menu, 100) });
+                new List<MenuOrder>() {new MenuOrder(menu, 100)});
 
             Action action = () => place.ValidateMakeReservationRequest(reservation);
 
@@ -234,13 +234,13 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople1) });
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople1)});
             var reservation1 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople2) });
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople2)});
 
             place.MakeReservationRequest(reservation);
             place.AcceptReservationRequest(reservation, new[] {hall1, hall2});
@@ -276,13 +276,13 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople1) });
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople1)});
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople2) });
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople2)});
 
             place.MakeReservationRequest(reservation1);
             place.AcceptReservationRequest(reservation1, new[] {hall1, hall2});
@@ -313,7 +313,7 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople1) });
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople1)});
 
             Action action = () => place.ValidateMakeReservationRequest(reservation);
 
@@ -384,25 +384,25 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) });
+                new List<MenuOrder>() {new MenuOrder(menu, 30)});
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -438,25 +438,25 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) });
+                new List<MenuOrder>() {new MenuOrder(menu, 30)});
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -491,25 +491,25 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) });
+                new List<MenuOrder>() {new MenuOrder(menu, 30)});
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -543,25 +543,25 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) });
+                new List<MenuOrder>() {new MenuOrder(menu, 30)});
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -594,25 +594,25 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) });
+                new List<MenuOrder>() {new MenuOrder(menu, 30)});
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
@@ -696,9 +696,9 @@ namespace OccBooking.Domain.Tests.Entities
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { 100.0m, new decimal[] {100}};
-                yield return new object[] { null, new decimal[] {} };
-                yield return new object[] { 50.0m, new decimal[] { 100, 50, 200, 300, 400, 51 } };
+                yield return new object[] {100.0m, new decimal[] {100}};
+                yield return new object[] {null, new decimal[] { }};
+                yield return new object[] {50.0m, new decimal[] {100, 50, 200, 300, 400, 51}};
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

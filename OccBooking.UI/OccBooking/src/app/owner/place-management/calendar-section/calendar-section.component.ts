@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PlaceService } from 'src/app/services/place.service';
 import { ActivatedRoute } from '@angular/router';
 import { HallService } from 'src/app/services/hall.service';
@@ -13,6 +13,7 @@ export class CalendarSectionComponent implements OnInit {
   calendar: any;
   dates: Date[];
   placeId: string;
+  @Input() disabled = false;
   constructor(private placeService: PlaceService, private activatedRoute: ActivatedRoute, private hallService: HallService) { }
 
   ngOnInit() {
@@ -59,5 +60,11 @@ export class CalendarSectionComponent implements OnInit {
         }
       }
     });
+  }
+
+  onSelect() {
+    if (this.disabled) {
+      this.getReservedDays();
+    }
   }
 }

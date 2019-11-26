@@ -4,6 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { PlaceModel } from '../models/place.model';
 import { PlaceService } from '../services/place.service';
+import { OccasionTypeMapModel } from '../models/occasion-type-map';
+import { occasionTypes } from '../shared/occasionTypes';
+import { MenuModel } from '../models/menu.model';
+import { MenuService } from '../services/menu.service';
 declare var require: any;
 
 @Component({
@@ -15,7 +19,9 @@ export class PlaceDetailsComponent implements OnInit {
 
   placeId: string;
   place: PlaceModel;
-  constructor(public dialog: MatDialog, private activatedRoute: ActivatedRoute, private placeService: PlaceService) { }
+  constructor(public dialog: MatDialog,
+              private activatedRoute: ActivatedRoute,
+              private placeService: PlaceService) { }
 
   ngOnInit(): void {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -39,8 +45,17 @@ export class PlaceDetailsComponent implements OnInit {
         this.place.image = require('../../assets/default-image.jpg');
       }
 
-      // this.place.occasionTypesMaps = this.mapToOccasionTypeMap(this.place.occasionTypes); // do jakiegos serwisu to mapowanie
+      this.place.occasionTypesMaps = this.mapToOccasionTypeMap(this.place.occasionTypes); // do jakiegos serwisu to mapowanie
     });
   }
 
+  private mapToOccasionTypeMap(occasionTypesAsStrings: string[]): OccasionTypeMapModel[] {
+    let result: OccasionTypeMapModel[] = [];
+
+    occasionTypesAsStrings.forEach(element => {
+      const occasionTypeMap = occasionTypes.filter(o => o.value === element)[0];
+      result.push(occasionTypeMap);
+    });
+    return result;
+  }
 }
