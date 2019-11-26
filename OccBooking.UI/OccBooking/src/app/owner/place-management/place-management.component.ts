@@ -27,9 +27,9 @@ export class PlaceManagementComponent implements OnInit {
   placeId: string;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private placeService: PlaceService,
-    public dialog: MatDialog,
-    private hallService: HallService) { }
+              private placeService: PlaceService,
+              public dialog: MatDialog,
+              private hallService: HallService) { }
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');

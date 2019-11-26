@@ -19,6 +19,7 @@ import { CreateMenuDialogComponent } from './owner/place-management/create-menu-
 import { CreateOptionDialogComponent } from './owner/place-management/create-option-dialog/create-option-dialog.component';
 import { CreateHallDialogComponent } from './owner/place-management/create-hall-dialog/create-hall-dialog.component';
 import { CreateMealDialogComponent } from './owner/place-management/menu-section/create-meal-dialog/create-meal-dialog.component';
+import { MenuDetailsComponent } from './owner/place-management/menu-section/menu-details/menu-details.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { CreateMealDialogComponent } from './owner/place-management/menu-section
     CreateMenuDialogComponent,
     CreateOptionDialogComponent,
     CreateHallDialogComponent,
-    CreateMealDialogComponent]
+    CreateMealDialogComponent,
+    MenuDetailsComponent]
 })
 export class AppModule { }

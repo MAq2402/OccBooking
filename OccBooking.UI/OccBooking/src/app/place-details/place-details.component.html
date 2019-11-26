@@ -1,1 +1,43 @@
-<button [disabled]="!place.isConfigured" mat-raised-button color="primary" (click)="openMakeReservationDialog()">Złóż rezerwację</button>
+<div class="row">
+    <mat-card *ngIf="place" class="col-sm-5">
+        <mat-card-header>
+            <mat-card-title>{{place.name}}</mat-card-title>
+        </mat-card-header>
+        <div *ngIf="place && place.image">
+            <img mat-card-image class="rounded" [src]="place?.image">
+        </div>
+        <mat-card-content>
+            <p>
+                {{place.description}}
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button [disabled]="!place.isConfigured" mat-raised-button color="primary"
+                (click)="openMakeReservationDialog()">Złóż rezerwację</button>
+        </mat-card-actions>
+    </mat-card>
+    <mat-card class="col-sm-6 configuration">
+        <mat-card-header>
+            <mat-card-title>Szczegóły</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+                <app-menu-section [edit]="false"></app-menu-section>
+            <mat-list>
+                <h3 mat-subheader>Dodatkowe opcje<span class="spacer"></span></h3>
+                <mat-list-item *ngFor="let option of place?.additionalOptions">
+                    <mat-icon mat-list-icon>star</mat-icon>
+                    <h4 mat-line>{{option.name}} - {{option.cost}}zł</h4>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </mat-list>
+            <mat-list>
+                <h3 mat-subheader>Organizowane imprezy</h3>
+                <mat-chip-list aria-label="Fish selection">
+                    <mat-chip color="accent" *ngFor="let type of place?.occasionTypesMaps">{{type.name}}</mat-chip>
+                </mat-chip-list>
+            </mat-list>
+            <mat-divider></mat-divider>
+            <app-calendar-section [disabled]="true"></app-calendar-section>
+        </mat-card-content>
+    </mat-card>
+</div>

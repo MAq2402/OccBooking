@@ -7,10 +7,9 @@ import { CreateMenuDialogComponent } from './place-management/create-menu-dialog
 import { CreateOptionDialogComponent } from './place-management/create-option-dialog/create-option-dialog.component';
 import { OccasionalTypesSectionComponent } from './place-management/occassional-types-section/occasional-types-section.component';
 import { CreateHallDialogComponent } from './place-management/create-hall-dialog/create-hall-dialog.component';
-import { CalendarSectionComponent } from './place-management/calendar-section/calendar-section.component';
 import { HallManagementComponent } from './hall-management/hall-management.component';
-import { MenuSectionComponent } from './place-management/menu-section/menu-section.component';
 import { CreateMealDialogComponent } from './place-management/menu-section/create-meal-dialog/create-meal-dialog.component';
+import { MenuDetailsComponent } from './place-management/menu-section/menu-details/menu-details.component';
 
 @NgModule({
   declarations: [PlaceComponent,
@@ -19,10 +18,9 @@ import { CreateMealDialogComponent } from './place-management/menu-section/creat
     CreateOptionDialogComponent,
     OccasionalTypesSectionComponent,
     CreateHallDialogComponent,
-    CalendarSectionComponent,
     HallManagementComponent,
-    MenuSectionComponent,
-    CreateMealDialogComponent],
+    CreateMealDialogComponent,
+    MenuDetailsComponent],
   imports: [
     SharedModule,
     OwnerRoutingModule
