@@ -1,80 +1,80 @@
-<mat-form-field>
-        <input matInput
-           [matDatepicker]="picker"
-           [matDatepickerFilter]="dateFilter"
-           placeholder="Choose a date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
 <!-- <mat-form-field>
         <input matInput [matDatepicker]="picker" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
 </mat-form-field> -->
-   
-<!-- <mat-card>
-    <mat-card-title>Dodaj swój dom przyjęć/sale.</mat-card-title>
+
+<mat-card *ngIf="place">
+    <mat-card-title>Złoż rezerwację</mat-card-title>
     <mat-horizontal-stepper [linear]="false" #stepper>
-        <mat-step [stepControl]="baseInfromationFormGroup">
-            <form [formGroup]="baseInfromationFormGroup">
-                <ng-template matStepLabel>Podstawowe informacje</ng-template>
+        <mat-step [stepControl]="clientFormGroup">
+            <form [formGroup]="clientFormGroup">
+                <ng-template matStepLabel>Twoje dane</ng-template>
                 <div class="row">
-                    <mat-form-field class="col-sm-6">
-                        <input matInput placeholder="Nazwa" formControlName="name" required>
+                    <mat-form-field class="col-sm-3">
+                        <input matInput placeholder="Imię" formControlName="firstName" required>
                     </mat-form-field>
-                    <mat-checkbox class="col-sm-6" formControlName="hasRooms">Pokoje dla gości</mat-checkbox>
-                </div>
-                <div class="row">
-                    <mat-form-field class="col-sm-12">
-                        <textarea matInput placeholder="Opis" formControlName="description"></textarea>
+                    <mat-form-field class="col-sm-3">
+                        <input matInput placeholder="Nazwisko" formControlName="lastName" required>
                     </mat-form-field>
-                </div>
-                <div>
-                    <button mat-button mat-button matStepperNext>Dalej</button>
+                    <mat-form-field class="col-sm-3">
+                        <input matInput placeholder="Email" formControlName="email" required>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-3">
+                        <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button mat-button matStepperNext>Dalej</button>
+                    </div>
                 </div>
             </form>
         </mat-step>
-        <mat-step [stepControl]="addressFormGroup">
-            <form [formGroup]="addressFormGroup">
-                <ng-template matStepLabel>Adres</ng-template>
-                <div class="row">
-                    <mat-form-field class="col-sm-3">
-                        <input matInput placeholder="Miasto" formControlName="city" required>
-                    </mat-form-field>
-                    <mat-form-field class="col-sm-3">
-                        <input matInput placeholder="Ulica" formControlName="street" required>
-                    </mat-form-field>
-                    <mat-form-field class="col-sm-3">
-                        <input matInput placeholder="Kod pocztowy" formControlName="zipCode" required>
-                    </mat-form-field>
-                    <mat-form-field class="col-sm-3">
-                        <mat-label>Województwo</mat-label>
-                        <mat-select formControlName="province">
-                            <mat-option *ngFor="let province of provinces" [value]="province">
-                                {{province}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <button mat-button mat-button matStepperPrevious>Powrót</button>
-                    <button mat-button mat-button matStepperNext>Dalej</button>
-                </div>
-            </form>
-        </mat-step>
-        <mat-step>
-            <form [formGroup]="fileFormGroup">
-                <mat-form-field>
-                    <ngx-mat-file-input formControlName="image" placeholder="Dodaj zdjęcie"></ngx-mat-file-input>
-                    <mat-icon matSuffix>folder</mat-icon>
+        <mat-step [stepControl]="reservationFormGroup">
+            <form [formGroup]="reservationFormGroup">
+                <mat-form-field class="col-sm-4">
+                    <input matInput formControlName="date" [matDatepicker]="picker" [matDatepickerFilter]="dateFilter"
+                        placeholder="Wybierz datę">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="col-sm-4">
+                    <mat-label>Typ uroczystości</mat-label>
+                    <mat-select formControlName="occasionType">
+                        <mat-option *ngFor="let type of place.occasionTypesMaps" [value]="type.value">
+                            {{type.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-sm-4">
+                    <mat-label>Dodatkowe opcje</mat-label>
+                    <mat-select formControlName="options" multiple>
+                        <mat-option *ngFor="let option of place.additionalOptions" [value]="option">
+                            {{option.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </form>
-            <ng-template matStepLabel>Potwierdzenie</ng-template>
-            Potwierdź dodanie swojego domu przyjęć/sali
+            <div>
+                <mat-list>
+                    <mat-list-item class="row" *ngFor="let menuOrderMap of menuOrderMaps">
+                        <span class="col-sm-1">
+                        <mat-icon (click)="openMenuDetials(menuOrderMap)">restaurant_menu</mat-icon>{{menuOrderMap.menu.name}}
+                    </span>
+                        <mat-checkbox class="col-sm-1" [(ngModel)]="menuOrderMap.include" [labelPosition]="'before'">
+                        </mat-checkbox>
+                        <mat-form-field class="col-sm-2">
+                            <input [disabled]="!menuOrderMap.include" matInput type="number"
+                                [(ngModel)]="menuOrderMap.amountOfPeople" [name]="menuOrderMap.name" placeholder="Dla ilu osób">
+                        </mat-form-field>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+            <ng-template matStepLabel>Dane do rezerwacji</ng-template>
+            Zatwierdź rezerwację.
             <div>
                 <button mat-button matStepperPrevious>Powrót</button>
                 <button mat-button (click)="submit()">Zakończ</button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>
-</mat-card> -->
+</mat-card>

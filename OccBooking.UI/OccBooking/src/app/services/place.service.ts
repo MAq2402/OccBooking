@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { PlaceFilterModel } from 'src/app/home/models/place-filter.model';
 import { PlaceModel } from '../models/place.model';
 import { AdditionalOptionModel } from '../models/additional-option.model';
+import { OccasionTypeMapModel } from '../models/occasion-type-map';
+import { occasionTypes } from '../shared/occasionTypes';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +62,15 @@ export class PlaceService {
   uploadFile(placeId: string, formData: FormData) {
     const uploadReq = new HttpRequest('POST', `${environment.WEB_API_ENDPOINT}places/${placeId}/upload`, formData);
     this.http.request(uploadReq).subscribe();
+  }
+
+  mapToOccasionTypeMap(occasionTypesAsStrings: string[]): OccasionTypeMapModel[] {
+    let result: OccasionTypeMapModel[] = [];
+
+    occasionTypesAsStrings.forEach(element => {
+      const occasionTypeMap = occasionTypes.filter(o => o.value === element)[0];
+      result.push(occasionTypeMap);
+    });
+    return result;
   }
 }
