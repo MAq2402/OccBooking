@@ -39,24 +39,32 @@ export class MakeReservationComponent implements OnInit {
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.getPlaceWithMenus();
+    this.getReservedDays();
+    this.initForms();
+  }
+
+  private getPlaceWithMenus() {
     this.placeService.getPlace(this.placeId).subscribe(place => {
       this.place = place;
       this.place.occasionTypesMaps = this.placeService.mapToOccasionTypeMap(this.place.occasionTypes);
       this.menuService.getMenus(this.placeId).subscribe(menus => {
         this.menus = menus;
-        for(const menu of this.menus) {
-          this.menuOrders.push({menu: menu, include: false, amountOfPeople: null});
+        for (const menu of this.menus) {
+          this.menuOrders.push({ menu: menu, include: false, amountOfPeople: null });
         }
       });
     });
+  }
+
+  private getReservedDays() {
     this.placeService.getReservedDays(this.placeId).subscribe(dates => {
       for (const date of dates) {
         this.reservedDates.push(new Date(date));
       }
       this.dateFilter = (date: Date) => !this.reservedDates.some(x => x.getFullYear() === date.getFullYear()
-      && x.getMonth() === date.getMonth() && x.getDate() === date.getDate());
+        && x.getMonth() === date.getMonth() && x.getDate() === date.getDate());
     });
-    this.initForms();
   }
 
   private initForms() {
@@ -84,7 +92,6 @@ export class MakeReservationComponent implements OnInit {
       date: this.reservationFormGroup.controls['date'].value,
       menuOrders: this.menuOrders.filter(m => m.include)
     };
-    console.log(this.menuOrders);
     this.reservationRequestService.makeReservationRequest(this.placeId, model).subscribe();
   }
 
