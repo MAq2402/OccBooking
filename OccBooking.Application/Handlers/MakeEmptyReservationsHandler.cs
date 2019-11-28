@@ -31,9 +31,9 @@ namespace OccBooking.Application.Handlers
             foreach (var date in command.Dates)
             {
                 if (place.EmptyReservations.All(r =>
-                    r.Date != date.LocalDateTime))
+                    r.Date != date))
                 {
-                    place.MakeEmptyReservation(date.LocalDateTime);
+                    place.MakeEmptyReservation(date);
                 }
             }
 

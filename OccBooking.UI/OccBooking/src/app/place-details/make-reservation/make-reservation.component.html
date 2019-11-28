@@ -1,0 +1,83 @@
+<!-- <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+</mat-form-field> -->
+
+<mat-card *ngIf="place">
+    <mat-card-title>Złoż rezerwację</mat-card-title>
+    <mat-horizontal-stepper [linear]="false" #stepper>
+        <mat-step [stepControl]="clientFormGroup">
+            <form [formGroup]="clientFormGroup">
+                <ng-template matStepLabel>Twoje dane</ng-template>
+                <div class="row">
+                    <mat-form-field class="col-sm-3">
+                        <input matInput placeholder="Imię" formControlName="firstName" required>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-3">
+                        <input matInput placeholder="Nazwisko" formControlName="lastName" required>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-3">
+                        <input matInput placeholder="Email" formControlName="email" required>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-3">
+                        <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button mat-button matStepperNext>Dalej</button>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="reservationFormGroup">
+            <form [formGroup]="reservationFormGroup">
+                <mat-form-field class="col-sm-4">
+                    <input matInput formControlName="date" [matDatepicker]="picker" [matDatepickerFilter]="dateFilter"
+                        placeholder="Wybierz datę">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="col-sm-4">
+                    <mat-label>Typ uroczystości</mat-label>
+                    <mat-select formControlName="occasionType">
+                        <mat-option *ngFor="let type of place.occasionTypesMaps" [value]="type.value">
+                            {{type.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-sm-4">
+                    <mat-label>Dodatkowe opcje</mat-label>
+                    <mat-select formControlName="options" multiple>
+                        <mat-option *ngFor="let option of place.additionalOptions" [value]="option">
+                            {{option.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <div>
+                <h6>Wybierz zestawy dań</h6>
+                <mat-list>
+                    <mat-list-item class="row" *ngFor="let menuOrder of menuOrders">
+                        <span class="col-sm-2">
+                            <mat-checkbox [(ngModel)]="menuOrder.include" [labelPosition]="'after'">
+                                <mat-icon (click)="openMenuDetials(menuOrder)">restaurant_menu</mat-icon>
+                                {{menuOrder.menu.name}}
+                            </mat-checkbox>
+                        </span>
+                        <mat-form-field class="col-sm-2">
+                            <input [disabled]="!menuOrder.include" matInput type="number"
+                                [(ngModel)]="menuOrder.amountOfPeople" [name]="menuOrder.name"
+                                placeholder="Dla ilu osób">
+                        </mat-form-field>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+            <ng-template matStepLabel>Dane do rezerwacji</ng-template>
+            Zatwierdź rezerwację.
+            <div>
+                <button mat-button matStepperPrevious>Powrót</button>
+                <button mat-button (click)="submit()">Zakończ</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</mat-card>

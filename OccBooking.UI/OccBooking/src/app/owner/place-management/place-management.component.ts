@@ -57,18 +57,8 @@ export class PlaceManagementComponent implements OnInit {
         this.place.image = require('../../../assets/default-image.jpg');
       }
 
-      this.place.occasionTypesMaps = this.mapToOccasionTypeMap(this.place.occasionTypes);
+      this.place.occasionTypesMaps = this.placeService.mapToOccasionTypeMap(this.place.occasionTypes);
     });
-  }
-
-  private mapToOccasionTypeMap(occasionTypesAsStrings: string[]): OccasionTypeMapModel[] {
-    let result: OccasionTypeMapModel[] = [];
-
-    occasionTypesAsStrings.forEach(element => {
-      const occasionTypeMap = occasionTypes.filter(o => o.value === element)[0];
-      result.push(occasionTypeMap);
-    });
-    return result;
   }
 
   occasionTypeAdded(occasionType: OccasionTypeMapModel) {

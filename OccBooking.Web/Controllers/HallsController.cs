@@ -46,6 +46,6 @@ namespace OccBooking.Web.Controllers
         [Authorize]
         [Route("places/{placeId}/halls")]
         public async Task<IActionResult> MakeEmptyReservations(string placeId, [FromBody] IEnumerable<DateTimeOffset> dates) =>
-            FromUpdate(await CommandAsync(new MakeEmptyReservationsCommand(dates, new Guid(placeId))));
+            FromUpdate(await CommandAsync(new MakeEmptyReservationsCommand(dates.Select(d => d.LocalDateTime), new Guid(placeId))));
     }
 }

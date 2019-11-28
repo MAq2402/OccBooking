@@ -14,12 +14,12 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { SidenavComponent } from './home/sidenav/sidenav.component';
 import { PlaceCardComponent } from './home/place-card/place-card.component';
 import { PlaceDetailsComponent } from "./place-details/place-details.component";
-import { MakeReservationDialogComponent } from './place-details/make-reservation-dialog/make-reservation-dialog.component';
 import { CreateMenuDialogComponent } from './owner/place-management/create-menu-dialog/create-menu-dialog.component';
 import { CreateOptionDialogComponent } from './owner/place-management/create-option-dialog/create-option-dialog.component';
 import { CreateHallDialogComponent } from './owner/place-management/create-hall-dialog/create-hall-dialog.component';
 import { CreateMealDialogComponent } from './owner/place-management/menu-section/create-meal-dialog/create-meal-dialog.component';
 import { MenuDetailsComponent } from './owner/place-management/menu-section/menu-details/menu-details.component';
+import { MakeReservationComponent } from './place-details/make-reservation/make-reservation.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { MenuDetailsComponent } from './owner/place-management/menu-section/menu
     SidenavComponent,
     PlaceCardComponent,
     PlaceDetailsComponent,
-    MakeReservationDialogComponent
+    MakeReservationComponent
   ],
   imports: [
     BrowserModule,
@@ -45,8 +45,7 @@ import { MenuDetailsComponent } from './owner/place-management/menu-section/menu
   schemas: [NO_ERRORS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [MakeReservationDialogComponent,
-    CreateMenuDialogComponent,
+  entryComponents: [ CreateMenuDialogComponent,
     CreateOptionDialogComponent,
     CreateHallDialogComponent,
     CreateMealDialogComponent,

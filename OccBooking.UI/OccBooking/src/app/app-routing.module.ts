@@ -4,6 +4,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { PlaceDetailsComponent } from './place-details/place-details.component';
+import { MakeReservationComponent } from './place-details/make-reservation/make-reservation.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     component: PlaceDetailsComponent,
     path: 'place/:id'
+  },
+  {
+    component: MakeReservationComponent,
+    path: 'place/:id/reservation'
   }
 ];
 

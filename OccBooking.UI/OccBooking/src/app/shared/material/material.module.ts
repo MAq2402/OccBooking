@@ -15,6 +15,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
 
 
 @NgModule({
@@ -35,7 +37,9 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatListModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   exports: [
     MatButtonModule,
@@ -53,7 +57,9 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatListModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class MaterialModule { }

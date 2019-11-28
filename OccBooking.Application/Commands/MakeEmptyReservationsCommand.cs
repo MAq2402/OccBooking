@@ -7,13 +7,13 @@ namespace OccBooking.Application.Commands
 {
     public class MakeEmptyReservationsCommand : ICommand
     {
-        public MakeEmptyReservationsCommand(IEnumerable<DateTimeOffset> dates, Guid placeId)
+        public MakeEmptyReservationsCommand(IEnumerable<DateTime> dates, Guid placeId)
         {
             Dates = dates;
             PlaceId = placeId;
         }
 
         public Guid PlaceId { get; }
-        public IEnumerable<DateTimeOffset> Dates { get; }
+        public IEnumerable<DateTime> Dates { get; }
     }
 }

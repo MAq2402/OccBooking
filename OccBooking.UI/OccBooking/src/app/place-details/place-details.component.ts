@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MakeReservationDialogComponent } from './make-reservation-dialog/make-reservation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PlaceModel } from '../models/place.model';
 import { PlaceService } from '../services/place.service';
-import { OccasionTypeMapModel } from '../models/occasion-type-map';
-import { occasionTypes } from '../shared/occasionTypes';
-import { MenuModel } from '../models/menu.model';
-import { MenuService } from '../services/menu.service';
 declare var require: any;
 
 @Component({
@@ -21,7 +16,8 @@ export class PlaceDetailsComponent implements OnInit {
   place: PlaceModel;
   constructor(public dialog: MatDialog,
               private activatedRoute: ActivatedRoute,
-              private placeService: PlaceService) { }
+              private placeService: PlaceService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -29,11 +25,8 @@ export class PlaceDetailsComponent implements OnInit {
     this.getPlace();
    }
 
-  openMakeReservationDialog(): void {
-    const dialogRef = this.dialog.open(MakeReservationDialogComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-    });
+   navigateToMakeReservation(): void {
+    this.router.navigate([`place/${this.placeId}/reservation`]);
   }
 
   private getPlace() {
@@ -45,17 +38,7 @@ export class PlaceDetailsComponent implements OnInit {
         this.place.image = require('../../assets/default-image.jpg');
       }
 
-      this.place.occasionTypesMaps = this.mapToOccasionTypeMap(this.place.occasionTypes); // do jakiegos serwisu to mapowanie
+      this.place.occasionTypesMaps = this.placeService.mapToOccasionTypeMap(this.place.occasionTypes);
     });
-  }
-
-  private mapToOccasionTypeMap(occasionTypesAsStrings: string[]): OccasionTypeMapModel[] {
-    let result: OccasionTypeMapModel[] = [];
-
-    occasionTypesAsStrings.forEach(element => {
-      const occasionTypeMap = occasionTypes.filter(o => o.value === element)[0];
-      result.push(occasionTypeMap);
-    });
-    return result;
   }
 }
