@@ -8,8 +8,9 @@ import { MenuService } from 'src/app/services/menu.service';
 import { MenuModel } from 'src/app/models/menu.model';
 import { MenuDetailsComponent } from 'src/app/owner/place-management/menu-section/menu-details/menu-details.component';
 import { MatDialog } from '@angular/material';
+import { ReservationRequestService } from 'src/app/services/reservation-request.service';
 
-export class MenuOrderMap {
+export class MenuOrderModel {
   menu: MenuModel;
   include: boolean;
   amountOfPeople: number;
@@ -27,13 +28,14 @@ export class MakeReservationComponent implements OnInit {
   placeId: string;
   place: PlaceModel;
   menus: MenuModel[];
-  menuOrderMaps: MenuOrderMap[] = [];
+  menuOrders: MenuOrderModel[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private placeService: PlaceService,
               private activatedRoute: ActivatedRoute,
               private menuService: MenuService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private reservationRequestService: ReservationRequestService) { }
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -43,7 +45,7 @@ export class MakeReservationComponent implements OnInit {
       this.menuService.getMenus(this.placeId).subscribe(menus => {
         this.menus = menus;
         for(const menu of this.menus) {
-          this.menuOrderMaps.push({menu: menu, include: false, amountOfPeople: null});
+          this.menuOrders.push({menu: menu, include: false, amountOfPeople: null});
         }
       });
     });
@@ -54,7 +56,6 @@ export class MakeReservationComponent implements OnInit {
       this.dateFilter = (date: Date) => !this.reservedDates.some(x => x.getFullYear() === date.getFullYear()
       && x.getMonth() === date.getMonth() && x.getDate() === date.getDate());
     });
-    
     this.initForms();
   }
 
@@ -81,11 +82,13 @@ export class MakeReservationComponent implements OnInit {
       options: this.reservationFormGroup.controls['options'].value,
       occasionType: this.reservationFormGroup.controls['occasionType'].value,
       date: this.reservationFormGroup.controls['date'].value,
+      menuOrders: this.menuOrders.filter(m => m.include)
     };
-    console.log(this.menuOrderMaps);
+    console.log(this.menuOrders);
+    this.reservationRequestService.makeReservationRequest(this.placeId, model).subscribe();
   }
 
-  openMenuDetials(menuOrderMap: MenuOrderMap) {
+  openMenuDetials(menuOrderMap: MenuOrderModel) {
     const dialogRef = this.dialog.open(MenuDetailsComponent, { data: menuOrderMap.menu });
   }
 }

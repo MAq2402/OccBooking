@@ -55,16 +55,19 @@
                 </mat-form-field>
             </form>
             <div>
+                <h6>Wybierz zestawy dań</h6>
                 <mat-list>
-                    <mat-list-item class="row" *ngFor="let menuOrderMap of menuOrderMaps">
-                        <span class="col-sm-1">
-                        <mat-icon (click)="openMenuDetials(menuOrderMap)">restaurant_menu</mat-icon>{{menuOrderMap.menu.name}}
-                    </span>
-                        <mat-checkbox class="col-sm-1" [(ngModel)]="menuOrderMap.include" [labelPosition]="'before'">
-                        </mat-checkbox>
+                    <mat-list-item class="row" *ngFor="let menuOrder of menuOrders">
+                        <span class="col-sm-2">
+                            <mat-checkbox [(ngModel)]="menuOrder.include" [labelPosition]="'after'">
+                                <mat-icon (click)="openMenuDetials(menuOrder)">restaurant_menu</mat-icon>
+                                {{menuOrder.menu.name}}
+                            </mat-checkbox>
+                        </span>
                         <mat-form-field class="col-sm-2">
-                            <input [disabled]="!menuOrderMap.include" matInput type="number"
-                                [(ngModel)]="menuOrderMap.amountOfPeople" [name]="menuOrderMap.name" placeholder="Dla ilu osób">
+                            <input [disabled]="!menuOrder.include" matInput type="number"
+                                [(ngModel)]="menuOrder.amountOfPeople" [name]="menuOrder.name"
+                                placeholder="Dla ilu osób">
                         </mat-form-field>
                     </mat-list-item>
                 </mat-list>
