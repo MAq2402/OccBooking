@@ -167,6 +167,11 @@ namespace OccBooking.Domain.Entities
         public void MakeEmptyReservation(DateTime date)
         {
             emptyReservations.Add(new EmptyPlaceReservation(date));
+
+            foreach (var requestToReject in reservationReqeusts.Where(r => r.DateTime == date && !r.IsAnswered))
+            {
+                requestToReject.Reject();
+            }
         }
 
         private void MakeHallReservations(ReservationRequest request, IEnumerable<Hall> halls)
