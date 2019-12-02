@@ -17,7 +17,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material';
+import { MatSortModule } from '@angular/material';
 
 @NgModule({
   declarations: [],
@@ -39,7 +42,11 @@ import { MatNativeDateModule } from '@angular/material';
     MatAutocompleteModule,
     MaterialFileInputModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   exports: [
     MatButtonModule,
@@ -59,7 +66,11 @@ import { MatNativeDateModule } from '@angular/material';
     MatAutocompleteModule,
     MaterialFileInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class MaterialModule { }

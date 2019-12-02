@@ -14,6 +14,9 @@ namespace OccBooking.Persistance.Configurations
             builder.HasMany(h => h.HallReservations)
                 .WithOne(hr => hr.Hall);
 
+            builder.Metadata.FindNavigation(nameof(Hall.HallReservations))
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
+
             builder.Ignore(h => h.PossibleJoins);
         }
     }

@@ -4,6 +4,7 @@ import { PlaceComponent } from './place/place.component';
 import { OwnerGuard } from './guards/owner.guard';
 import { PlaceManagementComponent } from './place-management/place-management.component';
 import { HallManagementComponent } from './hall-management/hall-management.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,9 @@ const routes: Routes = [
   },
   {
     path: 'owner/hall-management/:id', component: HallManagementComponent, canActivate: [OwnerGuard]
+  },
+  {
+    path: 'owner/reservations', component: ReservationsComponent, canActivate: [OwnerGuard]
   },
 ];
 

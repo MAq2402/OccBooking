@@ -1,4 +1,4 @@
-import { Component, OnInit, Directive } from '@angular/core';
+import { Component, OnInit, Directive, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlaceModel } from '../../models/place.model';
 import { CreateMenuDialogComponent } from './create-menu-dialog/create-menu-dialog.component';
@@ -13,6 +13,7 @@ import { occasionTypes } from 'src/app/shared/occasionTypes';
 import { HallService } from 'src/app/services/hall.service';
 import { HallModel } from 'src/app/models/hall.model';
 import { CreateHallDialogComponent } from './create-hall-dialog/create-hall-dialog.component';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 declare var require: any;
 
 @Component({

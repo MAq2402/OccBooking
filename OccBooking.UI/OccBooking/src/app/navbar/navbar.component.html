@@ -11,16 +11,22 @@
     </ul>
     <ul class="navbar-nav ml-auto nav-flex-icons">
       <li *ngIf="isLoggedIn()" class="nav-item">
+        <a class="nav-link" routerLink="owner/reservations">
+          Rezerwacje
+        </a>
+      </li>
+      <li *ngIf="isLoggedIn()" class="nav-item">
         <button mat-button [matMenuTriggerFor]="menu">
           <span class="user" *ngIf="currentUser">{{currentUser.firstName}} {{currentUser.lastName}}</span>
           <mat-icon>person</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
           <ng-container>
-              <button (click)="logOut()" mat-menu-item>Wyloguj się</button>
-              <button mat-menu-item [matMenuTriggerFor]="sub_menu">Zarządzaj</button>
+            <button (click)="logOut()" mat-menu-item>Wyloguj się</button>
+            <button mat-menu-item [matMenuTriggerFor]="sub_menu">Zarządzaj</button>
             <mat-menu #sub_menu="matMenu">
-              <button (click)="navigateToPlace(place.id)" *ngFor="let place of places" mat-menu-item>{{ place.name }}</button>
+              <button (click)="navigateToPlace(place.id)" *ngFor="let place of places"
+                mat-menu-item>{{ place.name }}</button>
             </mat-menu>
           </ng-container>
         </mat-menu>
