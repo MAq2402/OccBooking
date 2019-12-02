@@ -69,12 +69,17 @@ namespace OccBooking.Domain.Entities
 
         public bool IsFreeOnDate(DateTime date)
         {
-            return HallReservations.All(hr => hr.ReservationRequest.DateTime != date);
+            return HallReservations.All(hr => hr.Date != date);
         }
 
         public void MakeReservation(ReservationRequest request)
         {
-            _hallReservations.Add(new HallReservation(request));
+            _hallReservations.Add(HallReservation.CreateFromRequest(request));
+        }
+
+        public void MakeEmptyReservation(DateTime date)
+        {
+            _hallReservations.Add(HallReservation.CreateEmpty(date));
         }
     }
 }

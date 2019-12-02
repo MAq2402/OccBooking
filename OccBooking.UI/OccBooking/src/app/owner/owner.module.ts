@@ -13,6 +13,7 @@ import { MenuDetailsComponent } from './place-management/menu-section/menu-detai
 import { ReservationDetailsComponent } from './place-management/calendar-section/reservation-details/reservation-details.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { MakeDecisionComponent } from './reservations/make-decision/make-decision.component';
+import { HallCalendarComponent } from './hall-management/hall-calendar/hall-calendar.component';
 
 @NgModule({
   declarations: [PlaceComponent,
@@ -26,7 +27,8 @@ import { MakeDecisionComponent } from './reservations/make-decision/make-decisio
     MenuDetailsComponent,
     ReservationDetailsComponent,
     ReservationsComponent,
-    MakeDecisionComponent],
+    MakeDecisionComponent,
+    HallCalendarComponent],
   imports: [
     SharedModule,
     OwnerRoutingModule

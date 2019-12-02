@@ -51,4 +51,8 @@ export class NavbarComponent implements OnInit {
   navigateToPlace(placeId: string) {
     this.router.navigate(['/owner/place-management', placeId]);
   }
+
+  navigateToReservations() {
+    this.router.navigate(['/owner/reservations']);
+  }
 }

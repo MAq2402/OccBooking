@@ -32,12 +32,13 @@ namespace OccBooking.Web.Controllers
         [HttpGet]
         [Route("halls/{id}")]
         public async Task<IActionResult> GetHallAsync(string id) =>
-           FromSingle(await QueryAsync(new GetHallQuery(new Guid(id))));
+            FromSingle(await QueryAsync(new GetHallQuery(new Guid(id))));
 
         [HttpPut]
         [Route("halls/{id}/joins")]
         [Authorize]
-        public async Task<IActionResult> UpdateHallJoinsAsync(string id, [FromBody] IEnumerable<PossibleJoinDto> joins) =>
+        public async Task<IActionResult>
+            UpdateHallJoinsAsync(string id, [FromBody] IEnumerable<PossibleJoinDto> joins) =>
             FromUpdate(await CommandAsync(new UpdateHallJoinsCommand(new Guid(id), joins)));
 
         [HttpPost]
@@ -47,10 +48,27 @@ namespace OccBooking.Web.Controllers
             FromCreation(await CommandAsync(new AddHallCommand(dto.Name, dto.Capacity, new Guid(placeId))));
 
 
-        [HttpPut]
+        [HttpPost]
         [Authorize]
-        [Route("places/{placeId}/halls")]
-        public async Task<IActionResult> MakeEmptyReservations(string placeId, [FromBody] IEnumerable<DateTimeOffset> dates) =>
-            FromUpdate(await CommandAsync(new MakeEmptyReservationsCommand(dates.Select(d => d.LocalDateTime), new Guid(placeId))));
+        [Route("places/{placeId}/halls/reserve")]
+        public async Task<IActionResult> MakeEmptyPlaceReservationsAsync(string placeId,
+            [FromBody] IEnumerable<DateTimeOffset> dates) =>
+            FromCreation(await CommandAsync(new MakeEmptyReservationsCommand(dates.Select(d => d.LocalDateTime),
+                new Guid(placeId))));
+
+        [HttpPost]
+        [Authorize]
+        [Route("halls/{hallId}/reserve")]
+        public async Task<IActionResult> MakeEmptyHallReservationsAsync(string hallId,
+            [FromBody] IEnumerable<DateTimeOffset> dates) =>
+            FromCreation(await CommandAsync(
+                new MakeEmptyHallReservationsCommand(dates.Select(d => d.LocalDateTime), new Guid(hallId))));
+
+        [HttpGet("halls/{id}/reservedDays")]
+        [Authorize]
+        public async Task<IActionResult> GetReservedDaysAsync(string id)
+        {
+            return FromCollection(await QueryAsync(new GetHallReservedDaysQuery(new Guid(id))));
+        }
     }
 }
