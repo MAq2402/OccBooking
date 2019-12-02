@@ -30,11 +30,19 @@ export class HallService {
     return this.http.post<any>(`${environment.WEB_API_ENDPOINT}places/${placeId}/halls`, model);
   }
 
-  makeEmptyReservations(placeId: string, datesToSend: Date[]): Observable<any> {
-    return this.http.put<any>(`${environment.WEB_API_ENDPOINT}places/${placeId}/halls`, datesToSend);
+  makeEmptyPlaceReservations(placeId: string, datesToSend: Date[]): Observable<any> {
+    return this.http.post<any>(`${environment.WEB_API_ENDPOINT}places/${placeId}/halls/reserve`, datesToSend);
+  }
+
+  makeEmptyHallReservations(hallId: string, datesToSend: Date[]): Observable<any> {
+    return this.http.post<any>(`${environment.WEB_API_ENDPOINT}halls/${hallId}/reserve`, datesToSend);
   }
 
   updateHallJoins(hallId: string, hallJoins: HallJoinModel[]) {
     return this.http.put<any>(`${environment.WEB_API_ENDPOINT}halls/${hallId}/joins`, hallJoins);
+  }
+
+  getReservedDays(hallId: string): Observable<Date[]> {
+    return this.http.get<Date[]>(`${environment.WEB_API_ENDPOINT}halls/${hallId}/reservedDays`);
   }
 }

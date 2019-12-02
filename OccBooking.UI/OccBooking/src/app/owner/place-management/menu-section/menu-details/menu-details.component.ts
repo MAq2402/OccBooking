@@ -11,7 +11,7 @@ export class MenuDetailsComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<MenuDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public menu: MenuModel[]) { }
+    @Inject(MAT_DIALOG_DATA) public menu: MenuModel) { }
 
   ngOnInit() {
   }

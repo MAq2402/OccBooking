@@ -6,3 +6,10 @@ table {
     font-size: 14px;
     width: 90%;
 }
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }

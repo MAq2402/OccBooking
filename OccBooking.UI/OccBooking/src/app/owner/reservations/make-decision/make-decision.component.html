@@ -2,34 +2,34 @@
     <h1 mat-dialog-title>Rezerwacja</h1>
     <div mat-dialog-content>
         <h4>Dane</h4>
-        <mat-form-field class="col-sm-6 example-full-width">
+        <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Email" [readonly]="true" [value]="reservationRequest.client.email">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
+        <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Imię" [readonly]="true" [value]="reservationRequest.client.firstName">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
+        <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Nazwisko" [readonly]="true" [value]="reservationRequest.client.lastName">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
+        <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Numer telefonu" [readonly]="true" [value]="reservationRequest.client.phoneNumber">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
+        <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Data" [readonly]="true" [value]="reservationRequest.date | date: 'shortDate'">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
+        <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Koszt" [readonly]="true" [value]="reservationRequest.cost">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
-            <input matInput placeholder="Status" [readonly]="true" [value]="getStatus()">
+        <mat-form-field class="col-sm-6 full-width">
+            <input matInput placeholder="Status" [readonly]="true" [value]="reservationRequest.status">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
-            <input matInput placeholder="Okazja" [readonly]="true" [value]="getOccasionType()">
+        <mat-form-field class="col-sm-6 full-width">
+            <input matInput placeholder="Okazja" [readonly]="true" [value]="reservationRequest.occasion">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
+        <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Miejsce" [readonly]="true" [value]="reservationRequest.placeName">
         </mat-form-field>
-        <mat-form-field class="col-sm-6 example-full-width">
+        <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Ilość ludzi" [readonly]="true" [value]="reservationRequest.amountOfPeople">
         </mat-form-field>
         <div *ngIf="!reservationRequest.isAnswered">
@@ -37,7 +37,7 @@
             <div class="row">
                 <mat-list class="col-sm-6">
                     <mat-list-item *ngFor="let choice of hallsChoices">
-                        <mat-checkbox [disabled]="cannotBeJoined(choice.hall)" [(ngModel)]="choice.choosed" class="example-margin" value="after">
+                        <mat-checkbox [disabled]="cannotBeJoined(choice.hall)" [(ngModel)]="choice.choosed" class="margin" value="after">
                             {{choice.hall.name}}
                         </mat-checkbox>
                     </mat-list-item>

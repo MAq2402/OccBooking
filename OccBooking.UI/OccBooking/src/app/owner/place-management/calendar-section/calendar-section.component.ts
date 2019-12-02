@@ -48,7 +48,7 @@ export class CalendarSectionComponent implements OnInit {
       for (const date of this.dates.filter(d => !result.includes(d))) {
         datesToSend.push(date);
       }
-      this.hallService.makeEmptyReservations(this.placeId, datesToSend).subscribe(() => this.getReservedDays());
+      this.hallService.makeEmptyPlaceReservations(this.placeId, datesToSend).subscribe(() => this.getReservedDays());
     });
   }
 

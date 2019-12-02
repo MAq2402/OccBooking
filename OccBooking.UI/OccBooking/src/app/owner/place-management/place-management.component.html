@@ -12,44 +12,37 @@
             </p>
         </mat-card-content>
     </mat-card>
-    <mat-accordion class="col-sm-6 configuration">
-        <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Konfiguracja
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <app-menu-section></app-menu-section>
-            <mat-list>
-                <h3 mat-subheader>Dodatkowe opcje<span class="spacer"></span><button mat-icon-button>
-                        <mat-icon (click)="createAdditionalOption()" color="primary">add</mat-icon>
-                    </button></h3>
-                <mat-list-item *ngFor="let option of place?.additionalOptions">
-                    <mat-icon mat-list-icon>star</mat-icon>
-                    <h4 mat-line>{{option.name}} - {{option.cost}}zł</h4>
+    <mat-card class="col-sm-6 configuration">
+        <app-menu-section></app-menu-section>
+        <mat-list>
+            <h3 mat-subheader>Dodatkowe opcje<span class="spacer"></span><button mat-icon-button>
+                    <mat-icon (click)="createAdditionalOption()" color="primary">add</mat-icon>
+                </button></h3>
+            <mat-list-item *ngFor="let option of place?.additionalOptions">
+                <mat-icon mat-list-icon>star</mat-icon>
+                <h4 mat-line>{{option.name}} - {{option.cost}}zł</h4>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+        <mat-list>
+            <h3 mat-subheader>Sale<span class="spacer"></span><button mat-icon-button>
+                    <mat-icon (click)="createHall()" color="primary">add</mat-icon>
+                </button></h3>
+            <a routerLink="/owner/hall-management/{{hall.id}}" *ngFor="let hall of halls">
+                <mat-list-item>
+                    <mat-icon mat-list-icon>account_balance</mat-icon>
+                    <h4 mat-line>{{hall.name}}</h4>
                 </mat-list-item>
-                <mat-divider></mat-divider>
-            </mat-list>
-            <mat-list>
-                <h3 mat-subheader>Sale<span class="spacer"></span><button mat-icon-button>
-                        <mat-icon (click)="createHall()" color="primary">add</mat-icon>
-                    </button></h3>
-                <a routerLink="/owner/hall-management/{{hall.id}}" *ngFor="let hall of halls">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>account_balance</mat-icon>
-                        <h4 mat-line>{{hall.name}}</h4>
-                    </mat-list-item>
-                </a>
-                <mat-divider></mat-divider>
-            </mat-list>
-            <mat-list>
-                <h3 mat-subheader>Organizowane imprezy</h3>
-                <app-occasional-types-section [types]="place?.occasionTypesMaps" (selected)="occasionTypeAdded($event)"
-                    (removed)="occasionTypeRemoved($event)">
-                </app-occasional-types-section>
-                <mat-divider></mat-divider>
-            </mat-list>
-            <app-calendar-section></app-calendar-section>
-        </mat-expansion-panel>
-    </mat-accordion>
+            </a>
+            <mat-divider></mat-divider>
+        </mat-list>
+        <mat-list>
+            <h3 mat-subheader>Organizowane imprezy</h3>
+            <app-occasional-types-section [types]="place?.occasionTypesMaps" (selected)="occasionTypeAdded($event)"
+                (removed)="occasionTypeRemoved($event)">
+            </app-occasional-types-section>
+            <mat-divider></mat-divider>
+        </mat-list>
+        <app-calendar-section></app-calendar-section>
+    </mat-card>
 </div>

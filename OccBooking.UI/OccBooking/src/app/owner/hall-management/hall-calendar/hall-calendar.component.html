@@ -1,0 +1,10 @@
+<div class="calendar-container">
+        <h4>Kalendarz</h4>
+        <p-calendar (onSelect)="onSelect($event)" [style]="{'width':'80%'}" [(ngModel)]="dates" [inline]="true" selectionMode="multiple"
+            [locale]="calendar">
+            <p-footer *ngIf="!disabled">
+                <button class="submit-calendar-button" mat-button color="primary" (click)="saveChanges()">Zatwierdź</button>
+                <button mat-button color="accent" (click)="clearChanges()">Cofnij zmiany</button>
+            </p-footer>
+        </p-calendar>
+    </div>
