@@ -31,7 +31,6 @@ namespace OccBooking.Application.Handlers
 
             var halls = await _dbContext.Halls.Include(h => h.Place)
                 .Include(h => h.HallReservations)
-                .ThenInclude(hr => hr.ReservationRequest)
                 .Where(h => h.Place.Id == query.PlaceId).ToListAsync();
 
             var reservedDaysFromHalls = GetReservedDaysFromHallReservations(halls);
@@ -45,7 +44,7 @@ namespace OccBooking.Application.Handlers
         private IEnumerable<DateTime> GetReservedDaysFromHallReservations(IEnumerable<Hall> halls)
         {
             var allReservationDays = halls.SelectMany(h => h.HallReservations)
-                .Select(hr => hr.ReservationRequest.DateTime).Distinct();
+                .Select(hr => hr.Date).Distinct();
 
             var result = new List<DateTime>();
             foreach (var day in allReservationDays)

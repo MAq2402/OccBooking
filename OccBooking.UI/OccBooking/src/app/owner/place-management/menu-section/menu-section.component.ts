@@ -26,6 +26,12 @@ export class MenuSectionComponent implements OnInit {
 
     this.getMenus();
     this.menuService.getIngredients().subscribe(ingredients => this.ingredients = ingredients);
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.placeId = params.get('id');
+      this.getMenus();
+      this.menuService.getIngredients().subscribe(ingredients => this.ingredients = ingredients);
+    });
   }
 
   createMenu() {

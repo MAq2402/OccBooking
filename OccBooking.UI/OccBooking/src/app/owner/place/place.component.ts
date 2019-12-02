@@ -5,6 +5,7 @@ import { UserModel } from 'src/app/auth/models/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { provinces } from 'src/app/shared/provinces';
 import { PlaceService } from 'src/app/services/place.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-place',
@@ -22,7 +23,8 @@ export class PlaceComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private placeService: PlaceService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
@@ -68,6 +70,8 @@ export class PlaceComponent implements OnInit {
       if (this.fileFormGroup.controls['image'].value) {
         this.upload(this.fileFormGroup.controls['image'].value.files[0], place.id);
       }
+      this.placeService.announceNewPlace();
+      this.router.navigate([`/owner/place-management/${place.id}`]);
     });
   }
 

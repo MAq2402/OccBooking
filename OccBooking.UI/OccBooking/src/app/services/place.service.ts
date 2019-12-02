@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { PlaceFilterModel } from 'src/app/home/models/place-filter.model';
 import { PlaceModel } from '../models/place.model';
 import { AdditionalOptionModel } from '../models/additional-option.model';
@@ -12,6 +12,10 @@ import { occasionTypes } from '../shared/occasionTypes';
   providedIn: 'root'
 })
 export class PlaceService {
+
+  private newPlaceAnnouncedSource = new Subject();
+
+  newUserAnnounced$ = this.newPlaceAnnouncedSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -29,7 +33,7 @@ export class PlaceService {
       params = params.append('maxCostPerPerson', filterModel.maxCostPerPerson.toString());
       params = params.append('minCapacity', filterModel.minCapacity.toString());
       params = params.append('occasionType', filterModel.occasionType);
-      return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`, {params});
+      return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`, { params });
     } else {
       return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`);
     }
@@ -72,5 +76,9 @@ export class PlaceService {
       result.push(occasionTypeMap);
     });
     return result;
+  }
+
+  announceNewPlace() {
+    this.newPlaceAnnouncedSource.next();
   }
 }

@@ -18,9 +18,9 @@ export class CalendarSectionComponent implements OnInit {
   placeId: string;
   @Input() disabled = false;
   constructor(private placeService: PlaceService,
-              private activatedRoute: ActivatedRoute,
-              private hallService: HallService,
-              private dialog: MatDialog) { }
+    private activatedRoute: ActivatedRoute,
+    private hallService: HallService,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -39,8 +39,12 @@ export class CalendarSectionComponent implements OnInit {
     };
 
     this.getReservedDays();
-  }
 
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.placeId = params.get('id');
+      this.refreshReservedDays();
+    });
+  }
 
   saveChanges() {
     this.placeService.getReservedDays(this.placeId).subscribe(result => {
@@ -52,7 +56,7 @@ export class CalendarSectionComponent implements OnInit {
     });
   }
 
-  clearChanges() {
+  refreshReservedDays() {
     this.dates = undefined;
     this.getReservedDays();
   }

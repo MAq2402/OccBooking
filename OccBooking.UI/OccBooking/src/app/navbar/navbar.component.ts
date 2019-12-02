@@ -29,6 +29,10 @@ export class NavbarComponent implements OnInit {
     this.authService.newUserAnnounced$.subscribe(() => {
       this.getCurrentUser();
     });
+
+    this.placeService.newUserAnnounced$.subscribe(() => {
+      this.getCurrentUser();
+    })
   }
 
   private getCurrentUser() {
