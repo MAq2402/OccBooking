@@ -9,8 +9,6 @@ namespace OccBooking.Application.DTOs
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int Capacity { get; set; }
-
-        public bool IsFreeOnGivenDate { get; set; }
         public ICollection<HallJoinDto> Joins { get; set; } = new List<HallJoinDto>();
     }
 }

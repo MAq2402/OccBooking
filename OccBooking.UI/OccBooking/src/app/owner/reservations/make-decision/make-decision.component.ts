@@ -1,14 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ReservationModel } from '../reservations.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HallModel } from 'src/app/models/hall.model';
 import { HallService } from 'src/app/services/hall.service';
 import { ReservationRequestService } from 'src/app/services/reservation-request.service';
-import { HallJoinModel } from 'src/app/models/hall-join.model';
-export class HallChoice {
-  hall: HallModel;
-  choosed: boolean;
-}
+import { ReservationModel } from 'src/app/models/reservation.model';
+import { HallChoice } from 'src/app/models/hall-choice.model';
+
 @Component({
   selector: 'app-make-decision',
   templateUrl: './make-decision.component.html',
@@ -26,7 +23,6 @@ export class MakeDecisionComponent implements OnInit {
   ngOnInit() {
     this.hallService.filterHalls(this.reservationRequest.placeId, this.reservationRequest.date).subscribe(halls => {
       this.halls = halls;
-      console.log(this.halls);
       for (const hall of this.halls) {
         this.hallsChoices.push({ hall, choosed: false });
       }

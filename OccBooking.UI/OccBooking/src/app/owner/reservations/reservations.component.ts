@@ -3,22 +3,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/m
 import { ReservationRequestService } from 'src/app/services/reservation-request.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MakeDecisionComponent } from './make-decision/make-decision.component';
-import { ClientModel } from 'src/app/models/client.model';
-
-export class ReservationModel {
-  id: string;
-  date: Date;
-  client: ClientModel;
-  cost: number;
-  status: string;
-  occasion: string;
-  amountOfPeople: number;
-  placeId: string;
-  placeName: string;
-  isRejected: boolean;
-  isAccepted: boolean;
-  isAnswered: boolean;
-}
+import { ReservationModel } from 'src/app/models/reservation.model';
 
 @Component({
   selector: 'app-reservations',
@@ -58,7 +43,10 @@ export class ReservationsComponent implements OnInit {
     this.dataSource = new MatTableDataSource([]);
     this.authService.getCurrentUser().subscribe(user => {
       this.reservationRequestService.getReservationReqeusts(user.ownerId).subscribe(reservations => {
-        console.log(reservations);
+        for(const reservation of reservations) {
+          this.getStatus(reservation);
+          this.getOccasionType(reservation);
+        }
         this.dataSource = new MatTableDataSource(reservations);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -66,11 +54,11 @@ export class ReservationsComponent implements OnInit {
     });
   }
 
-  getStatus(reservationRequest: ReservationModel): string {
-    return this.reservationRequestService.getStatus(reservationRequest);
+  private getStatus(reservationRequest: ReservationModel) {
+    reservationRequest.status = this.reservationRequestService.getStatus(reservationRequest);
   }
 
-  getOccasionType(reservationRequest: ReservationModel): string {
-    return this.reservationRequestService.getOccasionType(reservationRequest);
+  private getOccasionType(reservationRequest: ReservationModel) {
+    reservationRequest.occasion =  this.reservationRequestService.getOccasionType(reservationRequest);
   }
 }

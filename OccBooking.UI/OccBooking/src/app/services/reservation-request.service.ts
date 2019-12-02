@@ -3,7 +3,8 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ReservationRequestModel } from '../models/reservation-request.model';
-import { ReservationModel } from '../owner/reservations/reservations.component';
+import { ReservationModel } from '../models/reservation.model';
+import { occasionTypes } from '../shared/occasionTypes';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class ReservationRequestService {
   }
 
   getOccasionType(reservationRequest: ReservationModel) {
-    return reservationRequest.occasion === 'Wedding' ? 'Wesele' : 'Pogrzeb';
+    return occasionTypes.filter(t => t.value == reservationRequest.occasion)[0].name;
   }
 
   makeReservationRequest(placeId: string, model: ReservationRequestModel): Observable<any> {

@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { HallModel } from '../models/hall.model';
 import { environment } from 'src/environments/environment';
 import { HallJoinModel } from '../models/hall-join.model';
-export class FilterHallsModel {
-  date: Date;
-}
+import { FilterHallsModel } from '../models/filter-halls.model';
+
 @Injectable({
   providedIn: 'root'
 })
