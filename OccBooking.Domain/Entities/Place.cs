@@ -168,6 +168,11 @@ namespace OccBooking.Domain.Entities
         {
             emptyReservations.Add(new EmptyPlaceReservation(date));
 
+            RejectRequestsForDate(date);
+        }
+
+        private void RejectRequestsForDate(DateTime date)
+        {
             foreach (var requestToReject in reservationReqeusts.Where(r => r.DateTime == date && !r.IsAnswered))
             {
                 requestToReject.Reject();
