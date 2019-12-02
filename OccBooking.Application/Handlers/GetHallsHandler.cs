@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
+using OccBooking.Domain.Entities;
 using OccBooking.Persistance.DbContexts;
 
 namespace OccBooking.Application.Handlers
@@ -21,10 +22,52 @@ namespace OccBooking.Application.Handlers
 
         public override async Task<Result<IEnumerable<HallDto>>> HandleAsync(GetHallsQuery query)
         {
-            var halls = await _dbContext.Halls.Include(h => h.Place).Where(h => h.Place.Id == query.PlaceId)
-                .ToListAsync();
+            if (!query.Date.HasValue)
+            {
+                var halls = await _dbContext.Halls.Include(h => h.Place)
+                    .Include(h => h.PossibleJoinsWhereIsFirst)
+                    .ThenInclude(j => j.FirstHall)
+                    .Include(h => h.PossibleJoinsWhereIsFirst)
+                    .ThenInclude(j => j.SecondHall)
+                    .Include(h => h.PossibleJoinsWhereIsSecond)
+                    .ThenInclude(j => j.SecondHall)
+                    .Include(h => h.PossibleJoinsWhereIsSecond)
+                    .ThenInclude(j => j.FirstHall).Where(h => h.Place.Id == query.PlaceId).ToListAsync();
 
-            return Result.Ok(_mapper.Map<IEnumerable<HallDto>>(halls));
+                return Result.Ok(halls.Select(MapToResult));
+            }
+            else
+            {
+                var halls = await _dbContext.Halls.Include(h => h.Place)
+                    .Include(h => h.HallReservations)
+                    .ThenInclude(hr => hr.ReservationRequest)
+                    .Include(h => h.PossibleJoinsWhereIsFirst)
+                    .ThenInclude(j => j.FirstHall)
+                    .Include(h => h.PossibleJoinsWhereIsFirst)
+                    .ThenInclude(j => j.SecondHall)
+                    .Include(h => h.PossibleJoinsWhereIsSecond)
+                    .ThenInclude(j => j.SecondHall)
+                    .Include(h => h.PossibleJoinsWhereIsSecond)
+                    .ThenInclude(j => j.FirstHall).Where(h => h.Place.Id == query.PlaceId)
+                    .ToListAsync();
+
+                halls = halls.Where(h => h.IsFreeOnDate(query.Date.Value)).ToList();
+
+                return Result.Ok(halls.Select(MapToResult));
+            }
+        }
+
+        private HallDto MapToResult(Hall hall)
+        {
+            var result = _mapper.Map<HallDto>(hall);
+            foreach (var join in hall.PossibleJoins)
+            {
+                result.Joins.Add(join.FirstHall == hall
+                    ? new HallJoinDto() {HallId = join.SecondHall.Id}
+                    : new HallJoinDto() {HallId = join.FirstHall.Id});
+            }
+
+            return result;
         }
     }
 }

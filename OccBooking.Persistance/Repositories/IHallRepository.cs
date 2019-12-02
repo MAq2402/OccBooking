@@ -9,6 +9,7 @@ namespace OccBooking.Persistance.Repositories
     public interface IHallRepository : IRepository<Hall>
     {
         Task<IEnumerable<Hall>> GetHallsAsync(Guid placeId);
+        Task<IEnumerable<Hall>> GetHallsAsync(IEnumerable<Guid> ids);
         Task<Hall> GetHallAsync(Guid hallId);
         Task<HallJoin> GetJoinAsync(Hall first, Hall second);
         Task RemoveHallJoinAsync(HallJoin joinToDelete);

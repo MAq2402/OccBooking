@@ -1,6 +1,6 @@
 <div class="calendar-container">
     <h3>Kalendarz</h3>
-    <p-calendar (onSelect)="onSelect()" [style]="{'width':'80%'}" [(ngModel)]="dates" [inline]="true" selectionMode="multiple"
+    <p-calendar (onSelect)="onSelect($event)" [style]="{'width':'80%'}" [(ngModel)]="dates" [inline]="true" selectionMode="multiple"
         [locale]="calendar">
         <p-footer *ngIf="!disabled">
             <button class="submit-calendar-button" mat-button color="primary" (click)="saveChanges()">Zatwierdź</button>

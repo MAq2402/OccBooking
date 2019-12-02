@@ -9,11 +9,13 @@ namespace OccBooking.Application.Queries
 {
     public class GetHallsQuery : IQuery<IEnumerable<HallDto>>
     {
-        public GetHallsQuery(Guid placeId)
+        public GetHallsQuery(Guid placeId, DateTime? date = null)
         {
             PlaceId = placeId;
+            Date = date;
         }
 
-        public Guid PlaceId { get; private set; }
+        public Guid PlaceId { get; }
+        public DateTime? Date { get; }
     }
 }

@@ -10,6 +10,9 @@ import { CreateHallDialogComponent } from './place-management/create-hall-dialog
 import { HallManagementComponent } from './hall-management/hall-management.component';
 import { CreateMealDialogComponent } from './place-management/menu-section/create-meal-dialog/create-meal-dialog.component';
 import { MenuDetailsComponent } from './place-management/menu-section/menu-details/menu-details.component';
+import { ReservationDetailsComponent } from './place-management/calendar-section/reservation-details/reservation-details.component';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { MakeDecisionComponent } from './reservations/make-decision/make-decision.component';
 
 @NgModule({
   declarations: [PlaceComponent,
@@ -20,7 +23,10 @@ import { MenuDetailsComponent } from './place-management/menu-section/menu-detai
     CreateHallDialogComponent,
     HallManagementComponent,
     CreateMealDialogComponent,
-    MenuDetailsComponent],
+    MenuDetailsComponent,
+    ReservationDetailsComponent,
+    ReservationsComponent,
+    MakeDecisionComponent],
   imports: [
     SharedModule,
     OwnerRoutingModule

@@ -23,6 +23,11 @@ namespace OccBooking.Web.Controllers
         public async Task<IActionResult> GetHallsAsync(string placeId) =>
             FromCollection(await QueryAsync(new GetHallsQuery(new Guid(placeId))));
 
+        [HttpPost]
+        [Route("places/{placeId}/halls/filter")]
+        public async Task<IActionResult> FilterHallsAsync(string placeId, FilterHallsDto dto) =>
+            FromCollection(await QueryAsync(new GetHallsQuery(new Guid(placeId), dto.Date)));
+
 
         [HttpGet]
         [Route("halls/{id}")]

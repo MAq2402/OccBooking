@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HallModel } from '../models/hall.model';
 import { environment } from 'src/environments/environment';
 import { HallJoinModel } from '../models/hall-join.model';
+import { FilterHallsModel } from '../models/filter-halls.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,11 @@ export class HallService {
 
   getHalls(placeId: string): Observable<HallModel[]> {
     return this.http.get<HallModel[]>(`${environment.WEB_API_ENDPOINT}places/${placeId}/halls`);
+  }
+
+  filterHalls(placeId: string, date: Date): Observable<HallModel[]> {
+    const model: FilterHallsModel = {date: date}
+    return this.http.post<HallModel[]>(`${environment.WEB_API_ENDPOINT}places/${placeId}/halls/filter`, model);
   }
 
   getHall(hallId: string): Observable<HallModel> {
