@@ -37,6 +37,12 @@ export class PlaceManagementComponent implements OnInit {
 
     this.getPlace();
     this.getHalls();
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.placeId = params.get('id');
+      this.getPlace();
+      this.getHalls();
+    });
   }
 
   createAdditionalOption() {

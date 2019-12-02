@@ -4,7 +4,7 @@
         [locale]="calendar">
         <p-footer *ngIf="!disabled">
             <button class="submit-calendar-button" mat-button color="primary" (click)="saveChanges()">Zatwierdź</button>
-            <button mat-button color="accent" (click)="clearChanges()">Cofnij zmiany</button>
+            <button mat-button color="accent" (click)="refreshReservedDays()">Cofnij zmiany</button>
         </p-footer>
     </p-calendar>
 </div>
