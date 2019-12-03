@@ -78,41 +78,18 @@ export class CalendarSectionComponent implements OnInit {
     }
   }
 
-  onBlur(event: any) {
-    // console.log(event);
-    // if (!this.disabled) {
-    // this.placeService.getReservedDays(this.placeId).subscribe(result => {
-    //   if (result && result.length > 0) {
-    //     const newDates: Date[] = [];
-    //     let maybe;
-    //     for (let newDate of result) {
-    //       newDate = new Date(newDate);
-    //       newDates.push(newDate);
-    //       maybe = this.dates.filter(d => d.getDa !== newDate)[0];
-    //       //const maybe = this.dates.filter(d => d.getDate() !== newDate.getDate() && d.getMonth() === newDate.getMonth() && d.getFullYear() === newDate.getFullYear())[0];   
-    //     }
-    //     const dialogRef = this.dialog.open(ReservationDetailsComponent, { data: maybe });
-    //     console.log(maybe);
-    //     if (maybe) {
-    //       const dialogRef = this.dialog.open(ReservationDetailsComponent, { data: maybe });
-    //     }
-    //     // const date = newDates.filter(item => this.dates.indexOf(item) < 0);
-    //     // console.log(date);
-    //     // const dialogRef = this.dialog.open(ReservationDetailsComponent, { data: date });
-    //     this.getReservedDays();
-    //   }
-    // });
-    // this.getReservedDays();
-    // let maybe: Date;
-    // console.log(this.dates);
-    // for(let value of event) {
-    //   if(!maybe) {
-    //      //maybe = this.dates.filter(d => d !== value)[0];
-    //      maybe = this.dates.filter(d => d.getDate() !== value.getDate() && d.getMonth() === value.getMonth() && d.getFullYear() === value.getFullYear())[0];
-    //      console.log(maybe);
-    //   }
-    // }
-
-    // const dialogRef = this.dialog.open(ReservationDetailsComponent, { data: maybe });
+  onBlur(event: Date[]) {
+    console.log(this.dates);
+    console.log(event);
+    let unselectedDate: Date;
+    if (this.dates.length > event.length) {
+           for (let date of this.dates) {
+          if (event.every(d => d !== date)) {
+            unselectedDate = date;
+            break;
+          }
+        }
+    }
+    console.log(unselectedDate);
   }
 }
