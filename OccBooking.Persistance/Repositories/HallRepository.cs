@@ -29,10 +29,16 @@ namespace OccBooking.Persistance.Repositories
 
         public async Task<Hall> GetHallAsync(Guid hallId)
         {
-            return await _dbContext.Halls.Include(h => h.PossibleJoinsWhereIsFirst).ThenInclude(j => j.FirstHall)
-                .Include(h => h.PossibleJoinsWhereIsFirst).ThenInclude(j => j.SecondHall)
-                .Include(h => h.PossibleJoinsWhereIsSecond).ThenInclude(j => j.SecondHall).Include(h => h.PossibleJoinsWhereIsSecond)
-                .ThenInclude(j => j.FirstHall).FirstOrDefaultAsync(h => h.Id == hallId);
+            return await _dbContext.Halls.Include(h => h.Place)
+                .Include(h => h.PossibleJoinsWhereIsFirst)
+                .ThenInclude(j => j.FirstHall)
+                .Include(h => h.PossibleJoinsWhereIsFirst)
+                .ThenInclude(j => j.SecondHall)
+                .Include(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.SecondHall)
+                .Include(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.FirstHall)
+                .FirstOrDefaultAsync(h => h.Id == hallId);
         }
 
         public async Task<HallJoin> GetJoinAsync(Hall first, Hall second)

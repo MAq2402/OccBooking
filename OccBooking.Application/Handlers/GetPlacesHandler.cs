@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Extensions;
 using OccBooking.Application.Handlers.Base;
@@ -24,7 +25,7 @@ namespace OccBooking.Application.Handlers
 
         public override async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetPlacesQuery query)
         {
-            var places = _dbContext.Places.Include(p => p.Menus).AsQueryable();
+            var places = _dbContext.Places.Include(p => p.Menus).Include(p => p.Halls).AsEnumerable();
             if (query.PlaceFilter != null)
             {
                 places = places.FilterByName(query.PlaceFilter.Name).FilterByProvince(query.PlaceFilter.Province)

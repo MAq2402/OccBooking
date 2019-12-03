@@ -187,7 +187,7 @@ namespace OccBooking.Domain.Entities
             }
         }
 
-        private void RejectReservationsRequestsIfNotEnoughCapacity()
+        public void RejectReservationsRequestsIfNotEnoughCapacity()
         {
             var requestsToReject = ReservationRequests.Where(r =>
                 !r.IsAnswered && !DoHallsHaveEnoughCapacity(r.DateTime, r.AmountOfPeople));

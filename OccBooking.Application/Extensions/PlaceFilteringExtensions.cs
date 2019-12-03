@@ -10,22 +10,22 @@ namespace OccBooking.Application.Extensions
 {
     public static class PlaceFilteringExtensions
     {
-        public static IQueryable<Place> FilterByName(this IQueryable<Place> places, string name)
+        public static IEnumerable<Place> FilterByName(this IEnumerable<Place> places, string name)
         {
             return string.IsNullOrEmpty(name) ? places : places.Where(p => p.Name.Contains(name));
         }
 
-        public static IQueryable<Place> FilterByProvince(this IQueryable<Place> places, string province)
+        public static IEnumerable<Place> FilterByProvince(this IEnumerable<Place> places, string province)
         {
             return string.IsNullOrEmpty(province) ? places : places.Where(p => p.Address.Province.Equals(province));
         }
 
-        public static IQueryable<Place> FilterByCity(this IQueryable<Place> places, string city)
+        public static IEnumerable<Place> FilterByCity(this IEnumerable<Place> places, string city)
         {
             return string.IsNullOrEmpty(city) ? places : places.Where(p => p.Address.City.Equals(city));
         }
 
-        public static IQueryable<Place> FilterByCostPerPerson(this IQueryable<Place> places, decimal? minCostPerPerson,
+        public static IEnumerable<Place> FilterByCostPerPerson(this IEnumerable<Place> places, decimal? minCostPerPerson,
             decimal? maxCostPerPerson)
         {
             if (minCostPerPerson.HasValue)
@@ -41,12 +41,12 @@ namespace OccBooking.Application.Extensions
             return places;
         }
 
-        public static IQueryable<Place> FilterByMinCapacity(this IQueryable<Place> places, int? capacity)
+        public static IEnumerable<Place> FilterByMinCapacity(this IEnumerable<Place> places, int? capacity)
         {
             return !capacity.HasValue ? places : places.Where(p => p.Capacity >= capacity.Value);
         }
 
-        public static IQueryable<Place> FilterByOccasionTypes(this IQueryable<Place> places,
+        public static IEnumerable<Place> FilterByOccasionTypes(this IEnumerable<Place> places,
             string occasionType)
         {
             return string.IsNullOrEmpty(occasionType)
