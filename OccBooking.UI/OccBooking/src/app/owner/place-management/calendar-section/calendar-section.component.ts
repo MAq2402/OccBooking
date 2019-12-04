@@ -83,13 +83,17 @@ export class CalendarSectionComponent implements OnInit {
     console.log(event);
     let unselectedDate: Date;
     if (this.dates.length > event.length) {
-           for (let date of this.dates) {
-          if (event.every(d => d !== date)) {
-            unselectedDate = date;
-            break;
-          }
+      for (let date of this.dates) {
+        if (event.every(d => d !== date)) {
+          unselectedDate = date;
+          break;
         }
+      }
+
+      this.dialog.open(ReservationDetailsComponent, { data: { date: unselectedDate, placeId: this.placeId } });
+      this.getReservedDays();
     }
     console.log(unselectedDate);
+
   }
 }

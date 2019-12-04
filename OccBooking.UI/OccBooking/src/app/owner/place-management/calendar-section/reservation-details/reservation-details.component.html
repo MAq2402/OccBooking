@@ -1,6 +1,35 @@
 <div class="dialog">
-    <h1 mat-dialog-title>{{date}}}</h1>
+    <h1 mat-dialog-title>Informacja o rezerwacji</h1>
     <div mat-dialog-content>
+        <div *ngIf="reservation.isEmpty">
+            <h6>Pusta rezerwacja</h6>
+        </div>
+        <div *ngIf="!reservation.isEmpty">
+            <mat-form-field class="col-sm-6 full-width">
+                <input matInput placeholder="Imię" [readonly]="true" [value]="reservation.hallReservations[0].reservationRequest.firstName">
+            </mat-form-field>
+            <mat-form-field class="col-sm-6 full-width">
+                <input matInput placeholder="Nazwisko" [readonly]="true" [value]="reservation.hallReservations[0].reservationRequest.client.lastName">
+            </mat-form-field>
+            <!-- <mat-form-field class="col-sm-6 full-width">
+                <input matInput placeholder="Numer telefonu" [readonly]="true" [value]="reservationRequest.client.phoneNumber">
+            </mat-form-field>
+            <mat-form-field class="col-sm-6 full-width">
+                <input matInput placeholder="Data" [readonly]="true" [value]="reservationRequest.date | date: 'shortDate'">
+            </mat-form-field>
+            <mat-form-field class="col-sm-6 full-width">
+                <input matInput placeholder="Koszt" [readonly]="true" [value]="reservationRequest.cost">
+            </mat-form-field>
+            <mat-form-field class="col-sm-6 full-width">
+                <input matInput placeholder="Status" [readonly]="true" [value]="reservationRequest.status">
+            </mat-form-field>
+            <mat-form-field class="col-sm-6 full-width">
+                <input matInput placeholder="Okazja" [readonly]="true" [value]="reservationRequest.occasion">
+            </mat-form-field>
+            <mat-form-field class="col-sm-6 full-width">
+                <input matInput placeholder="Miejsce" [readonly]="true" [value]="reservationRequest.placeName">
+            </mat-form-field> -->
+        </div>
     </div>
     <div mat-dialog-actions>
         <button mat-button (click)="close()">Zamknij</button>
