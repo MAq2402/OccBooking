@@ -14,7 +14,7 @@ namespace OccBooking.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Meal> builder)
         {
             builder.Property(m => m.Ingredients).HasConversion(v => string.Join(',', v),
-                v => v.Split(',', StringSplitOptions.None));
+                v => v.Split(',', StringSplitOptions.None).ToList());
         }
     }
 }

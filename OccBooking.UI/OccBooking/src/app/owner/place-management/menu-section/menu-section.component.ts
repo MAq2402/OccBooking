@@ -59,6 +59,6 @@ export class MenuSectionComponent implements OnInit {
   }
 
   openMenuDetails(menu: MenuModel) {
-    const dialogRef = this.dialog.open(MenuDetailsComponent, { data: menu });
+    const dialogRef = this.dialog.open(MenuDetailsComponent, { data: menu, width: '900px' });
   }
 }

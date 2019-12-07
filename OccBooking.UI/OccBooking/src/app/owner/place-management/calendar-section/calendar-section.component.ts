@@ -78,7 +78,7 @@ export class CalendarSectionComponent implements OnInit {
       console.log(event);
       let unselectedDate: Date;
       if (this.dates.length > event.length) {
-             for (let date of this.dates) {
+             for (const date of this.dates) {
             if (event.every(d => d !== date)) {
               unselectedDate = date;
               break;
