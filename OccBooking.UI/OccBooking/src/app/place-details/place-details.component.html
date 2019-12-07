@@ -20,9 +20,17 @@
     <div class="col-sm-3">
         <mat-card class="smaller-card">
             <mat-list>
-                <h3 mat-subheader>Opis</h3>
-                <div class="description">{{place?.description}}</div>
-            
+                <h3 mat-subheader>Informacje</h3>
+                <div class="information">
+                    <div class="owner-info">
+                        Telefon: {{place?.owner.phoneNumber}}<br>
+                        Właściciel: {{place?.owner.name}}<br>
+                        Email: {{place?.owner.email}}
+                    </div>
+                    <div class="description">
+                        {{place?.description}}
+                    </div>
+                </div>      
             </mat-list>
         </mat-card>
     </div>
