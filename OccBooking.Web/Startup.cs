@@ -56,8 +56,8 @@ namespace OccBooking.Web
                 return new AppSettings(emailSection["EmailAddress"], emailSection["EmailPassword"],
                     emailSection["EmailName"], emailSection["SmtpHost"], int.Parse(emailSection["SmtpPort"]));
             }).SingleInstance();
+
             builder.Populate(services);
-            builder.RegisterType<EmailService>().As<IEmailService>();
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IRepository<>)))
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces();
@@ -66,11 +66,11 @@ namespace OccBooking.Web
             builder.RegisterQueryHandlers();
 
             builder.RegisterType<CqrsDispatcher>().As<ICqrsDispatcher>();
-
             builder.RegisterType<EventDispatcher>().As<IEventDispatcher>();
+            builder.RegisterType<EmailService>().As<IEmailService>();
 
-            var assembly = Assembly.GetAssembly(typeof(ReservationRequestRejectedEventHandler));
-            builder.RegisterAssemblyTypes(assembly).AsClosedTypesOf(typeof(IEventHandler<>));
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ReservationRequestRejectedEventHandler)))
+                .AsClosedTypesOf(typeof(IEventHandler<>));
 
             Container = builder.Build();
 

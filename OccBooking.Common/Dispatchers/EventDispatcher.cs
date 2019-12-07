@@ -12,10 +12,12 @@ namespace OccBooking.Common.Dispatchers
     public class EventDispatcher : IEventDispatcher
     {
         private IComponentContext _context;
+
         public EventDispatcher(IComponentContext context)
         {
             _context = context;
         }
+
         public async Task DispatchAsync<T>(params T[] events) where T : IEvent
         {
             foreach (var @event in events)
@@ -25,7 +27,7 @@ namespace OccBooking.Common.Dispatchers
 
                 dynamic handler = _context.Resolve(handlerType);
 
-                await handler.HandleAsync((dynamic)@event);
+                await handler.HandleAsync((dynamic) @event);
             }
         }
     }
