@@ -12,6 +12,7 @@ namespace OccBooking.Application.Mappings.Profiles
         public MenuProfile()
         {
             CreateMap<Menu, MenuDto>();
+            CreateMap<Meal, MealDto>();
         }
     }
 }

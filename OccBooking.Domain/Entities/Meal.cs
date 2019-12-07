@@ -21,7 +21,8 @@ namespace OccBooking.Domain.Entities
         {
 
         }
-        public IEnumerable<string> Ingredients => ingredients.AsReadOnly();
+
+        public IEnumerable<string> Ingredients => ingredients;
         public string Name { get; private set; }
         public string Description { get; private set; }
         public MealType Type { get; private set; }

@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MenuDetailsComponent } from '../../menu-section/menu-details/menu-details.component';
-import { MenuModel } from 'src/app/models/menu.model';
 
 @Component({
   selector: 'app-reservation-details',
