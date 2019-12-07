@@ -20,5 +20,6 @@ namespace OccBooking.Application.DTOs
         public List<string> OccasionTypes { get; set; } = new List<string>();
         public string Image { get; set; }
         public bool IsConfigured { get; set; }
+        public OwnerDto Owner { get; set; }
     }
 }

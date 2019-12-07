@@ -70,24 +70,22 @@ export class CalendarSectionComponent implements OnInit {
     });
   }
 
-  onSelect(value: Date) {
+  onSelect(event: Date[]) {
     if (this.disabled) {
       this.getReservedDays();
-    }
-  }
-
-  onBlur(event: Date[]) {
-    console.log(this.dates);
-    console.log(event);
-    let unselectedDate: Date;
-    if (this.dates.length > event.length) {
-           for (let date of this.dates) {
-          if (event.every(d => d !== date)) {
-            unselectedDate = date;
-            break;
+    } else {
+      console.log(this.dates);
+      console.log(event);
+      let unselectedDate: Date;
+      if (this.dates.length > event.length) {
+             for (let date of this.dates) {
+            if (event.every(d => d !== date)) {
+              unselectedDate = date;
+              break;
+            }
           }
-        }
+      }
+      console.log(unselectedDate);
     }
-    console.log(unselectedDate);
   }
 }
