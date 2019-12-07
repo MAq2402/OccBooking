@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using CSharpFunctionalExtensions;
 using OccBooking.Common.Types;
 
 namespace OccBooking.Common.Dispatchers
 {
-    public interface IDispatcher
+    public interface IEventDispatcher
     {
-        Task<Result> DispatchAsync(ICommand command);
-        Task<Result<T>> DispatchAsync<T>(IQuery<T> query);
+        Task DispatchAsync<T>(params T[] events) where T : IEvent;
     }
 }

@@ -18,6 +18,7 @@ namespace OccBooking.Application.Handlers
         {
             _authService = authService;
         }
+
         public async Task<Result<string>> HandleAsync(LoginQuery query)
         {
             return await _authService.LoginAsync(query);

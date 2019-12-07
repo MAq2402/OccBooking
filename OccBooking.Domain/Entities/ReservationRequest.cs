@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OccBooking.Domain.Enums;
+using OccBooking.Domain.Event;
 using OccBooking.Domain.Exceptions;
 using OccBooking.Domain.ValueObjects;
 
@@ -18,7 +19,8 @@ namespace OccBooking.Domain.Entities
             Client client,
             OccasionType occasionType,
             IEnumerable<PlaceAdditionalOption> additionalOptions,
-            IEnumerable<MenuOrder> menuOrders) : base(id)
+            IEnumerable<MenuOrder> menuOrders,
+            string placeName = "") : base(id)
         {
             SetDateTime(dateTime);
             SetClient(client);
@@ -27,6 +29,7 @@ namespace OccBooking.Domain.Entities
             AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
             CalculateCost();
             CalculateAmountOfPeople();
+            AddEvent(new ReservationRequestCreated(placeName, DateTime, Client));
         }
 
         private ReservationRequest()
@@ -95,6 +98,7 @@ namespace OccBooking.Domain.Entities
             }
 
             IsRejected = true;
+            AddEvent(new ReservationRequestRejected());
         }
 
         private void CalculateCost()

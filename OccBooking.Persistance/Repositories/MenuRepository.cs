@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using OccBooking.Common.Dispatchers;
 using OccBooking.Domain.Entities;
 using OccBooking.Persistance.DbContexts;
 
@@ -10,7 +11,8 @@ namespace OccBooking.Persistance.Repositories
 {
     public class MenuRepository : Repository<Menu>, IMenuRepository
     {
-        public MenuRepository(OccBookingDbContext dbContext) : base(dbContext)
+        public MenuRepository(OccBookingDbContext dbContext, IEventDispatcher eventDispatcher) : base(dbContext,
+            eventDispatcher)
         {
         }
 

@@ -15,7 +15,7 @@ namespace OccBooking.Web.Controllers
     [Route("api")]
     public class PlacesController : BaseController
     {
-        public PlacesController(IDispatcher dispatcher) : base(dispatcher)
+        public PlacesController(ICqrsDispatcher dispatcher) : base(dispatcher)
         {
         }
 

@@ -11,11 +11,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using OccBooking.Application.DTOs;
+using OccBooking.Application.EventHandlers;
 using OccBooking.Application.Mappings.Profiles;
+using OccBooking.Application.Services;
 using OccBooking.Common.Dispatchers;
+using OccBooking.Common.Infrastructure;
+using OccBooking.Common.Types;
 using OccBooking.Persistance.DbContexts;
-using OccBooking.Persistance.Entities;
 using OccBooking.Persistance.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -48,6 +50,13 @@ namespace OccBooking.Web
 
             var builder = new ContainerBuilder();
 
+            builder.Register(c =>
+            {
+                var emailSection = Configuration.GetSection("Email");
+                return new AppSettings(emailSection["EmailAddress"], emailSection["EmailPassword"],
+                    emailSection["EmailName"], emailSection["SmtpHost"], int.Parse(emailSection["SmtpPort"]));
+            }).SingleInstance();
+
             builder.Populate(services);
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IRepository<>)))
                 .Where(t => t.Name.EndsWith("Repository"))
@@ -56,7 +65,12 @@ namespace OccBooking.Web
             builder.RegisterCommandHandlers();
             builder.RegisterQueryHandlers();
 
-            builder.RegisterType<Dispatcher>().As<IDispatcher>();
+            builder.RegisterType<CqrsDispatcher>().As<ICqrsDispatcher>();
+            builder.RegisterType<EventDispatcher>().As<IEventDispatcher>();
+            builder.RegisterType<EmailService>().As<IEmailService>();
+
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ReservationRequestRejectedEventHandler)))
+                .AsClosedTypesOf(typeof(IEventHandler<>));
 
             Container = builder.Build();
 

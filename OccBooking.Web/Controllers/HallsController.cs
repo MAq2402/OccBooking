@@ -14,7 +14,7 @@ namespace OccBooking.Web.Controllers
     [Route("api")]
     public class HallsController : BaseController
     {
-        public HallsController(IDispatcher dispatcher) : base(dispatcher)
+        public HallsController(ICqrsDispatcher dispatcher) : base(dispatcher)
         {
         }
 
