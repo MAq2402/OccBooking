@@ -1,13 +1,7 @@
-.configuration {
-    margin: 0 auto;
-}
+@import '../../../styles.scss';
 
 .mat-icon {
     cursor: pointer;
-}
-
-.presentation {
-    margin: 0 auto;
 }
 
 .row {
@@ -15,7 +9,72 @@
     margin-right: 0;
 }
 
+.mat-card-image {
+    background-size: cover;
+    display: inline-block;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: 0px !important;
+}
+
 .mat-card {
+    position: relative;
     margin-left: 0;
     margin-right: 0;
-} 
+    min-height: 450px;
+    padding: 0px;
+}
+
+.row {
+    display: flex; 
+}
+  
+.col-sm-6 {
+    flex: 1; 
+    
+    padding: 1em;
+}
+
+.col-sm-3 {
+    flex: 1;
+    
+    padding: 1em;
+}
+
+.mat-toolbar {
+    background-color: $primary-color-lighter !important;
+    margin-top: -20px;
+    color:white;
+    height: 50px !important;
+}
+
+.navbar {
+    margin-bottom: 0px !important;
+}
+
+.mat-subheader {
+    background-color: $primary-color !important;
+    color: white !important;
+    .mat-icon {
+        color: white !important;
+    }
+}
+
+.smaller-card {
+    // background-color: $primary-color !important;
+    // color: white !important;
+    height: 100%;
+    min-height: 0 !important;
+}
+
+.types-header {
+    margin-bottom: 10px !important;
+}

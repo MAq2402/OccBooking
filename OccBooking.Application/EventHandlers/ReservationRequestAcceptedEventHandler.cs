@@ -8,20 +8,20 @@ using OccBooking.Domain.Event;
 
 namespace OccBooking.Application.EventHandlers
 {
-    public class ReservationRequestRejectedEventHandler : IEventHandler<ReservationRequestRejected>
+    public class ReservationRequestAcceptedEventHandler : IEventHandler<ReservationRequestAccepted>
     {
         private IEmailService _emailService;
 
-        public ReservationRequestRejectedEventHandler(IEmailService emailService)
+        public ReservationRequestAcceptedEventHandler(IEmailService emailService)
         {
             _emailService = emailService;
         }
 
-        public Task HandleAsync(ReservationRequestRejected @event)
+        public Task HandleAsync(ReservationRequestAccepted @event)
         {
             var emailMessage =
                 $@"Twoja rezerwacja miejsca {@event.PlaceName} na dzien {@event.Date.ToString("dd/MM/yyyy")}
-                została odrzucona. <h3>Podsumowanie</h3>";
+                została zaakcepotwana. <h3>Podsumowanie</h3>";
             _emailService.Send(emailMessage, @event.Client);
             return Task.FromResult(0);
         }

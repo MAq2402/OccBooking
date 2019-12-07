@@ -6,9 +6,9 @@ using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Domain.Event
 {
-    public class ReservationRequestRejected : IEvent
+    public class ReservationRequestAccepted : IEvent
     {
-        public ReservationRequestRejected(string placeName, DateTime date, Client client)
+        public ReservationRequestAccepted(string placeName, DateTime date, Client client)
         {
             PlaceName = placeName;
             Date = date;

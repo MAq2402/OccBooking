@@ -87,6 +87,7 @@ namespace OccBooking.Domain.Entities
             }
 
             IsAccepted = true;
+            AddEvent(new ReservationRequestAccepted(Place.Name, DateTime, Client));
         }
 
         public void Reject()
@@ -98,7 +99,7 @@ namespace OccBooking.Domain.Entities
             }
 
             IsRejected = true;
-            AddEvent(new ReservationRequestRejected());
+            AddEvent(new ReservationRequestRejected(Place.Name, DateTime, Client));
         }
 
         private void CalculateCost()

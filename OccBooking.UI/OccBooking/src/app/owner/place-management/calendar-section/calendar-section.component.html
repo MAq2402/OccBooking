@@ -1,5 +1,5 @@
 <div class="calendar-container">
-    <h3>Kalendarz</h3>
+    <h3>Kalendarz imprez</h3>
     <p-calendar (onSelect)="onSelect($event)" (ngModelChange)="onBlur($event)" [style]="{'width':'80%'}" [(ngModel)]="dates" [inline]="true" selectionMode="multiple"
         [locale]="calendar">
         <p-footer *ngIf="!disabled">
