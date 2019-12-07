@@ -6,12 +6,17 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="MailKit" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OccBooking.Common\OccBooking.Common.csproj" />
     <ProjectReference Include="..\OccBooking.Domain\OccBooking.Domain.csproj" />
     <ProjectReference Include="..\OccBooking.Persistance\OccBooking.Persistance.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EventHandlers\Base\" />
   </ItemGroup>
 
 </Project>

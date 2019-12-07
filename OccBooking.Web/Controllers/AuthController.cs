@@ -14,7 +14,7 @@ namespace OccBooking.Web.Controllers
 {
     public class AuthController : BaseController
     {
-        public AuthController(IDispatcher dispatcher) : base(dispatcher)
+        public AuthController(ICqrsDispatcher dispatcher) : base(dispatcher)
         {
         }
 

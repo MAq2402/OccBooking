@@ -15,7 +15,7 @@ namespace OccBooking.Web.Controllers
     [Route("api")]
     public class ReservationRequestsController : BaseController
     {
-        public ReservationRequestsController(IDispatcher dispatcher) : base(dispatcher)
+        public ReservationRequestsController(ICqrsDispatcher dispatcher) : base(dispatcher)
         {
         }
 

@@ -10,4 +10,8 @@
     <None Remove="Helpers\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OccBooking.Common\OccBooking.Common.csproj" />
+  </ItemGroup>
+
 </Project>

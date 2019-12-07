@@ -12,7 +12,7 @@ namespace OccBooking.Web.Controllers
     [Route("api/ingredients")]
     public class IngredientsController : BaseController
     {
-        public IngredientsController(IDispatcher dispatcher) : base(dispatcher)
+        public IngredientsController(ICqrsDispatcher dispatcher) : base(dispatcher)
         {
         }
 

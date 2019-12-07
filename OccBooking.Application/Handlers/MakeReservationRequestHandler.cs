@@ -39,7 +39,7 @@ namespace OccBooking.Application.Handlers
 
             var reservationRequest = new ReservationRequest(Guid.NewGuid(), command.Date,
                 new Client(command.ClientFirstName, command.ClientLastName, command.ClientEmail,
-                    command.ClientPhoneNumber), command.OccasionType, optionsForReservationRequest, menuOrders);
+                    command.ClientPhoneNumber), command.OccasionType, optionsForReservationRequest, menuOrders, place.Name);
 
             place.MakeReservationRequest(reservationRequest);
 

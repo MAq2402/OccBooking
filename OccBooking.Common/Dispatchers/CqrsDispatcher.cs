@@ -9,10 +9,10 @@ using OccBooking.Common.Types;
 
 namespace OccBooking.Common.Dispatchers
 {
-    public class Dispatcher : IDispatcher
+    public class CqrsDispatcher : ICqrsDispatcher
     {
         private IComponentContext _context;
-        public Dispatcher(IComponentContext context)
+        public CqrsDispatcher(IComponentContext context)
         {
             _context = context;
         }

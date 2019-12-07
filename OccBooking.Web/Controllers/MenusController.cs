@@ -14,7 +14,7 @@ namespace OccBooking.Web.Controllers
     [Route("api")]
     public class MenusController : BaseController
     {
-        public MenusController(IDispatcher dispatcher) : base(dispatcher)
+        public MenusController(ICqrsDispatcher dispatcher) : base(dispatcher)
         {
         }
 

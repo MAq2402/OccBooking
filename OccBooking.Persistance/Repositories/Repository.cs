@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OccBooking.Common.Dispatchers;
 using OccBooking.Domain.Entities;
 using OccBooking.Persistance.DbContexts;
 
 namespace OccBooking.Persistance.Repositories
 {
-    public class Repository<T> : IRepository<T> where T: AggregateRoot
+    public class Repository<T> : IRepository<T> where T : AggregateRoot
     {
         protected OccBookingDbContext _dbContext;
-        public Repository(OccBookingDbContext dbContext)
+        private IEventDispatcher _eventDispatcher;
+
+        public Repository(OccBookingDbContext dbContext, IEventDispatcher eventDispatcher)
         {
             _dbContext = dbContext;
+            _eventDispatcher = eventDispatcher;
         }
+
         public async Task AddAsync(T entity)
         {
             await _dbContext.AddAsync(entity);
@@ -21,7 +27,12 @@ namespace OccBooking.Persistance.Repositories
 
         public async Task<bool> SaveAsync()
         {
-            return await _dbContext.SaveChangesAsync() > 0;
+            var result = await _dbContext.SaveChangesAsync();
+
+            await _eventDispatcher.DispatchAsync(AggregateRoot.Events.ToArray());
+            AggregateRoot.ClearEvents();
+
+            return result > 0;
         }
     }
 }
