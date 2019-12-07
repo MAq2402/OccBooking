@@ -18,7 +18,8 @@ namespace OccBooking.Persistance.Repositories
 
         public async Task<Place> GetPlaceAsync(Guid id)
         {
-            return await _dbContext.Places.Include(p => p.Halls).Include(p => p.EmptyReservations)
+            return await _dbContext.Places.Include(p => p.ReservationRequests).ThenInclude(r => r.Place)
+                .Include(p => p.Halls).Include(p => p.EmptyReservations)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
