@@ -3,8 +3,6 @@ import { PlaceService } from 'src/app/services/place.service';
 import { ActivatedRoute } from '@angular/router';
 import { HallService } from 'src/app/services/hall.service';
 import { MatDialog } from '@angular/material';
-import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-calendar-section',
@@ -18,9 +16,9 @@ export class CalendarSectionComponent implements OnInit {
   placeId: string;
   @Input() disabled = false;
   constructor(private placeService: PlaceService,
-    private activatedRoute: ActivatedRoute,
-    private hallService: HallService,
-    private dialog: MatDialog) { }
+              private activatedRoute: ActivatedRoute,
+              private hallService: HallService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
