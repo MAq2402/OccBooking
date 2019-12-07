@@ -1,48 +1,60 @@
+<mat-toolbar>
+    <span>{{place?.name}}</span>
+</mat-toolbar>
 <div class="row">
-    <mat-card *ngIf="place" class="presentation col-sm-6">
-        <mat-card-header>
-            <mat-card-title>{{place.name}}</mat-card-title>
-        </mat-card-header>
-        <div *ngIf="place && place.image">
-            <img mat-card-image class="rounded" [src]="place?.image">
-        </div>
-        <mat-card-content>
-            <p>
-                {{place.description}}
-            </p>
-        </mat-card-content>
-    </mat-card>
-    <mat-card class="col-sm-6 configuration">
-        <app-menu-section></app-menu-section>
-        <mat-list>
-            <h3 mat-subheader>Dodatkowe opcje<span class="spacer"></span><button mat-icon-button>
-                    <mat-icon (click)="createAdditionalOption()" color="primary">add</mat-icon>
-                </button></h3>
-            <mat-list-item *ngFor="let option of place?.additionalOptions">
-                <mat-icon mat-list-icon>star</mat-icon>
-                <h4 mat-line>{{option.name}} - {{option.cost}}zł</h4>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </mat-list>
-        <mat-list>
-            <h3 mat-subheader>Sale<span class="spacer"></span><button mat-icon-button>
-                    <mat-icon (click)="createHall()" color="primary">add</mat-icon>
-                </button></h3>
-            <a routerLink="/owner/hall-management/{{hall.id}}" *ngFor="let hall of halls">
-                <mat-list-item>
-                    <mat-icon mat-list-icon>account_balance</mat-icon>
-                    <h4 mat-line>{{hall.name}}</h4>
+    <div class="col-sm-6">
+        <mat-card *ngIf="place">
+            <img mat-card-image *ngIf="place && place.image" [src]="place?.image">
+        </mat-card>
+    </div>
+    <div class="col-sm-6">
+        <mat-card>
+            <app-calendar-section></app-calendar-section>
+        </mat-card>
+    </div>
+</div>
+<div class="row" style="margin-top: 5px;">
+    <div class="col-sm-3">
+        <mat-card class="smaller-card">
+            <mat-list>
+                <h3 mat-subheader>Sale<span class="spacer"></span><button mat-icon-button>
+                        <mat-icon (click)="createHall()" color="accent">add</mat-icon>
+                    </button></h3>
+                <a routerLink="/owner/hall-management/{{hall.id}}" *ngFor="let hall of halls">
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>account_balance</mat-icon>
+                        <h4 mat-line>{{hall.name}}</h4>
+                    </mat-list-item>
+                </a>
+            </mat-list>
+        </mat-card>
+    </div>
+    <div class="col-sm-3">
+        <mat-card class="smaller-card">
+            <app-menu-section></app-menu-section>
+        </mat-card>
+    </div>
+    <div class="col-sm-3">
+        <mat-card class="smaller-card">
+            <mat-list>
+                <h3 mat-subheader>Dodatkowe opcje<span class="spacer"></span><button mat-icon-button>
+                        <mat-icon (click)="createAdditionalOption()" color="accent">add</mat-icon>
+                    </button></h3>
+                <mat-list-item *ngFor="let option of place?.additionalOptions">
+                    <mat-icon mat-list-icon>star</mat-icon>
+                    <h4 mat-line>{{option.name}} - {{option.cost}}zł</h4>
                 </mat-list-item>
-            </a>
-            <mat-divider></mat-divider>
-        </mat-list>
-        <mat-list>
-            <h3 mat-subheader>Organizowane imprezy</h3>
-            <app-occasional-types-section [types]="place?.occasionTypesMaps" (selected)="occasionTypeAdded($event)"
-                (removed)="occasionTypeRemoved($event)">
-            </app-occasional-types-section>
-            <mat-divider></mat-divider>
-        </mat-list>
-        <app-calendar-section></app-calendar-section>
-    </mat-card>
+            </mat-list>
+        </mat-card>
+    </div>
+    <div class="col-sm-3">
+        <mat-card class="smaller-card">
+            <mat-list>
+                <h3 class="types-header" mat-subheader>Organizowane imprezy</h3>
+                <app-occasional-types-section [types]="place?.occasionTypesMaps" (selected)="occasionTypeAdded($event)"
+                    (removed)="occasionTypeRemoved($event)">
+                </app-occasional-types-section>
+            </mat-list>
+        </mat-card>
+    </div>
 </div>

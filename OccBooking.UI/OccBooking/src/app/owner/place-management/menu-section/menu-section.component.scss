@@ -1,7 +1,20 @@
+@import '../../../../styles.scss';
+
 h4 {
     cursor: pointer;
 }
 
 .mat-icon {
     cursor: pointer;
+}
+
+.mat-subheader {
+    height: 48px !important;
+    line-height: 16px !important;
+    font-size: 14px !important;
+    background-color: $primary-color !important;
+    color: white !important;
+    .mat-icon {
+        color: white !important;
+    }
 }
