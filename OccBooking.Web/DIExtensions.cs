@@ -30,11 +30,6 @@ namespace OccBooking.Web
                 .AsClosedTypesOf(typeof(IQueryHandler<,>));
         }
 
-        private static bool IsAssignableToGenericInterface(this Type givenType, Type genericType)
-        {
-            return givenType.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == genericType);
-        }
-
         public static void RegisterEventHandlers(this ContainerBuilder builder)
         {
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ReservationRequestRejectedEventHandler)))
