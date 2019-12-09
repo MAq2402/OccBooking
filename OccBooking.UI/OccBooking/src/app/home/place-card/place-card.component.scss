@@ -2,6 +2,7 @@
 .card {
   height: 350px;
   margin-left: 310px;
+  padding-top: 0px;
 }
 
 .container {
@@ -11,7 +12,7 @@
 .footer {
   position: absolute;
   bottom: 0;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .row {
@@ -19,5 +20,21 @@
 }
 
 .content {
+  margin-top:10px;
   height: 350px;
+}
+
+.mat-card-image {
+  background-size: cover;
+  display: inline-block;
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  margin-top: 0px !important;
 }

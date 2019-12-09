@@ -25,7 +25,10 @@ namespace OccBooking.Application.Handlers
 
         public override async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetPlacesQuery query)
         {
-            var places = _dbContext.Places.Include(p => p.EmptyReservations).Include(p => p.Menus).Include(p => p.Halls)
+            var places = _dbContext.Places.Include(p => p.Owner)
+                .Include(p => p.EmptyReservations)
+                .Include(p => p.Menus)
+                .Include(p => p.Halls)
                 .ThenInclude(h => h.HallReservations).AsEnumerable();
             if (query.PlaceFilter != null)
             {
