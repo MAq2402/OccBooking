@@ -5,8 +5,9 @@ import { CoreModule } from '../core/core.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { CalendarModule } from 'primeng/calendar';import { CalendarSectionComponent } from '../owner/place-management/calendar-section/calendar-section.component';
+import { CalendarModule } from 'primeng/calendar'; import { CalendarSectionComponent } from '../owner/place-management/calendar-section/calendar-section.component';
 import { MenuSectionComponent } from '../owner/place-management/menu-section/menu-section.component';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
 ;
 
 @NgModule({
@@ -34,6 +35,9 @@ import { MenuSectionComponent } from '../owner/place-management/menu-section/men
     CalendarModule,
     CalendarSectionComponent,
     MenuSectionComponent
+  ],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
   ]
 })
 export class SharedModule { }
