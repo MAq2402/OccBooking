@@ -101,7 +101,7 @@ export class MakeReservationComponent implements OnInit {
     const dialogRef = this.dialog.open(MenuDetailsComponent, { data: menuOrderMap.menu });
   }
 
-  dateChanged(event: any) {
+  dateChanged() {
     const date = this.reservationFormGroup.controls['date'].value;
 
     if (date) {

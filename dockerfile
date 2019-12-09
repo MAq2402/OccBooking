@@ -15,6 +15,9 @@ COPY . .
 WORKDIR /src/OccBooking.Application
 RUN dotnet build -c Release -o /app
 
+WORKDIR /src/OccBooking.Application.Tests
+RUN dotnet build -c Release -o /app
+
 WORKDIR /src/OccBooking.Auth
 RUN dotnet build -c Release -o /app
 
