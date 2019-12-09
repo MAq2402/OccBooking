@@ -37,7 +37,6 @@ export class PlaceDetailsComponent implements OnInit {
       } else {
         this.place.image = require('../../assets/default-image.jpg');
       }
-
       this.place.occasionTypesMaps = this.placeService.mapToOccasionTypeMap(this.place.occasionTypes);
     });
   }

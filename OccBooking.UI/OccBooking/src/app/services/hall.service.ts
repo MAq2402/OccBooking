@@ -5,6 +5,7 @@ import { HallModel } from '../models/hall.model';
 import { environment } from 'src/environments/environment';
 import { HallJoinModel } from '../models/hall-join.model';
 import { FilterHallsModel } from '../models/filter-halls.model';
+import { HallReservationModel } from '../models/hall-reservation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class HallService {
   }
 
   filterHalls(placeId: string, date: Date): Observable<HallModel[]> {
-    const model: FilterHallsModel = {date: date}
+    const model: FilterHallsModel = { date: date }
     return this.http.post<HallModel[]>(`${environment.WEB_API_ENDPOINT}places/${placeId}/halls/filter`, model);
   }
 
@@ -44,5 +45,9 @@ export class HallService {
 
   getReservedDays(hallId: string): Observable<Date[]> {
     return this.http.get<Date[]>(`${environment.WEB_API_ENDPOINT}halls/${hallId}/reservedDays`);
+  }
+
+  getHallReservations(hallId: string): Observable<HallReservationModel[]> {
+    return this.http.get<HallReservationModel[]>(`${environment.WEB_API_ENDPOINT}halls/${hallId}/hallReservations`);
   }
 }

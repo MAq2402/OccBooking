@@ -1,7 +1,6 @@
 <div class="dialog">
     <h1 mat-dialog-title>Rezerwacja</h1>
     <div mat-dialog-content>
-        <h4>Dane</h4>
         <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Email" [readonly]="true" [value]="reservationRequest.client.email">
         </mat-form-field>
@@ -12,10 +11,11 @@
             <input matInput placeholder="Nazwisko" [readonly]="true" [value]="reservationRequest.client.lastName">
         </mat-form-field>
         <mat-form-field class="col-sm-6 full-width">
-            <input matInput placeholder="Numer telefonu" [readonly]="true" [value]="reservationRequest.client.phoneNumber">
+            <input matInput placeholder="Numer telefonu" [readonly]="true"
+                [value]="reservationRequest.client.phoneNumber">
         </mat-form-field>
         <mat-form-field class="col-sm-6 full-width">
-            <input matInput placeholder="Data" [readonly]="true" [value]="reservationRequest.date | date: 'shortDate'">
+            <input matInput placeholder="Data" [readonly]="true" [value]="reservationRequest.date | date: 'dd.MM.yy'">
         </mat-form-field>
         <mat-form-field class="col-sm-6 full-width">
             <input matInput placeholder="Koszt" [readonly]="true" [value]="reservationRequest.cost">
@@ -37,7 +37,8 @@
             <div class="row">
                 <mat-list class="col-sm-6">
                     <mat-list-item *ngFor="let choice of hallsChoices">
-                        <mat-checkbox [disabled]="cannotBeJoined(choice.hall)" [(ngModel)]="choice.choosed" class="margin" value="after">
+                        <mat-checkbox [disabled]="cannotBeJoined(choice.hall)" [(ngModel)]="choice.choosed"
+                            class="margin" value="after">
                             {{choice.hall.name}}
                         </mat-checkbox>
                     </mat-list-item>
@@ -54,6 +55,7 @@
     <div mat-dialog-actions>
         <button mat-button (click)="close()">Zamknij</button>
         <button *ngIf="!reservationRequest.isAnswered" color="warn" mat-button (click)="reject()">Odrzuć</button>
-        <button *ngIf="!reservationRequest.isAnswered" color="primary" [disabled]="getSpinnerValue() < 100" mat-button (click)="accept()">Zaakceptuj</button>
+        <button *ngIf="!reservationRequest.isAnswered" color="primary" [disabled]="getSpinnerValue() < 100" mat-button
+            (click)="accept()">Zaakceptuj</button>
     </div>
 </div>

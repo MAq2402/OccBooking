@@ -66,9 +66,12 @@ namespace OccBooking.Web.Controllers
 
         [HttpGet("halls/{id}/reservedDays")]
         [Authorize]
-        public async Task<IActionResult> GetReservedDaysAsync(string id)
-        {
-            return FromCollection(await QueryAsync(new GetHallReservedDaysQuery(new Guid(id))));
-        }
+        public async Task<IActionResult> GetReservedDaysAsync(string id) =>
+            FromCollection(await QueryAsync(new GetHallReservedDaysQuery(new Guid(id))));
+
+        [HttpGet("halls/{id}/hallReservations")]
+        [Authorize]
+        public async Task<IActionResult> GetHallReservationsAsync(string id) =>
+            FromCollection(await QueryAsync(new GetHallReservationsQuery(new Guid(id))));
     }
 }

@@ -3,6 +3,9 @@ import { HallService } from 'src/app/services/hall.service';
 import { HallModel } from 'src/app/models/hall.model';
 import { ActivatedRoute } from '@angular/router';
 import { HallJoinModel } from 'src/app/models/hall-join.model';
+import { HallReservationModel } from 'src/app/models/hall-reservation.model';
+import { occasionTypes } from 'src/app/shared/occasionTypes';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-hall-management',
@@ -14,6 +17,8 @@ export class HallManagementComponent implements OnInit {
   hallId: string;
   hall: HallModel;
   hallJoins: HallJoinModel[] = [];
+  displayedColumns: string[] = ['date', 'clientEmail', 'cost', 'occasion', 'amountOfPeople'];
+  dataSource: MatTableDataSource<HallReservationModel>;
   constructor(private activatedRoute: ActivatedRoute, private hallService: HallService) { }
 
   ngOnInit() {
@@ -22,6 +27,12 @@ export class HallManagementComponent implements OnInit {
       this.hall = response;
       this.hallService.getHalls(this.hall.placeId).subscribe(halls => {
         this.createHallJoins(halls);
+      });
+      this.hallService.getHallReservations(this.hallId).subscribe(hallReservations => {
+        for (const reservation of hallReservations) {
+          this.getOccasionType(reservation);
+        }
+        this.dataSource = new MatTableDataSource(hallReservations);
       });
     });
   }
@@ -42,5 +53,9 @@ export class HallManagementComponent implements OnInit {
 
   submit() {
     this.hallService.updateHallJoins(this.hallId, this.hallJoins).subscribe();
+  }
+
+  private getOccasionType(reservation: HallReservationModel) {
+    reservation.occasion = occasionTypes.filter(t => t.value === reservation.occasion)[0].name;
   }
 }
