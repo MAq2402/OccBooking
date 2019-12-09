@@ -1,18 +1,25 @@
 <a [routerLink]="['/place', place.id]">
-    <mat-card  *ngIf="place" class="card">
+    <mat-card *ngIf="place" class="card">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <img mat-card-image class="rounded" [src]="imgUrl" alt="Photo of a Shiba Inu">
             </div>
-            <div class="content col-sm-8">
+            <div class="content col-sm-9">
                 <div>
                     <h3>{{place.name}}</h3>
                 </div>
-                <div>
-                    {{place.description}}
+                <div class="owner-info">
+                    Telefon: {{place?.owner?.phoneNumber}}<br>
+                    Właściciel: {{place?.owner?.name}}<br>
+                    Email: {{place?.owner?.email}}
+                </div>
+                <div class="description">
+                    Opis:<br>
+                    {{place?.description}}
                 </div>
                 <div class="footer">
-                    <span> {{place.city}} ({{place.province}}), ul. {{place.street}}</span><br><span *ngIf="place.minimalCostPerPerson"> Koszt na osobę: od
+                    <span> {{place.city}} ({{place.province}}), ul. {{place.street}}</span><br><span
+                        *ngIf="place.minimalCostPerPerson"> Koszt na osobę: od
                         {{place.minimalCostPerPerson}}zł</span>
                 </div>
             </div>
