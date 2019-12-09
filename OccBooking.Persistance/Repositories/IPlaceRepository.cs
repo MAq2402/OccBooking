@@ -9,5 +9,6 @@ namespace OccBooking.Persistance.Repositories
     public interface IPlaceRepository : IRepository<Place>
     {
         Task<Place> GetPlaceAsync(Guid id);
+        Task<Place> GetPlaceByHallAsync(Guid hallId);
     }
 }

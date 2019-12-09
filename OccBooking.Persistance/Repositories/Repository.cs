@@ -29,8 +29,9 @@ namespace OccBooking.Persistance.Repositories
         {
             var result = await _dbContext.SaveChangesAsync();
 
-            await _eventDispatcher.DispatchAsync(AggregateRoot.Events.ToArray());
+            var eventsToPass = AggregateRoot.Events.ToArray();
             AggregateRoot.ClearEvents();
+            await _eventDispatcher.DispatchAsync(eventsToPass);
 
             return result > 0;
         }

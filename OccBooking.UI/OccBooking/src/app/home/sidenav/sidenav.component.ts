@@ -30,6 +30,8 @@ export class SidenavComponent implements OnInit {
       maxCostPerPerson: this.formGroup.controls.maxCostPerPerson.value,
       minCapacity: this.formGroup.controls.minCapacity.value,
       occasionType: this.formGroup.controls.occasion.value,
+      freeFrom: this.formGroup.controls.freeFrom.value,
+      freeTo: this.formGroup.controls.freeTo.value
     };
     this.sidenavService.announceFiltering(model);
   }
@@ -47,7 +49,9 @@ export class SidenavComponent implements OnInit {
       minCostPerPerson: ['', Validators.nullValidator],
       maxCostPerPerson: ['', Validators.nullValidator],
       minCapacity: ['', Validators.nullValidator],
-      occasion: ['', Validators.nullValidator]
+      occasion: ['', Validators.nullValidator],
+      freeFrom: ['', Validators.nullValidator],
+      freeTo: ['', Validators.nullValidator]
     });
   }
 }

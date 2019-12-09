@@ -19,8 +19,8 @@ namespace OccBooking.Web.Controllers
         {
         }
 
-        [HttpGet("places")]
-        public async Task<IActionResult> GetPlacesAsync([FromQuery] PlaceFilterDto dto)
+        [HttpPost("places/filter")]
+        public async Task<IActionResult> FilterPlacesAsync([FromBody] PlaceFilterDto dto)
         {
             return FromCollection(await QueryAsync(new GetPlacesQuery(dto)));
         }
@@ -87,8 +87,7 @@ namespace OccBooking.Web.Controllers
         }
 
         [HttpPost("places/{placeId}/upload")]
-        public async Task<IActionResult> UploadFile(string placeId)
-        {
+        public async Task<IActionResult> UploadFile(string placeId) {
             if (!Request.Form.Files.Any())
             {
                 return BadRequest();

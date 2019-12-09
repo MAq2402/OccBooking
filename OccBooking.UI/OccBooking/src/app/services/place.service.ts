@@ -33,9 +33,11 @@ export class PlaceService {
       params = params.append('maxCostPerPerson', filterModel.maxCostPerPerson ? filterModel.maxCostPerPerson.toString() : '');
       params = params.append('minCapacity', filterModel.minCapacity ? filterModel.minCapacity.toString() : '');
       params = params.append('occasionType', filterModel.occasionType);
-      return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`, { params });
+      params = params.append('freeFrom', filterModel.freeFrom.toString());
+      params = params.append('freeTo', filterModel.freeTo.toString());
+      return this.http.post<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places/filter`, filterModel );
     } else {
-      return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`);
+      return this.http.post<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places/filter`, {} );
     }
   }
 

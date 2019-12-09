@@ -171,6 +171,12 @@ namespace OccBooking.Domain.Entities
             RejectRequestsForDate(date);
         }
 
+        //public bool IsFree(DateTime? from, DateTime? to)
+        //{
+        //    if()
+        //    return emptyReservations.All(er => er.Date != date) && halls.Any(h => h.IsFreeOnDate(date));
+        //}
+
         private void RejectRequestsForDate(DateTime date)
         {
             foreach (var requestToReject in reservationReqeusts.Where(r => r.DateTime == date && !r.IsAnswered))

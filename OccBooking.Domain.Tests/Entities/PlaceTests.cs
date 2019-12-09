@@ -748,5 +748,11 @@ namespace OccBooking.Domain.Tests.Entities
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
+
+        [Fact]
+        public void IsFreeShouldWork()
+        {
+            
+        }
     }
 }

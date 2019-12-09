@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OccBooking.Domain.Events;
 
 namespace OccBooking.Domain.Entities
 {
@@ -80,7 +81,8 @@ namespace OccBooking.Domain.Entities
         public void MakeEmptyReservation(DateTime date)
         {
             _hallReservations.Add(HallReservation.CreateEmpty(date));
-            Place.RejectReservationsRequestsIfNotEnoughCapacity();
+            AddEvent(new EmptyHallReservationMade(Id));
+            // Place.RejectReservationsRequestsIfNotEnoughCapacity();
         }
     }
 }
