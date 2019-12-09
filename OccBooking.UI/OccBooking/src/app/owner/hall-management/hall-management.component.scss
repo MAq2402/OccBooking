@@ -1,3 +1,5 @@
+@import '../../../styles.scss';
+
 .section {
   display: flex;
   align-content: center;
@@ -13,3 +15,18 @@
   margin-left: 0;
   margin-right: 0;
 } 
+
+.submit-btn {
+  margin-left: 10px;
+}
+
+.mat-toolbar {
+  background-color: $primary-color-lighter !important;
+  margin-top: -20px;
+  color:white;
+  height: 50px !important;
+}
+
+table {
+  width: 100%;
+}

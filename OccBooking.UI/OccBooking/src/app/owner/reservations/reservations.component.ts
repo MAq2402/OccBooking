@@ -43,7 +43,7 @@ export class ReservationsComponent implements OnInit {
     this.dataSource = new MatTableDataSource([]);
     this.authService.getCurrentUser().subscribe(user => {
       this.reservationRequestService.getReservationReqeusts(user.ownerId).subscribe(reservations => {
-        for(const reservation of reservations) {
+        for (const reservation of reservations) {
           this.getStatus(reservation);
           this.getOccasionType(reservation);
         }

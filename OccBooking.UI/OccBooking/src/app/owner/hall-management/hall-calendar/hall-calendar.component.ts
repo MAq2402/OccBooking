@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PlaceService } from 'src/app/services/place.service';
 import { ActivatedRoute } from '@angular/router';
 import { HallService } from 'src/app/services/hall.service';
-import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-hall-calendar',
@@ -16,8 +14,7 @@ export class HallCalendarComponent implements OnInit {
   hallId: string;
   @Input() disabled = false;
   constructor(private activatedRoute: ActivatedRoute,
-              private hallService: HallService,
-              private dialog: MatDialog) { }
+              private hallService: HallService) { }
 
   ngOnInit() {
     this.hallId = this.activatedRoute.snapshot.paramMap.get('id');
