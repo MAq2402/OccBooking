@@ -72,20 +72,10 @@ namespace OccBooking.Application.Extensions
 
             if (dates.Any())
             {
-
                 places = places.Where(p =>
-                      dates.Except(p.EmptyReservations.Select(e => e.Date)).Any()); // to działa elegancko
+                    dates.Except(p.EmptyReservations.Select(e => e.Date)).Any());
 
-                //places = places.Where(p => dates.Any(d => p.EmptyReservations.Any(r => r.Date != d)));
-                //foreach (var date in dates)
-                //{
-                //    places = places.Where(p => p.Halls.)
-                //}
-                places = places.Where(p => dates.Any(d => p.Halls.Any(h => h.IsFreeOnDate(d)))); // to chyba tez
-                //places = places.Where(p => dates.Except(p.Halls.Where(h => h.IsFreeOnDate())))
-                //.Concat(p.Halls.SelectMany(h => h.HallReservations).Select(hr => hr.Date)).Any());
-
-
+                places = places.Where(p => !p.Halls.Any() || dates.Any(d => p.Halls.Any(h => h.IsFreeOnDate(d))));
             }
 
             return places;

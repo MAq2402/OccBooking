@@ -14,36 +14,37 @@ namespace OccBooking.Application.Tests
     public class PlaceFilteringTests
     {
         [Fact]
-        //[ClassData(typeof(FilteringByDatesShouldWorkData))]
         public void FilteringByDatesShouldWork()
         {
             var address = new Address("Some", "Some", "43-186", "śląskie");
-            var place1 = new Place(Guid.NewGuid(), "Some", true, "", address);
-            var place2 = new Place(Guid.NewGuid(), "Some", true, "", address);
+            var place1 = new Place(Guid.NewGuid(), "Some1", true, "", address);
+            var place2 = new Place(Guid.NewGuid(), "Some2", true, "", address);
+            var place3 = new Place(Guid.NewGuid(), "Some3", true, "", address);
+            var place4 = new Place(Guid.NewGuid(), "Some4", true, "", address);
+            var place5 = new Place(Guid.NewGuid(), "Some5", true, "", address);
 
-            var hall = new Hall(Guid.NewGuid(), "Hall", 100);
-            hall.MakeEmptyReservation(DateTime.Today.Date);
-            place1.AddHall(hall);
-            // OGARNIJ zeby zrobic COMMITA
-            var places = new List<Place>() {place1,place2};
+            var hall1 = new Hall(Guid.NewGuid(), "Hall", 100);
+            hall1.MakeEmptyReservation(DateTime.Today.Date);
+            place1.AddHall(hall1);
+
+            var hall2 = new Hall(Guid.NewGuid(), "Hall", 100);
             place2.MakeEmptyReservation(DateTime.Today.Date);
+            place2.AddHall(hall2);
 
-            var expected = new List<Place>();
+            var hall3 = new Hall(Guid.NewGuid(), "Hall", 100);
+            place3.MakeEmptyReservation(DateTime.Today.AddDays(-1).Date);
+            place3.AddHall(hall3);
+
+            var hall4 = new Hall(Guid.NewGuid(), "Hall", 100);
+            hall4.MakeEmptyReservation(DateTime.Today.AddDays(1).Date);
+            place4.AddHall(hall4);
+
+            var places = new List<Place>() {place1, place2, place3, place4, place5};
+
+            var expected = new List<Place>() {place3, place4, place5};
             var actual = places.FilterByDate(null, DateTime.Today.Date);
 
             Assert.Equal(expected, actual);
         }
-        //public class FilteringByDatesShouldWorkData : IEnumerable<object[]>
-        //{
-        //    public IEnumerator<object[]> GetEnumerator()
-        //    {
-        //        yield return new object[] new List<Places>() { 1, 2, 3 };
-        //        yield return new object[] { -4, -6, -10 };
-        //        yield return new object[] { -2, 2, 0 };
-        //        yield return new object[] { int.MinValue, -1, int.MaxValue };
-        //    }
-
-        //    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        //}
     }
 }
