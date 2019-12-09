@@ -44,33 +44,20 @@ namespace OccBooking.Web
                 opt.UseSqlServer(Configuration.GetConnectionString("Connection")));
 
             services.ConfigureAuthentication(Configuration,
-                new SymmetricSecurityKey(Encoding.ASCII.GetBytes("HAS TO BE CHANGED")));
+                new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("Security")["Key"])));
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "OccBooking", Version = "v1"}); });
 
             var builder = new ContainerBuilder();
 
-            builder.Register(c =>
-            {
-                var emailSection = Configuration.GetSection("Email");
-                return new AppSettings(emailSection["EmailAddress"], emailSection["EmailPassword"],
-                    emailSection["EmailName"], emailSection["SmtpHost"], int.Parse(emailSection["SmtpPort"]));
-            }).SingleInstance();
-
             builder.Populate(services);
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IRepository<>)))
-                .Where(t => t.Name.EndsWith("Repository"))
-                .AsImplementedInterfaces();
-
+            builder.RegisterAppSettings(Configuration);
+            builder.RegisterRepositories();
             builder.RegisterCommandHandlers();
             builder.RegisterQueryHandlers();
-
-            builder.RegisterType<CqrsDispatcher>().As<ICqrsDispatcher>();
-            builder.RegisterType<EventDispatcher>().As<IEventDispatcher>();
-            builder.RegisterType<EmailService>().As<IEmailService>();
-
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ReservationRequestRejectedEventHandler)))
-                .AsClosedTypesOf(typeof(IEventHandler<>));
+            builder.RegisterEventHandlers();
+            builder.RegisterDispatchers();
+            builder.RegisterServices();
 
             Container = builder.Build();
 
