@@ -73,4 +73,8 @@ export class PlaceService {
   announceNewPlace() {
     this.newPlaceAnnouncedSource.next();
   }
+
+  getMaxCapacityForDay(placeId: string, date: Date): Observable<number> {
+    return this.http.post<number>(`${environment.WEB_API_ENDPOINT}places/${placeId}/calculateMaxCapacity`, date);
+  }
 }

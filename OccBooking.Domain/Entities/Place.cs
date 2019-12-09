@@ -213,7 +213,7 @@ namespace OccBooking.Domain.Entities
                 : 0;
         }
 
-        private int CalculateCapacity(IEnumerable<Hall> halls, DateTime dateTime)
+        public int CalculateCapacity(IEnumerable<Hall> halls, DateTime dateTime)
         {
             return halls.Any()
                 ? halls.Max(h =>

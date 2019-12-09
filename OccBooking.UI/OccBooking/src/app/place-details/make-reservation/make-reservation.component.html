@@ -26,8 +26,8 @@
         <mat-step [stepControl]="reservationFormGroup">
             <form [formGroup]="reservationFormGroup">
                 <mat-form-field class="col-sm-4">
-                    <input matInput formControlName="date" [matDatepicker]="picker" [matDatepickerFilter]="dateFilter"
-                        placeholder="Wybierz datę">
+                    <input (dateChange)="dateChanged($)" matInput formControlName="date" [matDatepicker]="picker"
+                        [matDatepickerFilter]="dateFilter" placeholder="Wybierz datę">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -48,29 +48,42 @@
                     </mat-select>
                 </mat-form-field>
             </form>
-            <div>
-                <h6>Wybierz zestawy dań</h6>
-                <mat-list>
+            <h6>Wybierz zestawy dań</h6>
+            <div class="row">
+                <mat-list class="col-sm-6">
                     <mat-list-item class="row" *ngFor="let menuOrder of menuOrders">
-                        <span class="col-sm-2">
+                        <span class="col-sm-6">
                             <mat-checkbox [(ngModel)]="menuOrder.include" [labelPosition]="'after'">
                                 <mat-icon (click)="openMenuDetials(menuOrder)">restaurant_menu</mat-icon>
                                 {{menuOrder.menu.name}}
                             </mat-checkbox>
                         </span>
-                        <mat-form-field class="col-sm-2">
+                        <mat-form-field class="col-sm-6">
                             <input [disabled]="!menuOrder.include" matInput type="number"
                                 [(ngModel)]="menuOrder.amountOfPeople" [name]="menuOrder.name"
                                 placeholder="Dla ilu osób">
                         </mat-form-field>
                     </mat-list-item>
                 </mat-list>
+                <div class="col-sm-6 capacity-info" *ngIf="maxCapacityForDay">
+                    <mat-form-field class="col-sm-6 full-width">
+                        <input matInput placeholder="Maksymalna pojemność dla wybranego dnia" [readonly]="true"
+                            [value]="maxCapacityForDay">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-6 full-width">
+                            <input matInput placeholder="Liczba osób wprowadzona w sumie" [readonly]="true"
+                                [value]="getSumOfPeopleInIncludedMenuOrders()">
+                    </mat-form-field>
+                    <mat-progress-spinner [class.mat-spinner-color]="disableSubmit()" [diameter]="150" [color]="primary" [mode]="'determinate'"
+                        [value]="getSpinnerValue()">
+                    </mat-progress-spinner>
+                </div>
             </div>
             <ng-template matStepLabel>Dane do rezerwacji</ng-template>
             Zatwierdź rezerwację.
             <div>
                 <button mat-button matStepperPrevious>Powrót</button>
-                <button mat-button (click)="submit()">Zakończ</button>
+                <button mat-button [disabled]="disableSubmit()" (click)="submit()">Zakończ</button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>
