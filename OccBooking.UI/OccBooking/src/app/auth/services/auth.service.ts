@@ -26,6 +26,7 @@ export class AuthService {
   register(model: RegisterModel): Observable<LoginResponseModel> {
     return this.http.post<LoginResponseModel>(`${ROUTE}register`, model).pipe(tap(token => {
       localStorage.setItem(TOKEN, token.authToken);
+      this.announceNewUser();
     }));
   }
 

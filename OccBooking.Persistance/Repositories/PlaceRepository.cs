@@ -19,8 +19,24 @@ namespace OccBooking.Persistance.Repositories
 
         public async Task<Place> GetPlaceAsync(Guid id)
         {
-            return await _dbContext.Places.Include(p => p.ReservationRequests).ThenInclude(r => r.Place)
-                .Include(p => p.Halls).Include(p => p.EmptyReservations)
+            return await _dbContext.Places
+                .Include(p => p.ReservationRequests)
+                .ThenInclude(r => r.Place)
+                .Include(p => p.Halls)
+                .ThenInclude(h => h.HallReservations)
+                .Include(p => p.Halls)
+                .ThenInclude(h => h.PossibleJoinsWhereIsFirst)
+                .ThenInclude(j => j.FirstHall)
+                .Include(p => p.Halls)
+                .ThenInclude(h => h.PossibleJoinsWhereIsFirst)
+                .ThenInclude(j => j.SecondHall)
+                .Include(h => h.Halls)
+                .ThenInclude(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.SecondHall)
+                .Include(p => p.Halls)
+                .ThenInclude(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.FirstHall)
+                .Include(p => p.EmptyReservations)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlaceService } from 'src/app/services/place.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationRequestModel } from 'src/app/models/reservation-request.model';
 import { PlaceModel } from 'src/app/models/place.model';
 import { MenuService } from 'src/app/services/menu.service';
@@ -28,6 +28,7 @@ export class MakeReservationComponent implements OnInit {
   placeId: string;
   place: PlaceModel;
   menus: MenuModel[];
+  maxCapacityForDay?: number;
   menuOrders: MenuOrderModel[] = [];
 
   constructor(private formBuilder: FormBuilder,
@@ -35,6 +36,7 @@ export class MakeReservationComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private menuService: MenuService,
               private dialog: MatDialog,
+              private router: Router,
               private reservationRequestService: ReservationRequestService) { }
 
   ngOnInit() {
@@ -92,10 +94,39 @@ export class MakeReservationComponent implements OnInit {
       date: this.reservationFormGroup.controls['date'].value,
       menuOrders: this.menuOrders.filter(m => m.include)
     };
-    this.reservationRequestService.makeReservationRequest(this.placeId, model).subscribe();
+    this.reservationRequestService.makeReservationRequest(this.placeId, model).subscribe(() => this.router.navigate(['']));
   }
 
   openMenuDetials(menuOrderMap: MenuOrderModel) {
     const dialogRef = this.dialog.open(MenuDetailsComponent, { data: menuOrderMap.menu });
+  }
+
+  dateChanged(event: any) {
+    const date = this.reservationFormGroup.controls['date'].value;
+
+    if (date) {
+      this.placeService.getMaxCapacityForDay(this.placeId, date).subscribe(response => this.maxCapacityForDay = response);
+    } else {
+      this.maxCapacityForDay = null;
+    }
+  }
+
+  getSpinnerValue(): number {
+    const sum = this.getSumOfPeopleInIncludedMenuOrders();
+    return (sum / this.maxCapacityForDay) * 100;
+  }
+
+  getSumOfPeopleInIncludedMenuOrders(): number {
+    const includedMenuOrders = this.menuOrders.filter(x => x.include);
+    let sum = 0;
+    for (const menuOrder of includedMenuOrders) {
+      sum += menuOrder.amountOfPeople;
+    }
+
+    return sum;
+  }
+
+  disableSubmit() {
+    return this.getSumOfPeopleInIncludedMenuOrders() === 0 || this.getSumOfPeopleInIncludedMenuOrders() > this.maxCapacityForDay;
   }
 }

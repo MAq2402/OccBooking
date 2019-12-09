@@ -1,6 +1,9 @@
+@import '../../../styles.scss';
+
 .mat-icon {
     cursor: pointer;
 }
+
 .mat-checkbox {
     margin-right: 15px;
     margin-left: 15px;
@@ -8,13 +11,21 @@
 
 table {
     width: 100%;
-  }
+}
   
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
   
-  td, th {
-    width: 25%;
-  }
+td, th {
+  width: 25%;
+}
+
+.mat-progress-spinner {
+  margin: 0 auto;
+}
+
+.mat-spinner-color::ng-deep circle {
+  stroke: $warn-color !important;
+}
