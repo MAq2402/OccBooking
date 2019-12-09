@@ -8,7 +8,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { CalendarModule } from 'primeng/calendar'; import { CalendarSectionComponent } from '../owner/place-management/calendar-section/calendar-section.component';
 import { MenuSectionComponent } from '../owner/place-management/menu-section/menu-section.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
-;
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
     FormsModule,
     RouterModule,
     MDBBootstrapModule.forRoot(),
-    CalendarModule
+    CalendarModule,
+    InfiniteScrollModule
   ],
   exports: [
     MaterialModule,
@@ -34,7 +35,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
     MDBBootstrapModule,
     CalendarModule,
     CalendarSectionComponent,
-    MenuSectionComponent
+    MenuSectionComponent,
+    InfiniteScrollModule
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }

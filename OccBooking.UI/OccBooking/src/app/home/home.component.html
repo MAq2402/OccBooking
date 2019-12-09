@@ -1,4 +1,5 @@
-<div class="container col-sm-12">
+<div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+    class="container col-sm-12">
     <app-sidenav></app-sidenav>
-    <app-place-card *ngFor="let place of places" [place]="place"></app-place-card>
+    <app-place-card *ngFor="let place of getPlaces()" [place]="place"></app-place-card>
 </div>

@@ -10,7 +10,8 @@ import { PlaceService } from '../services/place.service';
 })
 export class HomeComponent implements OnInit {
 
-  places: PlaceModel[];
+  itemsToDislay = 5;
+  places: PlaceModel[] = [];
 
   constructor(private placeService: PlaceService, private sidenavService: SidenavService) { }
 
@@ -22,4 +23,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  onScroll() {
+    this.itemsToDislay += 5;
+  }
+
+  getPlaces(): PlaceModel[] {
+    return this.places.slice(0, this.itemsToDislay);
+  }
 }
