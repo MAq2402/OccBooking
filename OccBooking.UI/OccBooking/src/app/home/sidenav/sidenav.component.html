@@ -39,6 +39,18 @@
                                                 {{occasion.name}}</mat-option>
                                 </mat-select>
                         </mat-form-field>
+                        <mat-form-field class="full-width sidenav-form">
+                                <input matInput formControlName="freeFrom" [matDatepicker]="picker1"
+                                        placeholder="Od kiedy wolne">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="full-width sidenav-form">
+                                <input matInput formControlName="freeTo" [matDatepicker]="picker2"
+                                        placeholder="Do kiedy wolne">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
                 </form>
         </mat-sidenav>
         <mat-sidenav-content> </mat-sidenav-content>

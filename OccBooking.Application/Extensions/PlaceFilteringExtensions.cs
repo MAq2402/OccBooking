@@ -25,17 +25,20 @@ namespace OccBooking.Application.Extensions
             return string.IsNullOrEmpty(city) ? places : places.Where(p => p.Address.City.Equals(city));
         }
 
-        public static IEnumerable<Place> FilterByCostPerPerson(this IEnumerable<Place> places, decimal? minCostPerPerson,
+        public static IEnumerable<Place> FilterByCostPerPerson(this IEnumerable<Place> places,
+            decimal? minCostPerPerson,
             decimal? maxCostPerPerson)
         {
             if (minCostPerPerson.HasValue)
             {
-                places = places.Where(p => p.MinimalCostPerPerson.HasValue && p.MinimalCostPerPerson >= minCostPerPerson.Value);
+                places = places.Where(p =>
+                    p.MinimalCostPerPerson.HasValue && p.MinimalCostPerPerson >= minCostPerPerson.Value);
             }
 
             if (maxCostPerPerson.HasValue)
             {
-                places = places.Where(p => p.MinimalCostPerPerson.HasValue && p.MinimalCostPerPerson <= maxCostPerPerson.Value);
+                places = places.Where(p =>
+                    p.MinimalCostPerPerson.HasValue && p.MinimalCostPerPerson <= maxCostPerPerson.Value);
             }
 
             return places;
@@ -52,6 +55,42 @@ namespace OccBooking.Application.Extensions
             return string.IsNullOrEmpty(occasionType)
                 ? places
                 : places.Where(p => p.AvailableOccasionTypes.Any(t => t.Name == occasionType));
+        }
+
+        public static IEnumerable<Place> FilterByDate(this IEnumerable<Place> places,
+            DateTimeOffset? from, DateTimeOffset? to)
+        {
+            var dates = new List<DateTime>();
+            if (from.HasValue && to.HasValue)
+            {
+                dates = GetDatesRange(from.Value.LocalDateTime, to.Value.LocalDateTime);
+            }
+            else if (to.HasValue)
+            {
+                dates = GetDatesRange(DateTime.Today.Date, to.Value.LocalDateTime);
+            }
+
+            if (dates.Any())
+            {
+                places = places.Where(p =>
+                    dates.Except(p.EmptyReservations.Select(e => e.Date)).Any());
+
+                places = places.Where(p => !p.Halls.Any() || dates.Any(d => p.Halls.Any(h => h.IsFreeOnDate(d))));
+            }
+
+            return places;
+        }
+
+        private static List<DateTime> GetDatesRange(DateTime from, DateTime to)
+        {
+            var dates = new List<DateTime>();
+
+            for (var dt = from; dt <= to; dt = dt.AddDays(1))
+            {
+                dates.Add(dt);
+            }
+
+            return dates;
         }
     }
 }

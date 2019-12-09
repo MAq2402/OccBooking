@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,13 @@ namespace OccBooking.Persistance.Repositories
             return await _dbContext.Places.Include(p => p.ReservationRequests).ThenInclude(r => r.Place)
                 .Include(p => p.Halls).Include(p => p.EmptyReservations)
                 .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<Place> GetPlaceByHallAsync(Guid hallId)
+        {
+            return await _dbContext.Places.Include(p => p.ReservationRequests).ThenInclude(r => r.Place)
+                .Include(p => p.Halls).Include(p => p.EmptyReservations)
+                .FirstOrDefaultAsync(p => p.Halls.Any(h => h.Id == hallId));
         }
     }
 }

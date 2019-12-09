@@ -14,5 +14,7 @@ namespace OccBooking.Application.DTOs
         public decimal? MaxCostPerPerson { get; set; }
         public int? MinCapacity { get; set; }
         public string OccasionType { get; set; }
+        public DateTimeOffset? FreeFrom { get; set; }
+        public DateTimeOffset? FreeTo { get; set; }
     }
 }

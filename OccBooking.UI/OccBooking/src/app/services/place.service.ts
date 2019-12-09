@@ -25,17 +25,9 @@ export class PlaceService {
 
   getPlaces(filterModel: PlaceFilterModel = null): Observable<PlaceModel[]> {
     if (filterModel) {
-      let params = new HttpParams();
-      params = params.append('name', filterModel.name);
-      params = params.append('province', filterModel.province);
-      params = params.append('city', filterModel.city);
-      params = params.append('minCostPerPerson', filterModel.minCostPerPerson ? filterModel.minCostPerPerson.toString() : '');
-      params = params.append('maxCostPerPerson', filterModel.maxCostPerPerson ? filterModel.maxCostPerPerson.toString() : '');
-      params = params.append('minCapacity', filterModel.minCapacity ? filterModel.minCapacity.toString() : '');
-      params = params.append('occasionType', filterModel.occasionType);
-      return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`, { params });
+      return this.http.post<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places/filter`, filterModel);
     } else {
-      return this.http.get<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places`);
+      return this.http.post<PlaceModel[]>(`${environment.WEB_API_ENDPOINT}places/filter`, {});
     }
   }
 

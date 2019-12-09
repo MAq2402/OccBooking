@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OccBooking.Domain.Enums;
-using OccBooking.Domain.Event;
+using OccBooking.Domain.Events;
 using OccBooking.Domain.Exceptions;
 using OccBooking.Domain.ValueObjects;
 
@@ -29,7 +29,7 @@ namespace OccBooking.Domain.Entities
             AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
             CalculateCost();
             CalculateAmountOfPeople();
-            AddEvent(new ReservationRequestCreated(placeName, DateTime, Client));
+            AddEvent(new ReservationRequestCreated(Id));
         }
 
         private ReservationRequest()
@@ -87,7 +87,7 @@ namespace OccBooking.Domain.Entities
             }
 
             IsAccepted = true;
-            AddEvent(new ReservationRequestAccepted(Place.Name, DateTime, Client));
+            AddEvent(new ReservationRequestAccepted(Id));
         }
 
         public void Reject()
@@ -99,7 +99,7 @@ namespace OccBooking.Domain.Entities
             }
 
             IsRejected = true;
-            AddEvent(new ReservationRequestRejected(Place.Name, DateTime, Client));
+            AddEvent(new ReservationRequestRejected(Id));
         }
 
         private void CalculateCost()

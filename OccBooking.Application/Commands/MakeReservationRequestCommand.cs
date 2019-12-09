@@ -19,9 +19,9 @@ namespace OccBooking.Application.Commands
             ClientEmail = clientEmail;
             ClientPhoneNumber = clientPhoneNumber;
             Date = date;
-            Options = options;
+            Options = options ?? new List<AdditionalOptionDto>();
             OccasionType = occasionType;
-            MenuOrders = menuOrders;
+            MenuOrders = menuOrders ?? new List<MenuOrderDto>();
             PlaceId = placeId;
         }
 
