@@ -82,7 +82,6 @@ namespace OccBooking.Domain.Entities
         {
             _hallReservations.Add(HallReservation.CreateEmpty(date));
             AddEvent(new EmptyHallReservationMade(Id));
-            // Place.RejectReservationsRequestsIfNotEnoughCapacity();
         }
     }
 }

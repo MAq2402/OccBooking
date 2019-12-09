@@ -627,7 +627,7 @@ namespace OccBooking.Domain.Tests.Entities
 
         [Fact]
         public void MakeEmptyReservationShouldWork()
-        { 
+        {
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
             var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -645,31 +645,31 @@ namespace OccBooking.Domain.Tests.Entities
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation2 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation3 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) });
+                new List<MenuOrder>() {new MenuOrder(menu, 50)});
             var reservation4 = new ReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) });
+                new List<MenuOrder>() {new MenuOrder(menu, 30)});
             place.MakeReservationRequest(reservation1);
             place.MakeReservationRequest(reservation2);
             place.MakeReservationRequest(reservation3);
             place.MakeReservationRequest(reservation4);
 
-            place.AcceptReservationRequest(reservation1, new List<Hall>() { hall1, hall2 });
+            place.AcceptReservationRequest(reservation1, new List<Hall>() {hall1, hall2});
             place.MakeEmptyReservation(DateTime.Today);
 
             var expected = 1;
@@ -747,12 +747,6 @@ namespace OccBooking.Domain.Tests.Entities
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
-        [Fact]
-        public void IsFreeShouldWork()
-        {
-            
         }
     }
 }

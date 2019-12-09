@@ -87,7 +87,8 @@ namespace OccBooking.Web.Controllers
         }
 
         [HttpPost("places/{placeId}/upload")]
-        public async Task<IActionResult> UploadFile(string placeId) {
+        public async Task<IActionResult> UploadFile(string placeId)
+        {
             if (!Request.Form.Files.Any())
             {
                 return BadRequest();
