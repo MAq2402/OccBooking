@@ -192,7 +192,6 @@ namespace OccBooking.Domain.Tests.Entities
             var hall = new Hall(Guid.NewGuid(), "Big", 100);
             var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
-            var amountOfPeopleForReservation = 50;
 
             place.AllowParty(OccasionType.Wedding);
             place.SupportAdditionalOption(new PlaceAdditionalOption("Photos", 100));
@@ -419,7 +418,6 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateAcceptReservationRequestShouldThrowException_PlaceDoesNotOwnHall()
         {
-            var placeCost = 50;
             var menuCost = 50;
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -472,7 +470,6 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateAcceptReservationRequestShouldThrowException_EmptyHallList()
         {
-            var placeCost = 50;
             var menuCost = 50;
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -524,7 +521,6 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateAcceptReservationRequestShouldThrowException_ReservationIsForDifferentPlace()
         {
-            var placeCost = 50;
             var menuCost = 50;
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -575,7 +571,6 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ValidateAcceptReservationRequestShouldThrowException_HallAlreadyReserved()
         {
-            var placeCost = 50;
             var menuCost = 50;
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
