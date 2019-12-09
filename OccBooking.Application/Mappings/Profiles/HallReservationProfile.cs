@@ -17,9 +17,9 @@ namespace OccBooking.Application.Mappings.Profiles
                 .ForMember(dest => dest.ClientEmail,
                     opt => opt.MapFrom(src => src.ReservationRequest.Client.Email.Value))
                 .ForMember(dest => dest.Cost,
-                opt => opt.MapFrom(src => src.ReservationRequest.Cost))
+                    opt => opt.MapFrom(src => src.ReservationRequest.Cost))
                 .ForMember(dest => dest.Occasion,
-                opt => opt.MapFrom(src => src.ReservationRequest.OccasionType.Name));
+                    opt => opt.MapFrom(src => src.ReservationRequest.OccasionType.Name));
         }
     }
 }
