@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OccBooking.Application.Extensions;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.ValueObjects;

@@ -26,7 +26,7 @@
         <mat-step [stepControl]="reservationFormGroup">
             <form [formGroup]="reservationFormGroup">
                 <mat-form-field class="col-sm-4">
-                    <input (dateChange)="dateChanged($)" matInput formControlName="date" [matDatepicker]="picker"
+                    <input (dateChange)="dateChanged()" matInput formControlName="date" [matDatepicker]="picker"
                         [matDatepickerFilter]="dateFilter" placeholder="Wybierz datę">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -74,7 +74,7 @@
                             <input matInput placeholder="Liczba osób wprowadzona w sumie" [readonly]="true"
                                 [value]="getSumOfPeopleInIncludedMenuOrders()">
                     </mat-form-field>
-                    <mat-progress-spinner [class.mat-spinner-color]="disableSubmit()" [diameter]="150" [color]="primary" [mode]="'determinate'"
+                    <mat-progress-spinner [class.mat-spinner-color]="disableSubmit()" [diameter]="150" [color]="'primary'" [mode]="'determinate'"
                         [value]="getSpinnerValue()">
                     </mat-progress-spinner>
                 </div>
