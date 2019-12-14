@@ -12,7 +12,7 @@ using OccBooking.Common.Dispatchers;
 using OccBooking.Common.Hanlders;
 using OccBooking.Common.Infrastructure;
 using OccBooking.Common.Types;
-using OccBooking.Persistance.Repositories;
+using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Web
 {

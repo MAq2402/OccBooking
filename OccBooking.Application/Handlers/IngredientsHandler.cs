@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Hanlders;
-using OccBooking.Persistance.DbContexts;
-using OccBooking.Persistance.Entities;
+using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Entities;
 
 namespace OccBooking.Application.Handlers
 {

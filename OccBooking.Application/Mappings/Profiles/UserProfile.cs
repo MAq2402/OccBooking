@@ -4,7 +4,7 @@ using System.Text;
 using AutoMapper;
 using OccBooking.Application.DTOs;
 using OccBooking.Domain.Entities;
-using OccBooking.Persistance.Entities;
+using OccBooking.Persistence.Entities;
 
 namespace OccBooking.Application.Mappings.Profiles
 {

@@ -9,7 +9,7 @@ using OccBooking.Application.DTOs;
 using OccBooking.Common.Hanlders;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.ValueObjects;
-using OccBooking.Persistance.Repositories;
+using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Application.Handlers
 {

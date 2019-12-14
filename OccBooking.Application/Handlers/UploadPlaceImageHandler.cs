@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using OccBooking.Application.Commands;
 using OccBooking.Common.Hanlders;
-using OccBooking.Persistance.DbContexts;
-using OccBooking.Persistance.Entities;
+using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Entities;
 
 namespace OccBooking.Application.Handlers
 {

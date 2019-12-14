@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Common.Types;
 using OccBooking.Domain.Events;
-using OccBooking.Persistance.DbContexts;
-using OccBooking.Persistance.Repositories;
+using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Application.Handlers
 {

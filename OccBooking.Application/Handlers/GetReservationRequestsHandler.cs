@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
-using OccBooking.Persistance.DbContexts;
+using OccBooking.Persistence.DbContexts;
 
 namespace OccBooking.Application.Handlers
 {
