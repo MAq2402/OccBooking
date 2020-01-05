@@ -6,7 +6,7 @@ COPY OccBooking.Auth/*.csproj ./OccBooking.Auth/
 COPY OccBooking.Common/*.csproj ./OccBooking.Common/
 COPY OccBooking.Domain/*.csproj ./OccBooking.Domain/
 COPY OccBooking.Domain.Tests/*.csproj ./OccBooking.Domain.Tests/
-COPY OccBooking.Persistance/*.csproj ./OccBooking.Persistance/
+COPY OccBooking.Persistence/*.csproj ./OccBooking.Persistence/
 COPY OccBooking.Web/*.csproj ./OccBooking.Web/
 
 RUN dotnet restore
