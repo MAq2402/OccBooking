@@ -74,7 +74,5 @@ export class MakeDecisionComponent implements OnInit {
     } else {
       return !this.hallsChoices.filter(c => c.choosed).every(c => hall.joins.some(h => h.hallId === c.hall.id));
     }
-    // return this.hallsChoices.filter(c => c.choosed).every(c => hall.joins.some(h => h.hallId === c.hall.id));
-    // return hall.joins.every(j => this.hallsChoices.filter(h => h.choosed).some(h => h.hall.id === j.hallId));
   }
 }

@@ -30,7 +30,7 @@ RUN dotnet build -c Release -o /app
 WORKDIR /src/OccBooking.Domain.Tests
 RUN dotnet build -c Release -o /app
 
-WORKDIR /src/OccBooking.Persistance
+WORKDIR /src/OccBooking.Persistence
 RUN dotnet build -c Release -o /app
 
 WORKDIR /src/OccBooking.Web
