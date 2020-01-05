@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.Services;
 using OccBooking.Common.Types;
 using OccBooking.Domain.Events;
-using OccBooking.Persistance.DbContexts;
+using OccBooking.Persistence.DbContexts;
 
 namespace OccBooking.Application.EventHandlers
 {

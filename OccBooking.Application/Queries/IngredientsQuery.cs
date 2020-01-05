@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using OccBooking.Common.Types;
-using OccBooking.Persistance.Entities;
+using OccBooking.Persistence.Entities;
 
 namespace OccBooking.Application.Queries
 {

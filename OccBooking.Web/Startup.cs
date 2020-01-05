@@ -17,8 +17,8 @@ using OccBooking.Application.Services;
 using OccBooking.Common.Dispatchers;
 using OccBooking.Common.Infrastructure;
 using OccBooking.Common.Types;
-using OccBooking.Persistance.DbContexts;
-using OccBooking.Persistance.Repositories;
+using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace OccBooking.Web

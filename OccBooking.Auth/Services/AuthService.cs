@@ -9,7 +9,7 @@ using OccBooking.Application.Commands;
 using OccBooking.Application.Contracts;
 using OccBooking.Application.Queries;
 using OccBooking.Domain.Entities;
-using OccBooking.Persistance.Entities;
+using OccBooking.Persistence.Entities;
 
 namespace OccBooking.Auth.Services
 {

@@ -10,8 +10,8 @@ using OccBooking.Application.DTOs;
 using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Domain.Entities;
-using OccBooking.Persistance.DbContexts;
-using OccBooking.Persistance.Repositories;
+using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Application.Handlers
 {

@@ -10,8 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using OccBooking.Application.Contracts;
 using OccBooking.Auth;
 using OccBooking.Auth.Services;
-using OccBooking.Persistance.DbContexts;
-using OccBooking.Persistance.Entities;
+using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Entities;
 
 namespace OccBooking.Web
 {

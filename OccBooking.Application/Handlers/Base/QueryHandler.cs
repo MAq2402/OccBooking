@@ -6,7 +6,7 @@ using AutoMapper;
 using CSharpFunctionalExtensions;
 using OccBooking.Common.Hanlders;
 using OccBooking.Common.Types;
-using OccBooking.Persistance.DbContexts;
+using OccBooking.Persistence.DbContexts;
 
 namespace OccBooking.Application.Handlers.Base
 {

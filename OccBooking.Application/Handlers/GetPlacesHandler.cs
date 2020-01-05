@@ -13,7 +13,7 @@ using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Hanlders;
 using OccBooking.Domain.Entities;
-using OccBooking.Persistance.DbContexts;
+using OccBooking.Persistence.DbContexts;
 
 namespace OccBooking.Application.Handlers
 {
