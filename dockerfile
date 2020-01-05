@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /src
 COPY OccBooking.sln ./
 COPY OccBooking.Application/*.csproj ./OccBooking.Application/
+COPY OccBooking.Application.Tests/*.csproj ./OccBooking.Application.Tests/
 COPY OccBooking.Auth/*.csproj ./OccBooking.Auth/
 COPY OccBooking.Common/*.csproj ./OccBooking.Common/
 COPY OccBooking.Domain/*.csproj ./OccBooking.Domain/
