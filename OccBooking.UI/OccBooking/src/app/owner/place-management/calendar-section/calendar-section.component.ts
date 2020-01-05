@@ -16,9 +16,9 @@ export class CalendarSectionComponent implements OnInit {
   placeId: string;
   @Input() disabled = false;
   constructor(private placeService: PlaceService,
-              private activatedRoute: ActivatedRoute,
-              private hallService: HallService,
-              private dialog: MatDialog) { }
+    private activatedRoute: ActivatedRoute,
+    private hallService: HallService,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.placeId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -47,6 +47,7 @@ export class CalendarSectionComponent implements OnInit {
   saveChanges() {
     this.placeService.getReservedDays(this.placeId).subscribe(result => {
       const datesToSend: Date[] = [];
+      console.log(this.dates);
       for (const date of this.dates.filter(d => !result.includes(d))) {
         datesToSend.push(date);
       }
@@ -73,19 +74,20 @@ export class CalendarSectionComponent implements OnInit {
   onSelect(event: Date[]) {
     if (this.disabled) {
       this.getReservedDays();
-    } else {
-      console.log(this.dates);
-      console.log(event);
-      let unselectedDate: Date;
-      if (this.dates.length > event.length) {
-             for (const date of this.dates) {
-            if (event.every(d => d !== date)) {
-              unselectedDate = date;
-              break;
-            }
-          }
-      }
-      console.log(unselectedDate);
+      // } else {
+      //   console.log(this.dates);
+      //   console.log(event);
+      //   let unselectedDate: Date;
+      //   if (this.dates.length > event.length) {
+      //          for (const date of this.dates) {
+      //         if (event.every(d => d !== date)) {
+      //           unselectedDate = date;
+      //           break;
+      //         }
+      //       }
+      //   }
+      //   console.log(unselectedDate);
+      // }
     }
   }
 }
