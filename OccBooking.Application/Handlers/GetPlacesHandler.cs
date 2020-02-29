@@ -5,15 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Extensions;
 using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Hanlders;
 using OccBooking.Domain.Entities;
-using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistance.DbContexts;
 
 namespace OccBooking.Application.Handlers
 {

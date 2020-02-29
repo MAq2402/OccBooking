@@ -12,6 +12,7 @@ using OccBooking.Common.Dispatchers;
 using OccBooking.Common.Hanlders;
 using OccBooking.Common.Infrastructure;
 using OccBooking.Common.Types;
+using OccBooking.Domain.Services;
 using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Web
@@ -36,7 +37,7 @@ namespace OccBooking.Web
                 .AsClosedTypesOf(typeof(IEventHandler<>));
         }
 
-        public static void RegisterServices(this ContainerBuilder builder)
+        public static void RegisterInfrastructureServices(this ContainerBuilder builder)
         {
             builder.RegisterType<EmailService>().As<IEmailService>();
         }
@@ -64,6 +65,11 @@ namespace OccBooking.Web
                 emailConfigurationSectionSection["SmtpHost"],
                 int.Parse(emailConfigurationSectionSection["SmtpPort"]));
             builder.Register(c => appSettings).SingleInstance();
+        }
+
+        public static void RegisterDomainServices(this ContainerBuilder builder)
+        {
+            builder.RegisterType<ReservationRequestService>().As<IReservationRequestService>();
         }
     }
 }

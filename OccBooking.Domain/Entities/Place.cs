@@ -131,40 +131,6 @@ namespace OccBooking.Domain.Entities
             }
         }
 
-        public void AcceptReservationRequest(ReservationRequest request, IEnumerable<Hall> halls)
-        {
-            ValidateAcceptReservationRequest(request, halls);
-
-            request.Accept();
-
-            MakeHallReservations(request, halls);
-
-            RejectReservationsRequestsIfNotEnoughCapacity();
-        }
-
-        public void ValidateAcceptReservationRequest(ReservationRequest request, IEnumerable<Hall> halls)
-        {
-            if (!halls.Any())
-            {
-                throw new DomainException("Halls has not been provided");
-            }
-
-            if (!ReservationRequests.Contains(request))
-            {
-                throw new DomainException("Reservation does not belong to this place");
-            }
-
-            if (!ContainsHalls(halls))
-            {
-                throw new DomainException("Place does not contain given halls");
-            }
-
-            if (IsAnyHallReservedOnDate(request.DateTime, halls))
-            {
-                throw new DomainException("Some or all given halls are already reserved");
-            }
-        }
-
         public void MakeEmptyReservation(DateTime date)
         {
             emptyReservations.Add(new EmptyPlaceReservation(date));
@@ -177,14 +143,6 @@ namespace OccBooking.Domain.Entities
             foreach (var requestToReject in reservationReqeusts.Where(r => r.DateTime == date && !r.IsAnswered))
             {
                 requestToReject.Reject();
-            }
-        }
-
-        private void MakeHallReservations(ReservationRequest request, IEnumerable<Hall> halls)
-        {
-            foreach (var hall in halls)
-            {
-                hall.MakeReservation(request);
             }
         }
 
@@ -229,12 +187,12 @@ namespace OccBooking.Domain.Entities
             return hall.IsFreeOnDate(dateTime);
         }
 
-        private bool ContainsHalls(IEnumerable<Hall> halls)
+        public bool ContainsHalls(IEnumerable<Hall> halls)
         {
             return halls.All(h => Halls.Contains(h));
         }
 
-        private bool IsAnyHallReservedOnDate(DateTime dateTime, IEnumerable<Hall> halls)
+        public bool IsAnyHallReservedOnDate(DateTime dateTime, IEnumerable<Hall> halls)
         {
             return halls.Any(h => !h.IsFreeOnDate(dateTime));
         }
