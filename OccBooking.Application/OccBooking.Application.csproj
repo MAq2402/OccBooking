@@ -12,7 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\OccBooking.Common\OccBooking.Common.csproj" />
     <ProjectReference Include="..\OccBooking.Domain\OccBooking.Domain.csproj" />
-    <ProjectReference Include="..\OccBooking.Persistance\OccBooking.Persistence.csproj" />
     <ProjectReference Include="..\OccBooking.Persistence\OccBooking.Persistence.csproj" />
   </ItemGroup>
 

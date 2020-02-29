@@ -2,11 +2,12 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /src
 COPY OccBooking.sln ./
 COPY OccBooking.Application/*.csproj ./OccBooking.Application/
+COPY OccBooking.Application.Tests/*.csproj ./OccBooking.Application.Tests/
 COPY OccBooking.Auth/*.csproj ./OccBooking.Auth/
 COPY OccBooking.Common/*.csproj ./OccBooking.Common/
 COPY OccBooking.Domain/*.csproj ./OccBooking.Domain/
 COPY OccBooking.Domain.Tests/*.csproj ./OccBooking.Domain.Tests/
-COPY OccBooking.Persistance/*.csproj ./OccBooking.Persistance/
+COPY OccBooking.Persistence/*.csproj ./OccBooking.Persistence/
 COPY OccBooking.Web/*.csproj ./OccBooking.Web/
 
 RUN dotnet restore
@@ -30,7 +31,7 @@ RUN dotnet build -c Release -o /app
 WORKDIR /src/OccBooking.Domain.Tests
 RUN dotnet build -c Release -o /app
 
-WORKDIR /src/OccBooking.Persistance
+WORKDIR /src/OccBooking.Persistence
 RUN dotnet build -c Release -o /app
 
 WORKDIR /src/OccBooking.Web
