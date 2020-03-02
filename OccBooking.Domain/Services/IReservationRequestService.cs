@@ -8,6 +8,5 @@ namespace OccBooking.Domain.Services
     public interface IReservationRequestService
     {
         void ValidateAcceptReservationRequest(Place place, ReservationRequest request, IEnumerable<Hall> halls);
-        //void RejectReservationsRequestsIfNotEnoughCapacity();
     }
 }

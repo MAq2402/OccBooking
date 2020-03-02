@@ -20,30 +20,33 @@ namespace OccBooking.Application.Services
 
         public void Send(string content, Client receiver)
         {
-            MimeMessage message = new MimeMessage();
-            MailboxAddress from = new MailboxAddress(_appSettings.EmailName, _appSettings.EmailAddress);
-            message.From.Add(from);
+            if (_appSettings.SendEmails)
+            {
+                MimeMessage message = new MimeMessage();
+                MailboxAddress from = new MailboxAddress(_appSettings.EmailName, _appSettings.EmailAddress);
+                message.From.Add(from);
 
-            MailboxAddress to = new MailboxAddress(receiver.Name.FullName, receiver.Email.Value);
-            message.To.Add(to);
-            message.Subject = $"Rezerwacja OccBooking - {receiver.Name.FullName}";
+                MailboxAddress to = new MailboxAddress(receiver.Name.FullName, receiver.Email.Value);
+                message.To.Add(to);
+                message.Subject = $"Rezerwacja OccBooking - {receiver.Name.FullName}";
 
-            BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = content;
+                BodyBuilder bodyBuilder = new BodyBuilder();
+                bodyBuilder.HtmlBody = content;
 
-            message.Body = bodyBuilder.ToMessageBody();
+                message.Body = bodyBuilder.ToMessageBody();
 
-            SmtpClient client = new SmtpClient();
-            client.CheckCertificateRevocation = false;
+                SmtpClient client = new SmtpClient();
+                client.CheckCertificateRevocation = false;
 
-            client.Connect(_appSettings.SmtpHost, _appSettings.SmtpPort);
-            client.AuthenticationMechanisms.Remove("XOAUTH2");
+                client.Connect(_appSettings.SmtpHost, _appSettings.SmtpPort);
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-            client.Authenticate(_appSettings.EmailAddress, _appSettings.EmailPassword);
+                client.Authenticate(_appSettings.EmailAddress, _appSettings.EmailPassword);
 
-            client.Send(message);
-            client.Disconnect(true);
-            client.Dispose();
+                client.Send(message);
+                client.Disconnect(true);
+                client.Dispose();
+            }
         }
     }
 }

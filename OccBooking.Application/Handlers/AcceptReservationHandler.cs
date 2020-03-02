@@ -21,7 +21,9 @@ namespace OccBooking.Application.Handlers
         private IReservationRequestService _reservationRequestService;
 
         public AcceptReservationHandler(IReservationRequestRepository reservationRequestRepository,
-            IHallRepository hallRepository, IPlaceRepository placeRepository, IReservationRequestService reservationRequestService)
+            IHallRepository hallRepository,
+            IPlaceRepository placeRepository,
+            IReservationRequestService reservationRequestService)
         {
             _reservationRequestRepository = reservationRequestRepository;
             _hallRepository = hallRepository;
