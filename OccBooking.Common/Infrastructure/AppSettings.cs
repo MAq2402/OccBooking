@@ -6,8 +6,9 @@ namespace OccBooking.Common.Infrastructure
 {
     public class AppSettings
     {
-        public AppSettings(string emailAddress, string emailPassword, string emailName, string smtpHost, int smtpPort)
+        public AppSettings(string emailAddress, string emailPassword, string emailName, string smtpHost, int smtpPort, bool sendEmails = false)
         {
+            SendEmails = sendEmails;
             EmailAddress = emailAddress;
             EmailPassword = emailPassword;
             EmailName = emailName;
@@ -15,6 +16,7 @@ namespace OccBooking.Common.Infrastructure
             SmtpPort = smtpPort;
         }
 
+        public bool SendEmails { get; }
         public string EmailAddress { get; }
         public string EmailPassword { get; }
         public string EmailName { get; }

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using OccBooking.Application.Commands;
 using OccBooking.Common.Hanlders;
+using OccBooking.Domain.Entities;
+using OccBooking.Domain.Exceptions;
+using OccBooking.Domain.Services;
 using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Application.Handlers
@@ -14,13 +18,17 @@ namespace OccBooking.Application.Handlers
         private IReservationRequestRepository _reservationRequestRepository;
         private IHallRepository _hallRepository;
         private IPlaceRepository _placeRepository;
+        private IReservationRequestService _reservationRequestService;
 
         public AcceptReservationHandler(IReservationRequestRepository reservationRequestRepository,
-            IHallRepository hallRepository, IPlaceRepository placeRepository)
+            IHallRepository hallRepository,
+            IPlaceRepository placeRepository,
+            IReservationRequestService reservationRequestService)
         {
             _reservationRequestRepository = reservationRequestRepository;
             _hallRepository = hallRepository;
             _placeRepository = placeRepository;
+            _reservationRequestService = reservationRequestService;
         }
 
         public async Task<Result> HandleAsync(AcceptReservationCommand command)
@@ -36,7 +44,9 @@ namespace OccBooking.Application.Handlers
 
             var place = await _placeRepository.GetPlaceAsync(request.Place.Id);
 
-            place.AcceptReservationRequest(request, halls);
+            _reservationRequestService.ValidateAcceptReservationRequest(place, request, halls);
+
+            request.Accept(place.Id, halls.Select(h => h.Id));
 
             await _placeRepository.SaveAsync();
 

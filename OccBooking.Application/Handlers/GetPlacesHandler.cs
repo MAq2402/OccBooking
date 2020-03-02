@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Extensions;
 using OccBooking.Application.Handlers.Base;

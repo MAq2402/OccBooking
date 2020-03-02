@@ -57,7 +57,8 @@ namespace OccBooking.Web
             builder.RegisterQueryHandlers();
             builder.RegisterEventHandlers();
             builder.RegisterDispatchers();
-            builder.RegisterServices();
+            builder.RegisterInfrastructureServices();
+            builder.RegisterDomainServices();
 
             Container = builder.Build();
 

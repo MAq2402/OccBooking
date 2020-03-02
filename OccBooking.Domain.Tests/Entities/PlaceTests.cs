@@ -211,86 +211,47 @@ namespace OccBooking.Domain.Tests.Entities
             Assert.Equal("Place dose not support those options", exception.Message);
         }
 
-        [Theory]
-        [InlineData(10, 20, 29, 1)]
-        [InlineData(10, 20, 1, 1)]
-        public void ValidateMakeReservationRequestShouldThrowExceptionBecauseOfCapacity_1(int hallSize1,
-            int hallSize2,
-            int amountOfPeople1,
-            int amountOfPeople2)
-        {
-            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
-            var place = CorrectPlace;
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            var reservation = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople1)});
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople2)});
+        //[Theory]
+        //[InlineData(10, 20, 10, 29, 11)]
+        //[InlineData(10, 20, 10, 1, 11)]
+        //public void ValidateMakeReservationRequestShouldThrowExceptionBecauseOfCapacity_2(int hallSize1,
+        //    int hallSize2,
+        //    int hallSize3,
+        //    int amountOfPeople1,
+        //    int amountOfPeople2)
+        //{
+        //    var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
+        //    var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
+        //    var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3);
+        //    var place = CorrectPlace;
+        //    var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
+        //    place.AllowParty(OccasionType.Wedding);
+        //    place.AssignMenu(menu);
+        //    hall1.AddPossibleJoin(hall2);
+        //    place.AddHall(hall1);
+        //    place.AddHall(hall2);
+        //    place.AddHall(hall3);
+        //    var reservation1 = new ReservationRequest(Guid.NewGuid(),
+        //        DateTime.Today,
+        //        CorrectClient,
+        //        OccasionType.Wedding,
+        //        new List<PlaceAdditionalOption>(),
+        //        new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople1)});
+        //    var reservation2 = new ReservationRequest(Guid.NewGuid(),
+        //        DateTime.Today,
+        //        CorrectClient,
+        //        OccasionType.Wedding,
+        //        new List<PlaceAdditionalOption>(),
+        //        new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople2)});
 
-            place.MakeReservationRequest(reservation);
-            place.AcceptReservationRequest(reservation, new[] {hall1, hall2});
-            Action action = () => place.ValidateMakeReservationRequest(reservation1);
+        //    place.MakeReservationRequest(reservation1);
+        //    place.AcceptReservationRequest(reservation1, new[] {hall1, hall2});
+        //    Action action = () => place.ValidateMakeReservationRequest(reservation2);
 
-            var exception = Assert.Throws<DomainException>(action);
-            Assert.Equal("Making reservation on this date and with this amount of people is impossible",
-                exception.Message);
-        }
-
-        [Theory]
-        [InlineData(10, 20, 10, 29, 11)]
-        [InlineData(10, 20, 10, 1, 11)]
-        public void ValidateMakeReservationRequestShouldThrowExceptionBecauseOfCapacity_2(int hallSize1,
-            int hallSize2,
-            int hallSize3,
-            int amountOfPeople1,
-            int amountOfPeople2)
-        {
-            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3);
-            var place = CorrectPlace;
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople1)});
-            var reservation2 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople2)});
-
-            place.MakeReservationRequest(reservation1);
-            place.AcceptReservationRequest(reservation1, new[] {hall1, hall2});
-            Action action = () => place.ValidateMakeReservationRequest(reservation2);
-
-            var exception = Assert.Throws<DomainException>(action);
-            Assert.Equal("Making reservation on this date and with this amount of people is impossible",
-                exception.Message);
-        }
+        //    var exception = Assert.Throws<DomainException>(action);
+        //    Assert.Equal("Making reservation on this date and with this amount of people is impossible",
+        //        exception.Message);
+        //}
 
         [Theory]
         [InlineData(10, 20, 31)]
@@ -362,320 +323,62 @@ namespace OccBooking.Domain.Tests.Entities
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void AcceptShouldWork()
-        {
-            var menuCost = 50;
-            var place = CorrectPlace;
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            hall2.AddPossibleJoin(hall3);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation2 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation3 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today.AddDays(1),
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation4 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 30)});
-            place.MakeReservationRequest(reservation1);
-            place.MakeReservationRequest(reservation2);
-            place.MakeReservationRequest(reservation3);
-            place.MakeReservationRequest(reservation4);
+        //[Fact]
+        //public void MakeEmptyReservationShouldWork()
+        //{
+        //    var place = CorrectPlace;
+        //    var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
+        //    var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
+        //    var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
+        //    var menu = CorrectMenu;
+        //    place.AllowParty(OccasionType.Wedding);
+        //    place.AssignMenu(menu);
+        //    hall1.AddPossibleJoin(hall2);
+        //    hall2.AddPossibleJoin(hall3);
+        //    place.AddHall(hall1);
+        //    place.AddHall(hall2);
+        //    place.AddHall(hall3);
+        //    var reservation1 = new ReservationRequest(Guid.NewGuid(),
+        //        DateTime.Today,
+        //        CorrectClient,
+        //        OccasionType.Wedding,
+        //        new List<PlaceAdditionalOption>(),
+        //        new List<MenuOrder>() {new MenuOrder(menu, 50)});
+        //    var reservation2 = new ReservationRequest(Guid.NewGuid(),
+        //        DateTime.Today,
+        //        CorrectClient,
+        //        OccasionType.Wedding,
+        //        new List<PlaceAdditionalOption>(),
+        //        new List<MenuOrder>() {new MenuOrder(menu, 50)});
+        //    var reservation3 = new ReservationRequest(Guid.NewGuid(),
+        //        DateTime.Today.AddDays(1),
+        //        CorrectClient,
+        //        OccasionType.Wedding,
+        //        new List<PlaceAdditionalOption>(),
+        //        new List<MenuOrder>() {new MenuOrder(menu, 50)});
+        //    var reservation4 = new ReservationRequest(Guid.NewGuid(),
+        //        DateTime.Today,
+        //        CorrectClient,
+        //        OccasionType.Wedding,
+        //        new List<PlaceAdditionalOption>(),
+        //        new List<MenuOrder>() {new MenuOrder(menu, 30)});
+        //    place.MakeReservationRequest(reservation1);
+        //    place.MakeReservationRequest(reservation2);
+        //    place.MakeReservationRequest(reservation3);
+        //    place.MakeReservationRequest(reservation4);
 
-            place.AcceptReservationRequest(reservation1, new List<Hall>() {hall1, hall2});
+        //    place.AcceptReservationRequest(reservation1, new List<Hall>() {hall1, hall2});
+        //    place.MakeEmptyReservation(DateTime.Today);
 
-            Assert.True(reservation2.IsRejected);
-            Assert.True(reservation1.IsAccepted);
-            Assert.False(reservation3.IsAnswered);
-            Assert.False(reservation4.IsAnswered);
-        }
+        //    var expected = 1;
+        //    var actual = place.EmptyReservations.Count();
 
-        [Fact]
-        public void ValidateAcceptReservationRequestShouldThrowException_PlaceDoesNotOwnHall()
-        {
-            var menuCost = 50;
-            var place = CorrectPlace;
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            hall2.AddPossibleJoin(hall3);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation2 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation3 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today.AddDays(1),
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation4 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 30)});
-            place.MakeReservationRequest(reservation1);
-            place.MakeReservationRequest(reservation2);
-            place.MakeReservationRequest(reservation3);
-            place.MakeReservationRequest(reservation4);
-
-            var hall4 = new Hall(Guid.NewGuid(), "Big", 30);
-            Action action = () => place.ValidateAcceptReservationRequest(reservation1, new List<Hall>() {hall4});
-
-            var exception = Assert.Throws<DomainException>(action);
-            Assert.Equal("Place does not contain given halls", exception.Message);
-        }
-
-        [Fact]
-        public void ValidateAcceptReservationRequestShouldThrowException_EmptyHallList()
-        {
-            var menuCost = 50;
-            var place = CorrectPlace;
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            hall2.AddPossibleJoin(hall3);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation2 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation3 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today.AddDays(1),
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation4 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 30)});
-            place.MakeReservationRequest(reservation1);
-            place.MakeReservationRequest(reservation2);
-            place.MakeReservationRequest(reservation3);
-            place.MakeReservationRequest(reservation4);
-
-            Action action = () => place.AcceptReservationRequest(reservation1, new List<Hall>() { });
-
-            var exception = Assert.Throws<DomainException>(action);
-            Assert.Equal("Halls has not been provided", exception.Message);
-        }
-
-        [Fact]
-        public void ValidateAcceptReservationRequestShouldThrowException_ReservationIsForDifferentPlace()
-        {
-            var menuCost = 50;
-            var place = CorrectPlace;
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            hall2.AddPossibleJoin(hall3);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation2 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation3 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today.AddDays(1),
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation4 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 30)});
-            place.MakeReservationRequest(reservation1);
-            place.MakeReservationRequest(reservation2);
-            place.MakeReservationRequest(reservation3);
-
-            Action action = () => place.AcceptReservationRequest(reservation4, new List<Hall>() {hall1});
-
-            var exception = Assert.Throws<DomainException>(action);
-            Assert.Equal("Reservation does not belong to this place", exception.Message);
-        }
-
-        [Fact]
-        public void ValidateAcceptReservationRequestShouldThrowException_HallAlreadyReserved()
-        {
-            var menuCost = 50;
-            var place = CorrectPlace;
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, menuCost);
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            hall2.AddPossibleJoin(hall3);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation2 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation3 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today.AddDays(1),
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation4 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 30)});
-            place.MakeReservationRequest(reservation1);
-            place.MakeReservationRequest(reservation2);
-            place.MakeReservationRequest(reservation3);
-            place.MakeReservationRequest(reservation4);
-
-            place.AcceptReservationRequest(reservation4, new List<Hall>() {hall1});
-            Action action = () => place.AcceptReservationRequest(reservation4, new List<Hall>() {hall1});
-
-            var exception = Assert.Throws<DomainException>(action);
-            Assert.Equal("Some or all given halls are already reserved", exception.Message);
-        }
-
-        [Fact]
-        public void MakeEmptyReservationShouldWork()
-        {
-            var place = CorrectPlace;
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-            var menu = CorrectMenu;
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            hall2.AddPossibleJoin(hall3);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation2 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation3 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today.AddDays(1),
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation4 = new ReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 30)});
-            place.MakeReservationRequest(reservation1);
-            place.MakeReservationRequest(reservation2);
-            place.MakeReservationRequest(reservation3);
-            place.MakeReservationRequest(reservation4);
-
-            place.AcceptReservationRequest(reservation1, new List<Hall>() {hall1, hall2});
-            place.MakeEmptyReservation(DateTime.Today);
-
-            var expected = 1;
-            var actual = place.EmptyReservations.Count();
-
-            Assert.Equal(expected, actual);
-            Assert.True(reservation2.IsRejected);
-            Assert.True(reservation1.IsAccepted);
-            Assert.False(reservation3.IsAnswered);
-            Assert.True(reservation4.IsRejected);
-        }
+        //    Assert.Equal(expected, actual);
+        //    Assert.True(reservation2.IsRejected);
+        //    Assert.True(reservation1.IsAccepted);
+        //    Assert.False(reservation3.IsAnswered);
+        //    Assert.True(reservation4.IsRejected);
+        //}
 
         [Theory]
         [ClassData(typeof(IsPlaceConfiguredShouldReturnFalseTestData))]

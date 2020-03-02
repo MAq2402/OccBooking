@@ -9,5 +9,6 @@ namespace OccBooking.Persistence.Repositories
     public interface IReservationRequestRepository : IRepository<ReservationRequest>
     {
         Task<ReservationRequest> GetReservationRequestAsync(Guid id);
+        Task<IEnumerable<ReservationRequest>> GetImpossibleReservationRequestsAsync(Guid placeId);
     }
 }
