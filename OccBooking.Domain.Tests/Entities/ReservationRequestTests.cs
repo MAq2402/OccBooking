@@ -45,8 +45,8 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var reservation = CorrectReservationRequest;
 
-            reservation.Accept();
-            Action action = () => reservation.Accept();
+            reservation.Accept(Guid.NewGuid(), new List<Guid>() {Guid.NewGuid()});
+            Action action = () => reservation.Accept(Guid.NewGuid(), new List<Guid>() { Guid.NewGuid() });
 
             Assert.Throws<DomainException>(action);
         }
@@ -57,7 +57,7 @@ namespace OccBooking.Domain.Tests.Entities
             var reservation = CorrectReservationRequest;
 
             reservation.Reject();
-            Action action = () => reservation.Accept();
+            Action action = () => reservation.Accept(Guid.NewGuid(), new List<Guid>() { Guid.NewGuid() });
 
             Assert.Throws<DomainException>(action);
         }
@@ -67,7 +67,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var reservation = CorrectReservationRequest;
 
-            reservation.Accept();
+            reservation.Accept(Guid.NewGuid(), new List<Guid>() { Guid.NewGuid() });
 
             Assert.True(reservation.IsAccepted);
             Assert.True(reservation.IsAnswered);
@@ -102,7 +102,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var reservation = CorrectReservationRequest;
 
-            reservation.Accept();
+            reservation.Accept(Guid.NewGuid(), new List<Guid>() { Guid.NewGuid() });
             Action action = () => reservation.Reject();
 
             Assert.Throws<DomainException>(action);

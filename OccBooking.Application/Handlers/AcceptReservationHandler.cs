@@ -44,7 +44,7 @@ namespace OccBooking.Application.Handlers
 
             _reservationRequestService.ValidateAcceptReservationRequest(place, request, halls);
 
-            request.Accept();
+            request.Accept(place.Id, halls.Select(h => h.Id));
 
             await _placeRepository.SaveAsync();
 

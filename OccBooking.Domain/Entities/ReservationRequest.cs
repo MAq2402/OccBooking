@@ -78,7 +78,7 @@ namespace OccBooking.Domain.Entities
             Client = client;
         }
 
-        public void Accept()
+        public void Accept(Guid placeId, IEnumerable<Guid> hallIds)
         {
             if (IsAnswered)
             {
@@ -87,7 +87,7 @@ namespace OccBooking.Domain.Entities
             }
 
             IsAccepted = true;
-            AddEvent(new ReservationRequestAccepted(Id));
+            AddEvent(new ReservationRequestAccepted(Id, placeId, hallIds));
         }
 
         public void Reject()

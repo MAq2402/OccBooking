@@ -8,27 +8,59 @@ using OccBooking.Common.Types;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.Events;
 using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Application.EventHandlers
 {
     public class ReservationRequestAcceptedEventHandler : IEventHandler<ReservationRequestAccepted>
     {
-        private IEmailService _emailService;
-        private OccBookingDbContext _dbContext;
+        private readonly IEmailService _emailService;
+        private readonly OccBookingDbContext _dbContext;
+        private readonly IHallRepository _hallRepository;
+        private IReservationRequestRepository _reservationRequestRepository;
 
-        public ReservationRequestAcceptedEventHandler(IEmailService emailService, OccBookingDbContext dbContext)
+        public ReservationRequestAcceptedEventHandler(IEmailService emailService, OccBookingDbContext dbContext,
+            IHallRepository hallRepository, IReservationRequestRepository reservationRequestRepository)
         {
             _emailService = emailService;
             _dbContext = dbContext;
+            _hallRepository = hallRepository;
+            _reservationRequestRepository = reservationRequestRepository;
         }
 
         public async Task HandleAsync(ReservationRequestAccepted @event)
         {
+            var reservationRequest =
+                await _reservationRequestRepository.GetReservationRequestAsync(@event.ReservationRequestId);
 
-            MakeHallReservations(request, halls);
+            await MakeHallsReservationsAsync(reservationRequest, @event.HallIds);
 
-            RejectReservationsRequestsIfNotEnoughCapacity();
+            await RejectImpossibleReservationsRequestsAsync(@event.PlaceId);
 
+            await SendEmailAsync(@event);
+        }
+
+        private async Task MakeHallsReservationsAsync(ReservationRequest request, IEnumerable<Guid> hallIds)
+        {
+            foreach (var hallId in hallIds)
+            {
+                var hall = await _hallRepository.GetHallAsync(hallId);
+                hall.MakeReservation(request);
+            }
+        }
+
+        public async Task RejectImpossibleReservationsRequestsAsync(Guid placeId)
+        {
+            var requestsToReject = await _reservationRequestRepository.GetImpossibleReservationRequestsAsync(placeId);
+
+            foreach (var requestToReject in requestsToReject)
+            {
+                requestToReject.Reject();
+            }
+        }
+
+        private async Task SendEmailAsync(ReservationRequestAccepted @event)
+        {
             var reservationRequest = await _dbContext.ReservationRequests.Include(r => r.Place)
                 .FirstOrDefaultAsync(r => r.Id == @event.ReservationRequestId);
 
@@ -36,25 +68,6 @@ namespace OccBooking.Application.EventHandlers
                 $@"Twoja rezerwacja miejsca {reservationRequest.Place.Name} na dzien {reservationRequest.DateTime:dd/MM/yyyy}
                 została zaakcepotwana. <h3>Podsumowanie</h3>";
             _emailService.Send(emailMessage, reservationRequest.Client);
-        }
-
-        private void MakeHallReservations(ReservationRequest request, IEnumerable<Hall> halls)
-        {
-            foreach (var hall in halls)
-            {
-                hall.MakeReservation(request);
-            }
-        }
-
-        public void RejectReservationsRequestsIfNotEnoughCapacity()
-        {
-            var requestsToReject = ReservationRequests.Where(r =>
-                !r.IsAnswered && !DoHallsHaveEnoughCapacity(r.DateTime, r.AmountOfPeople));
-
-            foreach (var requestToReject in requestsToReject)
-            {
-                requestToReject.Reject();
-            }
         }
     }
 }
