@@ -14,28 +14,21 @@ namespace OccBooking.Application.Handlers
 {
     public class CreatePlaceHandler : ICommandHandler<CreatePlaceCommand>
     {
-        private IOwnerRepository _ownerRepository;
+        private IPlaceRepository _placeRepository;
 
-        public CreatePlaceHandler(IOwnerRepository ownerRepository)
+        public CreatePlaceHandler(IPlaceRepository placeRepository)
         {
-            _ownerRepository = ownerRepository;
+            _placeRepository = placeRepository;
         }
 
         public async Task<Result> HandleAsync(CreatePlaceCommand command)
         {
             var place = new Place(command.Id, command.Name, command.HasRooms, command.Description,
-                new Address(command.Street, command.City, command.ZipCode, command.Province));
+                new Address(command.Street, command.City, command.ZipCode, command.Province), command.OwnerId);
 
-            var owner = await _ownerRepository.GetAsync(command.OwnerId);
+            await _placeRepository.AddAsync(place);
 
-            if (owner == null)
-            {
-                return Result.Fail("Owner with this id does not exists");
-            }
-
-            owner.AddPlace(place);
-
-            await _ownerRepository.SaveAsync();
+            await _placeRepository.SaveAsync();
 
             return Result.Ok();
         }

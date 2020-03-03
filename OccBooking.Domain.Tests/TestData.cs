@@ -24,6 +24,6 @@ namespace OccBooking.Domain.Tests
             OccasionType.FuneralMeal, new List<PlaceAdditionalOption>(), CorrectMenuOrders);
 
         public static Place CorrectPlace => new Place(new Guid("619e8c4e-69ae-482a-98eb-492afe60352b"), "Calvados",
-            false, "", CorrectAddress);
+            false, "", CorrectAddress, new Guid("4ea10f9e-ae5f-43a1-acfa-c82b678e6ee1"));
     }
 }
