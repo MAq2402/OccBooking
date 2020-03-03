@@ -111,6 +111,11 @@ namespace OccBooking.Domain.Entities
 
         public void ValidateMakeReservationRequest(ReservationRequest request)
         {
+            if (!IsConfigured)
+            {
+                throw new DomainException("Place dose not contain all required information for the reservation request");
+            }
+
             if (!request.MenuOrders.Select(x => x.Menu).All(m => Menus.Contains(m)))
             {
                 throw new DomainException("Place does not contain some or all menus in reservation request");

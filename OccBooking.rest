@@ -1,6 +1,7 @@
 @url = https://localhost:44308/api/
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlYzQ4ODIwMC0yMGMyLTQ5NmQtYTJjMi05ZGM2N2RkNDJjODUiLCJqdGkiOiJkY2Y2ODNkZC05ZGY3LTQ1NDItYjY4My0zNjhiZGVmYmNmODUiLCJpYXQiOjE1NzE0MTI2NTcsInVzZXJJZCI6ImVjNDg4MjAwLTIwYzItNDk2ZC1hMmMyLTlkYzY3ZGQ0MmM4NSIsIm5iZiI6MTU3MTQxMjY1NiwiZXhwIjoxNTcxNDE5ODU2LCJpc3MiOiJPY2NCb29raW5nIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwLyJ9.k_bY3dr7z-bcbj1sn-RdtaDnnpqCGyVQME9xqoGYb0Q
-@ownerId = e8775e65-466b-43bf-b99c-daa84182c440
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYTkzZDkxZS1jZGQwLTQzM2ItYWYzNy1kYzQyOWU5OWYzZmMiLCJqdGkiOiI4MDQ1NGE3Mi02YWVmLTRhZGItOWQ5OS1hYmJjYTA0ZGY3MjgiLCJpYXQiOjE1ODMyNTczNTcsInVzZXJJZCI6IjJhOTNkOTFlLWNkZDAtNDMzYi1hZjM3LWRjNDI5ZTk5ZjNmYyIsIm5iZiI6MTU4MzI1NzM1NiwiZXhwIjoxNTgzMjY0NTU2LCJpc3MiOiJPY2NCb29raW5nIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwLyJ9.hoPHQSqiZ5_onm30LWtG3EZLarWh4FnpJQa6QaqE8c4
+@ownerId = 860288ff-8176-4b7e-abed-d0dd11dbd04b
+@placeId = 7f5e608a-94b0-40d1-b167-fd4b209a2686
 POST {{url}}auth/register HTTP/1.1
 content-type: application/json
 
@@ -35,10 +36,49 @@ authorization: Bearer {{authToken}}
 {
   "name": "string",
   "hasRooms": true,
-  "costPerPerson": 1,
   "description": "string",
   "street": "sezamkowa",
   "city": "string",
   "zipCode": "11-111",
   "province": "śląskie"
+}
+
+POST {{url}}places/{{placeId}}/reservationRequests HTTP/1.1
+content-type: application/json
+authorization: Bearer {{authToken}}
+
+{
+  "clientFirstName": "Michal",
+  "clientLastName": "Miciak",
+  "clientEmail": "mm@com.pl",
+  "clientPhoneNumber": "505111222",
+  "date": "2020-03-03",
+  "options": [
+    {
+      "name": "fotograf",
+      "cost": 50
+    }
+  ],
+  "occasionType": "Wedding",
+  "menuOrders": [
+    {
+      "menu": {
+        "id": "string",
+        "name": "string",
+        "costPerPerson": 0,
+        "type": 0,
+        "meals": [
+          {
+            "ingredients": [
+              "string"
+            ],
+            "name": "string",
+            "description": "string",
+            "type": 0
+          }
+        ]
+      },
+      "amountOfPeople": 0
+    }
+  ]
 }

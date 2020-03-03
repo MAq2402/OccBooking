@@ -35,7 +35,11 @@ namespace OccBooking.Application.EventHandlers
 
             await MakeHallsReservationsAsync(reservationRequest, @event.HallIds);
 
+            await _hallRepository.SaveAsync();
+
             await RejectImpossibleReservationsRequestsAsync(@event.PlaceId);
+
+            await _reservationRequestRepository.SaveAsync();
 
             await SendEmailAsync(@event);
         }
