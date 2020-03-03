@@ -11,29 +11,6 @@ namespace OccBooking.Domain.Tests.Entities
 {
     public class OwnerTests
     {
-        [Fact]
-        public void AddPlaceShouldThrowDomainException()
-        {
-            var owner = new Owner(Guid.NewGuid(), "Michał", "Miciak", "michal@miciak.com", "111111111");
-
-            Action action = () => owner.AddPlace(null);
-
-            Assert.Throws<DomainException>(action);
-        }
-
-        [Fact]
-        public void AddPlaceShouldWork()
-        {
-            var owner = new Owner(Guid.NewGuid(), "Michał", "Miciak", "michal@miciak.com", "111111111");
-            var place = CorrectPlace;
-
-            owner.AddPlace(place);
-            var expected = true;
-            var actual = owner.Places.Contains(place);
-
-            Assert.Equal(expected, actual);
-        }
-
         [Theory]
         [InlineData("", "Miciak", "michal@miciak.com", "111111111")]
         [InlineData("Michał", "", "michal@miciak.com", "111111111")]

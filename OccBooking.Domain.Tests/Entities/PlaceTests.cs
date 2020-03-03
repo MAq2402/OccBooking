@@ -20,13 +20,13 @@ namespace OccBooking.Domain.Tests.Entities
         public void CreationShouldFail(string name)
         {
             Assert.Throws<DomainException>(() =>
-                new Place(Guid.NewGuid(), name, false, "", CorrectAddress));
+                new Place(Guid.NewGuid(), name, false, "", CorrectAddress, Guid.NewGuid()));
         }
 
         [Fact]
         public void CreationShouldWork()
         {
-            var place = new Place(Guid.NewGuid(), "Calvados", false, "Nice place", CorrectAddress);
+            var place = new Place(Guid.NewGuid(), "Calvados", false, "Nice place", CorrectAddress, Guid.NewGuid());
 
             Assert.Equal("Calvados", place.Name);
             Assert.False(place.HasRooms);

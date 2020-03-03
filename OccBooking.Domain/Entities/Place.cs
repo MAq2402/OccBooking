@@ -18,12 +18,13 @@ namespace OccBooking.Domain.Entities
         private List<EmptyPlaceReservation> emptyReservations = new List<EmptyPlaceReservation>();
 
         public Place(Guid id, string name, bool hasRooms, string description,
-            Address address) : base(id)
+            Address address, Guid ownerId) : base(id)
         {
             SetName(name);
             HasRooms = hasRooms;
             Description = description;
             Address = address;
+            OwnerId = ownerId;
         }
 
         private Place()
@@ -50,6 +51,7 @@ namespace OccBooking.Domain.Entities
         public string Name { get; private set; }
         public bool HasRooms { get; private set; }
         public string Description { get; private set; }
+        public Guid OwnerId { get; private set; }
         public Owner Owner { get; private set; }
         public Address Address { get; private set; }
         public int Capacity => CalculateCapacity(halls);

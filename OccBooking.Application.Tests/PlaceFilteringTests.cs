@@ -13,11 +13,11 @@ namespace OccBooking.Application.Tests
         public void FilteringByDatesShouldWork()
         {
             var address = new Address("Some", "Some", "43-186", "śląskie");
-            var place1 = new Place(Guid.NewGuid(), "Some1", true, "", address);
-            var place2 = new Place(Guid.NewGuid(), "Some2", true, "", address);
-            var place3 = new Place(Guid.NewGuid(), "Some3", true, "", address);
-            var place4 = new Place(Guid.NewGuid(), "Some4", true, "", address);
-            var place5 = new Place(Guid.NewGuid(), "Some5", true, "", address);
+            var place1 = new Place(Guid.NewGuid(), "Some1", true, "", address, Guid.NewGuid());
+            var place2 = new Place(Guid.NewGuid(), "Some2", true, "", address, Guid.NewGuid());
+            var place3 = new Place(Guid.NewGuid(), "Some3", true, "", address, Guid.NewGuid());
+            var place4 = new Place(Guid.NewGuid(), "Some4", true, "", address, Guid.NewGuid());
+            var place5 = new Place(Guid.NewGuid(), "Some5", true, "", address, Guid.NewGuid());
 
             var hall1 = new Hall(Guid.NewGuid(), "Hall", 100);
             hall1.MakeEmptyReservation(DateTime.Today.Date);

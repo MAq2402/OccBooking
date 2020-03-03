@@ -26,15 +26,5 @@ namespace OccBooking.Domain.Entities
         public PersonName Name { get; private set; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }
-
-        public void AddPlace(Place place)
-        {
-            if (place == null)
-            {
-                throw new DomainException("Place has not been provided");
-            }
-
-            _places.Add(place);
-        }
     }
 }
