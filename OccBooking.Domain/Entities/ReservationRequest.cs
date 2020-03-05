@@ -14,12 +14,13 @@ namespace OccBooking.Domain.Entities
         private string additionalOptions = string.Empty;
         private List<MenuOrder> _menuOrders;
 
-        public ReservationRequest(Guid id,
+        private ReservationRequest(Guid id,
             DateTime dateTime,
             Client client,
             OccasionType occasionType,
             IEnumerable<PlaceAdditionalOption> additionalOptions,
             IEnumerable<MenuOrder> menuOrders,
+            Guid placeId,
             string placeName = "") : base(id)
         {
             SetDateTime(dateTime);
@@ -29,11 +30,25 @@ namespace OccBooking.Domain.Entities
             AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
             CalculateCost();
             CalculateAmountOfPeople();
+            PlaceId = placeId;
             AddEvent(new ReservationRequestCreated(Id));
         }
 
         private ReservationRequest()
         {
+        }
+
+        public static ReservationRequest MakeReservationRequest(Guid id,
+            DateTime dateTime,
+            Client client,
+            OccasionType occasionType,
+            IEnumerable<PlaceAdditionalOption> additionalOptions,
+            IEnumerable<MenuOrder> menuOrders,
+            Guid placeId,
+            string placeName = "")
+        {
+            return new ReservationRequest(id, dateTime, client, occasionType, additionalOptions, menuOrders, placeId,
+                placeName);
         }
 
         public PlaceAdditionalOptions AdditionalOptions
@@ -46,6 +61,7 @@ namespace OccBooking.Domain.Entities
         public Client Client { get; private set; }
         public Place Place { get; private set; }
         public IEnumerable<MenuOrder> MenuOrders => _menuOrders;
+        public Guid PlaceId { get; private set; }
         public decimal Cost { get; private set; }
         public bool IsAccepted { get; private set; }
         public bool IsRejected { get; private set; }

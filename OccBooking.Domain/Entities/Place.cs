@@ -103,41 +103,6 @@ namespace OccBooking.Domain.Entities
             AvailableOccasionTypes = AvailableOccasionTypes.RemoveType(partyType);
         }
 
-        public void MakeReservationRequest(ReservationRequest request)
-        {
-            ValidateMakeReservationRequest(request);
-            reservationReqeusts.Add(request);
-        }
-
-        public void ValidateMakeReservationRequest(ReservationRequest request)
-        {
-            if (!IsConfigured)
-            {
-                throw new DomainException("Place dose not contain all required information for the reservation request");
-            }
-
-            if (!request.MenuOrders.Select(x => x.Menu).All(m => Menus.Contains(m)))
-            {
-                throw new DomainException("Place does not contain some or all menus in reservation request");
-            }
-
-            if (!AvailableOccasionTypes.Contains(request.OccasionType))
-            {
-                throw new DomainException("Place does not allow to organize such an events");
-            }
-
-            if (!DoHallsHaveEnoughCapacity(request.DateTime, request.AmountOfPeople))
-            {
-                throw new DomainException(
-                    "Making reservation on this date and with this amount of people is impossible");
-            }
-
-            if (!request.AdditionalOptions.All(o => AdditionalOptions.Contains(o)))
-            {
-                throw new DomainException("Place dose not support those options");
-            }
-        }
-
         public void MakeEmptyReservation(DateTime date)
         {
             emptyReservations.Add(new EmptyPlaceReservation(date));

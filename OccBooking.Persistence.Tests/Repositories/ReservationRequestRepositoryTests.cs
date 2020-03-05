@@ -41,30 +41,34 @@ namespace OccBooking.Persistence.Tests.Repositories
             place.AddHall(hall1);
             place.AddHall(hall2);
             place.AddHall(hall3);
-            var reservation1 = new ReservationRequest(Guid.NewGuid(),
+            var reservation1 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation2 = new ReservationRequest(Guid.NewGuid(),
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
+                place.Id);
+            var reservation2 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation3 = new ReservationRequest(Guid.NewGuid(),
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
+                place.Id);
+            var reservation3 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 50)});
-            var reservation4 = new ReservationRequest(Guid.NewGuid(),
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
+                place.Id);
+            var reservation4 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() {new MenuOrder(menu, 30)});
+                new List<MenuOrder>() {new MenuOrder(menu, 30)},
+                place.Id);
             dbContext.Add(menu);
             dbContext.Add(reservation1);
             dbContext.Add(reservation2);
@@ -74,10 +78,6 @@ namespace OccBooking.Persistence.Tests.Repositories
             dbContext.Add(hall1);
             dbContext.Add(hall2);
             dbContext.Add(hall3);
-            place.MakeReservationRequest(reservation1);
-            place.MakeReservationRequest(reservation2);
-            place.MakeReservationRequest(reservation3);
-            place.MakeReservationRequest(reservation4);
             hall1.MakeReservation(reservation1);
             hall2.MakeReservation(reservation1);
             reservation1.Accept(place.Id, new List<Guid>() {hall1.Id, hall2.Id}.AsEnumerable());
