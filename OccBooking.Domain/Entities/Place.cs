@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OccBooking.Domain.Events;
 
 namespace OccBooking.Domain.Entities
 {
@@ -107,15 +108,7 @@ namespace OccBooking.Domain.Entities
         {
             emptyReservations.Add(new EmptyPlaceReservation(date));
 
-            RejectRequestsForDate(date);
-        }
-
-        private void RejectRequestsForDate(DateTime date)
-        {
-            foreach (var requestToReject in reservationReqeusts.Where(r => r.DateTime == date && !r.IsAnswered))
-            {
-                requestToReject.Reject();
-            }
+            AddEvent(new EmptyPlaceReservationMade(Id, date));
         }
 
         private int CalculateCapacity(IEnumerable<Hall> halls)
