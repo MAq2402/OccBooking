@@ -39,6 +39,13 @@ namespace OccBooking.Persistence.Repositories
                 !r.IsAnswered && !DoHallsHaveEnoughCapacity(halls, r.DateTime, r.AmountOfPeople)).ToListAsync();
         }
 
+        public async Task<IEnumerable<ReservationRequest>> GetReservationRequestsAsync(Guid placeId, DateTime dateTime,
+            bool isAnswered)
+        {
+            return await _dbContext.ReservationRequests.Include(r => r.Place).Where(r =>
+                r.PlaceId == placeId && r.DateTime == dateTime && r.IsAnswered == isAnswered).ToListAsync();
+        }
+
         private bool DoHallsHaveEnoughCapacity(IEnumerable<Hall> halls, DateTime dateTime, int amountOfPeople)
         {
             return amountOfPeople <= _hallService.CalculateCapacity(halls, dateTime);

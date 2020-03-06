@@ -10,5 +10,7 @@ namespace OccBooking.Persistence.Repositories
     {
         Task<ReservationRequest> GetReservationRequestAsync(Guid id);
         Task<IEnumerable<ReservationRequest>> GetImpossibleReservationRequestsAsync(Guid placeId, DateTime dateTime);
+        Task<IEnumerable<ReservationRequest>> GetReservationRequestsAsync(Guid placeId, DateTime dateTime,
+            bool isAnswered);
     }
 }
