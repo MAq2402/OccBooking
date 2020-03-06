@@ -8,6 +8,7 @@ using OccBooking.Application.Commands;
 using OccBooking.Application.DTOs;
 using OccBooking.Common.Hanlders;
 using OccBooking.Domain.Entities;
+using OccBooking.Domain.Services;
 using OccBooking.Domain.ValueObjects;
 using OccBooking.Persistence.Repositories;
 
@@ -15,13 +16,18 @@ namespace OccBooking.Application.Handlers
 {
     public class MakeReservationRequestHandler : ICommandHandler<MakeReservationRequestCommand>
     {
-        private IPlaceRepository _placeRepository;
-        private IMenuRepository _menuRepository;
+        private readonly IPlaceRepository _placeRepository;
+        private readonly IMenuRepository _menuRepository;
+        private readonly IReservationRequestRepository _reservationRequestRepository;
+        private readonly IReservationRequestService _reservationRequestService;
 
-        public MakeReservationRequestHandler(IPlaceRepository placeRepository, IMenuRepository menuRepository)
+        public MakeReservationRequestHandler(IPlaceRepository placeRepository, IMenuRepository menuRepository,
+            IReservationRequestRepository reservationRequestRepository, IReservationRequestService reservationRequestService)
         {
             _placeRepository = placeRepository;
             _menuRepository = menuRepository;
+            _reservationRequestRepository = reservationRequestRepository;
+            _reservationRequestService = reservationRequestService;
         }
 
         public async Task<Result> HandleAsync(MakeReservationRequestCommand command)
@@ -37,14 +43,15 @@ namespace OccBooking.Application.Handlers
 
             var optionsForReservationRequest = MapPlaceAdditionalOptions(command.Options);
 
-            var reservationRequest = new ReservationRequest(Guid.NewGuid(), command.Date,
+            var reservationRequest = ReservationRequest.MakeReservationRequest(Guid.NewGuid(), command.Date,
                 new Client(command.ClientFirstName, command.ClientLastName, command.ClientEmail,
                     command.ClientPhoneNumber), command.OccasionType, optionsForReservationRequest, menuOrders,
-                place.Name);
+                place.Id, place.Name);
 
-            place.MakeReservationRequest(reservationRequest);
+            _reservationRequestService.ValidateMakeReservationRequest(place, reservationRequest);
 
-            await _placeRepository.SaveAsync();
+            await _reservationRequestRepository.AddAsync(reservationRequest);
+            await _reservationRequestRepository.SaveAsync();
 
             return Result.Ok();
         }

@@ -18,12 +18,13 @@ namespace OccBooking.Domain.Tests.Entities
         [ClassData(typeof(DataForCreationShouldFail))]
         public void CreationShouldFail(DateTime dateTime, Client client)
         {
-            Action action = () => new ReservationRequest(Guid.NewGuid(),
+            Action action = () => ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 dateTime,
                 client,
                 OccasionType.FuneralMeal,
                 Enumerable.Empty<PlaceAdditionalOption>(),
-                CorrectMenuOrders);
+                CorrectMenuOrders,
+                Guid.NewGuid());
 
             Assert.Throws<DomainException>(action);
         }
@@ -114,11 +115,12 @@ namespace OccBooking.Domain.Tests.Entities
             decimal expectedCost,
             int expectedAmountOfPeople)
         {
-            var reservation = new ReservationRequest(Guid.NewGuid(),
+            var reservation = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today, CorrectClient,
                 OccasionType.FuneralMeal,
                 options,
-                menuOrders);
+                menuOrders,
+                Guid.NewGuid());
 
             var actualCost = reservation.Cost;
             var actualAmountOfPeople = reservation.AmountOfPeople;

@@ -79,9 +79,9 @@ namespace OccBooking.Domain.Tests.Entities
         public void IsFreeOnDateShouldWork()
         {
             var hall = TestData.CorrectHall;
-            var reservation = new ReservationRequest(Guid.NewGuid(),
+            var reservation = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today, TestData.CorrectClient, OccasionType.FuneralMeal,
-                new List<PlaceAdditionalOption>(), CorrectMenuOrders);
+                new List<PlaceAdditionalOption>(), CorrectMenuOrders, Guid.NewGuid());
             hall.MakeReservation(reservation);
 
             Assert.True(hall.IsFreeOnDate(DateTime.Today.AddDays(1)));
@@ -92,9 +92,9 @@ namespace OccBooking.Domain.Tests.Entities
         public void MakeReservationShouldWork()
         {
             var hall = new Hall(Guid.NewGuid(), "Big", 40);
-            var reservation = new ReservationRequest(Guid.NewGuid(),
+            var reservation = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today, TestData.CorrectClient, OccasionType.FuneralMeal,
-                new List<PlaceAdditionalOption>(), CorrectMenuOrders);
+                new List<PlaceAdditionalOption>(), CorrectMenuOrders, Guid.NewGuid());
 
             hall.MakeReservation(reservation);
 
