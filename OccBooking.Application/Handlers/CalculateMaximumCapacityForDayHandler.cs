@@ -8,15 +8,19 @@ using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
+using OccBooking.Domain.Services;
 using OccBooking.Persistence.DbContexts;
 
 namespace OccBooking.Application.Handlers
 {
     public class CalculateMaximumCapacityForDayHandler : QueryHandler<CalculateMaximumCapacityForDayQuery, int>
     {
-        public CalculateMaximumCapacityForDayHandler(OccBookingDbContext dbContext, IMapper mapper) : base(dbContext,
+        private readonly IHallService _hallService;
+
+        public CalculateMaximumCapacityForDayHandler(OccBookingDbContext dbContext, IMapper mapper, IHallService hallService) : base(dbContext,
             mapper)
         {
+            _hallService = hallService;
         }
 
         public override async Task<Result<int>> HandleAsync(CalculateMaximumCapacityForDayQuery query)
@@ -41,7 +45,7 @@ namespace OccBooking.Application.Handlers
                 return Result.Fail<int>("Place with given id does not exist");
             }
 
-            return Result.Ok(place.CalculateCapacity(halls, query.Date));
+            return Result.Ok(_hallService.CalculateCapacity(halls, query.Date));
         }
     }
 }

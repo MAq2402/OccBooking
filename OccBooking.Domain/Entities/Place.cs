@@ -118,22 +118,6 @@ namespace OccBooking.Domain.Entities
             }
         }
 
-        public void RejectReservationsRequestsIfNotEnoughCapacity()
-        {
-            var requestsToReject = ReservationRequests.Where(r =>
-                !r.IsAnswered && !DoHallsHaveEnoughCapacity(r.DateTime, r.AmountOfPeople));
-
-            foreach (var requestToReject in requestsToReject)
-            {
-                requestToReject.Reject();
-            }
-        }
-
-        private bool DoHallsHaveEnoughCapacity(DateTime dateTime, int amountOfPeople)
-        {
-            return amountOfPeople <= CalculateCapacity(Halls.Where(h => h.IsFreeOnDate(dateTime)), dateTime);
-        }
-
         private int CalculateCapacity(IEnumerable<Hall> halls)
         {
             return halls.Any()
@@ -141,22 +125,6 @@ namespace OccBooking.Domain.Entities
                     h.PossibleJoins.Where(j => j.FirstHall == h).Sum(x => x.SecondHall.Capacity) +
                     h.PossibleJoins.Where(j => j.SecondHall == h).Sum(x => x.FirstHall.Capacity) + h.Capacity)
                 : 0;
-        }
-
-        public int CalculateCapacity(IEnumerable<Hall> halls, DateTime dateTime)
-        {
-            return halls.Any()
-                ? halls.Max(h =>
-                    h.PossibleJoins.Where(j => j.FirstHall == h && IsHallFreeOnDate(j.SecondHall, dateTime))
-                        .Sum(x => x.SecondHall.Capacity) +
-                    h.PossibleJoins.Where(j => j.SecondHall == h && IsHallFreeOnDate(j.FirstHall, dateTime))
-                        .Sum(x => x.FirstHall.Capacity) + h.Capacity)
-                : 0;
-        }
-
-        private bool IsHallFreeOnDate(Hall hall, DateTime dateTime)
-        {
-            return hall.IsFreeOnDate(dateTime);
         }
 
         public bool ContainsHalls(IEnumerable<Hall> halls)

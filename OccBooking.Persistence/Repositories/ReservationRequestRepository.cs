@@ -30,11 +30,12 @@ namespace OccBooking.Persistence.Repositories
             return await _dbContext.ReservationRequests.Include(r => r.Place).FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task<IEnumerable<ReservationRequest>> GetImpossibleReservationRequestsAsync(Guid placeId)
+        public async Task<IEnumerable<ReservationRequest>> GetImpossibleReservationRequestsAsync(Guid placeId,
+            DateTime dateTime)
         {
             var halls = await _hallRepository.GetHallsAsync(placeId);
             return await _dbContext.ReservationRequests.Include(r => r.Place).Where(r =>
-                r.Place.Id == placeId &&
+                r.Place.Id == placeId && r.DateTime == dateTime &&
                 !r.IsAnswered && !DoHallsHaveEnoughCapacity(halls, r.DateTime, r.AmountOfPeople)).ToListAsync();
         }
 
