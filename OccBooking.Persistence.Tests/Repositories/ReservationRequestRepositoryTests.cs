@@ -84,7 +84,7 @@ namespace OccBooking.Persistence.Tests.Repositories
             var sut = new ReservationRequestRepository(dbContext, hallRepositoryMock.Object, hallServiceMock.Object,
                 eventDispatcherMock.Object);
 
-            var result = await sut.GetImpossibleReservationRequestsAsync(place.Id);
+            var result = await sut.GetImpossibleReservationRequestsAsync(place.Id, DateTime.Today);
 
             Assert.Contains(reservation2, result);
             Assert.DoesNotContain(reservation1, result);

@@ -37,7 +37,7 @@ namespace OccBooking.Application.EventHandlers
 
             await _hallRepository.SaveAsync();
 
-            await RejectImpossibleReservationsRequestsAsync(@event.PlaceId);
+            await RejectImpossibleReservationsRequestsAsync(@event.PlaceId, reservationRequest.DateTime);
 
             await _reservationRequestRepository.SaveAsync();
 
@@ -53,9 +53,9 @@ namespace OccBooking.Application.EventHandlers
             }
         }
 
-        public async Task RejectImpossibleReservationsRequestsAsync(Guid placeId)
+        private async Task RejectImpossibleReservationsRequestsAsync(Guid placeId, DateTime dateTime)
         {
-            var requestsToReject = await _reservationRequestRepository.GetImpossibleReservationRequestsAsync(placeId);
+            var requestsToReject = await _reservationRequestRepository.GetImpossibleReservationRequestsAsync(placeId, dateTime);
 
             foreach (var requestToReject in requestsToReject)
             {
