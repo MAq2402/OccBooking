@@ -6,19 +6,23 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OccBooking.Common.Dispatchers;
 using OccBooking.Domain.Entities;
+using OccBooking.Domain.Services;
 using OccBooking.Persistence.DbContexts;
 
 namespace OccBooking.Persistence.Repositories
 {
     public class ReservationRequestRepository : Repository<ReservationRequest>, IReservationRequestRepository
     {
-        private IHallRepository _hallRepository;
+        private readonly IHallRepository _hallRepository;
+        private readonly IHallService _hallService;
 
         public ReservationRequestRepository(OccBookingDbContext dbContext, IHallRepository hallRepository,
+            IHallService hallService,
             IEventDispatcher eventDispatcher) : base(
             dbContext, eventDispatcher)
         {
             _hallRepository = hallRepository;
+            _hallService = hallService;
         }
 
         public async Task<ReservationRequest> GetReservationRequestAsync(Guid id)
@@ -36,18 +40,7 @@ namespace OccBooking.Persistence.Repositories
 
         private bool DoHallsHaveEnoughCapacity(IEnumerable<Hall> halls, DateTime dateTime, int amountOfPeople)
         {
-            return amountOfPeople <= CalculateCapacity(halls.Where(h => h.IsFreeOnDate(dateTime)), dateTime);
-        }
-
-        private int CalculateCapacity(IEnumerable<Hall> halls, DateTime dateTime)
-        {
-            return halls.Any()
-                ? halls.Max(h =>
-                    h.PossibleJoins.Where(j => j.FirstHall == h && j.SecondHall.IsFreeOnDate(dateTime))
-                        .Sum(x => x.SecondHall.Capacity) +
-                    h.PossibleJoins.Where(j => j.SecondHall == h && j.FirstHall.IsFreeOnDate(dateTime))
-                        .Sum(x => x.FirstHall.Capacity) + h.Capacity)
-                : 0;
+            return amountOfPeople <= _hallService.CalculateCapacity(halls, dateTime);
         }
     }
 }

@@ -12,6 +12,7 @@ using OccBooking.Common.Dispatchers;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.Enums;
 using OccBooking.Domain.Events;
+using OccBooking.Domain.Services;
 using OccBooking.Domain.ValueObjects;
 using Xunit;
 
@@ -21,6 +22,7 @@ namespace OccBooking.Persistence.Tests.Repositories
     {
         public static Client CorrectClient => new Client("Michal", "Kowalski", "michal@michal.com", "505111111");
         public static Address CorrectAddress => new Address("Akacjowa", "Orzesze", "43-100", "śląskie");
+
         public static Place CorrectPlace => new Place(new Guid("619e8c4e-69ae-482a-98eb-492afe60352b"), "Calvados",
             false, "", CorrectAddress, new Guid("4ea10f9e-ae5f-43a1-acfa-c82b678e6ee1"));
 
@@ -29,18 +31,13 @@ namespace OccBooking.Persistence.Tests.Repositories
         {
             var dbContext = GetDatabaseContext();
             var hallRepositoryMock = new Mock<IHallRepository>();
+            var hallServiceMock = new Mock<IHallService>();
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 50);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            hall2.AddPossibleJoin(hall3);
             place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
             var reservation1 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
@@ -75,17 +72,16 @@ namespace OccBooking.Persistence.Tests.Repositories
             dbContext.Add(reservation3);
             dbContext.Add(reservation4);
             dbContext.Add(place);
-            dbContext.Add(hall1);
-            dbContext.Add(hall2);
-            dbContext.Add(hall3);
-            hall1.MakeReservation(reservation1);
-            hall2.MakeReservation(reservation1);
-            reservation1.Accept(place.Id, new List<Guid>() {hall1.Id, hall2.Id}.AsEnumerable());
+            reservation1.Accept(place.Id, new List<Guid>() {hall1.Id}.AsEnumerable());
             dbContext.SaveChanges();
             hallRepositoryMock.Setup(m => m.GetHallsAsync(place.Id))
-                .ReturnsAsync(new List<Hall>() {hall1, hall2, hall3});
+                .ReturnsAsync(new List<Hall>() {hall1});
+            hallServiceMock.SetupSequence(m => m.CalculateCapacity(It.IsAny<List<Hall>>(), It.IsAny<DateTime>()))
+                .Returns(30)
+                .Returns(90)
+                .Returns(30);
             var eventDispatcherMock = new Mock<EventDispatcher>(null);
-            var sut = new ReservationRequestRepository(dbContext, hallRepositoryMock.Object,
+            var sut = new ReservationRequestRepository(dbContext, hallRepositoryMock.Object, hallServiceMock.Object,
                 eventDispatcherMock.Object);
 
             var result = await sut.GetImpossibleReservationRequestsAsync(place.Id);
