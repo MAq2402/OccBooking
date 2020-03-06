@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Moq;
 using OccBooking.Domain.Entities;
 using OccBooking.Domain.Enums;
 using OccBooking.Domain.Events;
@@ -18,10 +19,12 @@ namespace OccBooking.Domain.Tests.Services
     {
         [Theory]
         [ClassData(typeof(ValidateMakeReservationRequest_ShouldThrowException_PlaceDoesNotHaveGivenMenu_Data))]
-        public void ValidateMakeReservationRequest_ShouldThrowException_PlaceDoesNotHaveGivenMenu(IEnumerable<Hall> halls, IEnumerable<Menu> menus,
+        public void ValidateMakeReservationRequest_ShouldThrowException_PlaceDoesNotHaveGivenMenu(
+            IEnumerable<Hall> halls, IEnumerable<Menu> menus,
             OccasionTypes occasionTypes, bool isConfiguredResult)
         {
-            var sut = new ReservationRequestService();
+            var mockedHallService = new Mock<IHallService>();
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var place = CorrectPlace;
             foreach (var hall in halls)
             {
@@ -42,10 +45,12 @@ namespace OccBooking.Domain.Tests.Services
 
             Assert.False(isConfiguredResult);
             var execption = Assert.Throws<DomainException>(action);
-            Assert.Equal("Place dose not contain all required information for the reservation request", execption.Message);
+            Assert.Equal("Place dose not contain all required information for the reservation request",
+                execption.Message);
         }
 
-        private class ValidateMakeReservationRequest_ShouldThrowException_PlaceDoesNotHaveGivenMenu_Data : IEnumerable<object[]>
+        private class
+            ValidateMakeReservationRequest_ShouldThrowException_PlaceDoesNotHaveGivenMenu_Data : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
@@ -60,7 +65,11 @@ namespace OccBooking.Domain.Tests.Services
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotHaveGivenMenu()
         {
-            var sut = new ReservationRequestService();
+            var amountOfPeople = 100;
+            var mockedHallService = new Mock<IHallService>();
+            mockedHallService.Setup(m => m.CalculateCapacity(It.IsAny<List<Hall>>(), It.IsAny<DateTime>()))
+                .Returns(amountOfPeople);
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var hall = new Hall(Guid.NewGuid(), "Big", 100);
             var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
@@ -76,7 +85,7 @@ namespace OccBooking.Domain.Tests.Services
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menuForReservation, 100) },
+                new List<MenuOrder>() {new MenuOrder(menuForReservation, amountOfPeople)},
                 place.Id
             );
 
@@ -89,7 +98,11 @@ namespace OccBooking.Domain.Tests.Services
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotSupportSuchParty()
         {
-            var sut = new ReservationRequestService();
+            var amountOfPeople = 100;
+            var mockedHallService = new Mock<IHallService>();
+            mockedHallService.Setup(m => m.CalculateCapacity(It.IsAny<List<Hall>>(), It.IsAny<DateTime>()))
+                .Returns(amountOfPeople);
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var hall = new Hall(Guid.NewGuid(), "Big", 100);
             var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
@@ -104,7 +117,7 @@ namespace OccBooking.Domain.Tests.Services
                 CorrectClient,
                 OccasionType.FuneralMeal,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 100) },
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople)},
                 place.Id);
 
             Action action = () => sut.ValidateMakeReservationRequest(place, reservation);
@@ -116,7 +129,11 @@ namespace OccBooking.Domain.Tests.Services
         [Fact]
         public void ValidateMakeReservationRequestShouldThrowExceptionBecausePlaceDoesNotSupportOption()
         {
-            var sut = new ReservationRequestService();
+            var amountOfPeople = 100;
+            var mockedHallService = new Mock<IHallService>();
+            mockedHallService.Setup(m => m.CalculateCapacity(It.IsAny<List<Hall>>(), It.IsAny<DateTime>()))
+                .Returns(amountOfPeople);
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var hall = new Hall(Guid.NewGuid(), "Big", 100);
             var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
@@ -130,8 +147,8 @@ namespace OccBooking.Domain.Tests.Services
                 DateTime.Now,
                 CorrectClient,
                 OccasionType.Wedding,
-                new List<PlaceAdditionalOption>() { new PlaceAdditionalOption("Photos", 50) },
-                new List<MenuOrder>() { new MenuOrder(menu, 100) },
+                new List<PlaceAdditionalOption>() {new PlaceAdditionalOption("Photos", 50)},
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeople)},
                 place.Id);
 
             Action action = () => sut.ValidateMakeReservationRequest(place, reservation);
@@ -141,72 +158,26 @@ namespace OccBooking.Domain.Tests.Services
         }
 
         [Theory]
-        [InlineData(10, 20, 10, 29, 11)]
-        [InlineData(10, 20, 10, 1, 11)]
-        public void ValidateMakeReservationRequestShouldThrowExceptionBecauseOfCapacity_2(int hallSize1,
-            int hallSize2,
-            int hallSize3,
-            int amountOfPeople1,
-            int amountOfPeople2)
+        [InlineData(101, 100)]
+        public void ValidateMakeReservationRequestShouldThrowExceptionBecauseOfCapacity_2(
+            int amountOfPeopleForReservation, int calculateCapacityResult)
         {
-            var sut = new ReservationRequestService();
-            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3);
+            var mockedHallService = new Mock<IHallService>();
+            mockedHallService.Setup(m => m.CalculateCapacity(It.IsAny<List<Hall>>(), It.IsAny<DateTime>()))
+                .Returns(calculateCapacityResult);
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var place = CorrectPlace;
+            var hall = new Hall(Guid.NewGuid(), "Big", 1);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-            var reservation1 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople1) },
-                place.Id);
-            var reservation2 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
-                DateTime.Today,
-                CorrectClient,
-                OccasionType.Wedding,
-                new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople2) },
-                place.Id);
-
-            hall1.MakeReservation(reservation1);
-            hall2.MakeReservation(reservation2);
-            Action action = () => sut.ValidateMakeReservationRequest(place, reservation2);
-
-            var exception = Assert.Throws<DomainException>(action);
-            Assert.Equal("Making reservation on this date and with this amount of people is impossible",
-                exception.Message);
-        }
-
-        [Theory]
-        [InlineData(10, 20, 31)]
-        public void ValidateMakeReservationRequestShouldThrowExceptionBecauseOfCapacity_3(int hallSize1,
-            int hallSize2,
-            int amountOfPeople1)
-        {
-            var sut = new ReservationRequestService();
-            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
-            var place = CorrectPlace;
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
-            place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
-            hall1.AddPossibleJoin(hall2);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
+            place.AddHall(hall);
             var reservation = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, amountOfPeople1) },
+                new List<MenuOrder>() {new MenuOrder(menu, amountOfPeopleForReservation)},
                 place.Id);
 
             Action action = () => sut.ValidateMakeReservationRequest(place, reservation);
@@ -219,7 +190,8 @@ namespace OccBooking.Domain.Tests.Services
         [Fact]
         public void ValidateAcceptReservationRequest_PlaceDoesNotOwnHall_ShouldThrowException_()
         {
-            var sut = new ReservationRequestService();
+            var mockedHallService = new Mock<IHallService>();
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var menuCost = 50;
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -238,32 +210,32 @@ namespace OccBooking.Domain.Tests.Services
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation2 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation3 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation4 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) },
+                new List<MenuOrder>() {new MenuOrder(menu, 30)},
                 place.Id);
 
             var hall4 = new Hall(Guid.NewGuid(), "Big", 30);
-            Action action = () => sut.ValidateAcceptReservationRequest(place, reservation1, new List<Hall>() { hall4 });
+            Action action = () => sut.ValidateAcceptReservationRequest(place, reservation1, new List<Hall>() {hall4});
 
             var exception = Assert.Throws<DomainException>(action);
             Assert.Equal("Place does not contain given halls", exception.Message);
@@ -272,7 +244,8 @@ namespace OccBooking.Domain.Tests.Services
         [Fact]
         public void ValidateAcceptReservationRequestShouldThrowException_EmptyHallList()
         {
-            var sut = new ReservationRequestService();
+            var mockedHallService = new Mock<IHallService>();
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var menuCost = 50;
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -291,28 +264,28 @@ namespace OccBooking.Domain.Tests.Services
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation2 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation3 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation4 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) },
+                new List<MenuOrder>() {new MenuOrder(menu, 30)},
                 place.Id);
 
             Action action = () => sut.ValidateAcceptReservationRequest(place, reservation1, new List<Hall>() { });
@@ -321,10 +294,11 @@ namespace OccBooking.Domain.Tests.Services
             Assert.Equal("Halls has not been provided", exception.Message);
         }
 
-        [Fact(Skip="Not implemented functionality")]
+        [Fact(Skip = "Not implemented functionality")]
         public void ValidateAcceptReservationRequestShouldThrowException_ReservationIsForDifferentPlace()
         {
-            var sut = new ReservationRequestService();
+            var mockedHallService = new Mock<IHallService>();
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var menuCost = 50;
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -343,31 +317,31 @@ namespace OccBooking.Domain.Tests.Services
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation2 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation3 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation4 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) },
+                new List<MenuOrder>() {new MenuOrder(menu, 30)},
                 place.Id);
 
-            Action action = () => sut.ValidateAcceptReservationRequest(place, reservation4, new List<Hall>() { hall1 });
+            Action action = () => sut.ValidateAcceptReservationRequest(place, reservation4, new List<Hall>() {hall1});
 
             var exception = Assert.Throws<DomainException>(action);
             Assert.Equal("Reservation does not belong to this place", exception.Message);
@@ -376,7 +350,8 @@ namespace OccBooking.Domain.Tests.Services
         [Fact]
         public void ValidateAcceptReservationRequestShouldThrowException_HallAlreadyReserved()
         {
-            var sut = new ReservationRequestService();
+            var mockedHallService = new Mock<IHallService>();
+            var sut = new ReservationRequestService(mockedHallService.Object);
             var menuCost = 50;
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
@@ -395,33 +370,33 @@ namespace OccBooking.Domain.Tests.Services
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation2 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation3 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today.AddDays(1),
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 50) },
+                new List<MenuOrder>() {new MenuOrder(menu, 50)},
                 place.Id);
             var reservation4 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
                 OccasionType.Wedding,
                 new List<PlaceAdditionalOption>(),
-                new List<MenuOrder>() { new MenuOrder(menu, 30) },
+                new List<MenuOrder>() {new MenuOrder(menu, 30)},
                 place.Id);
 
-            reservation4.Accept(place.Id, new List<Guid>() { hall1.Id });
+            reservation4.Accept(place.Id, new List<Guid>() {hall1.Id});
             hall1.MakeReservation(reservation4);
-            Action action = () => sut.ValidateAcceptReservationRequest(place, reservation4, new List<Hall>() { hall1 });
+            Action action = () => sut.ValidateAcceptReservationRequest(place, reservation4, new List<Hall>() {hall1});
 
             var exception = Assert.Throws<DomainException>(action);
             Assert.Equal("Some or all given halls are already reserved", exception.Message);

@@ -70,6 +70,7 @@ namespace OccBooking.Web
         public static void RegisterDomainServices(this ContainerBuilder builder)
         {
             builder.RegisterType<ReservationRequestService>().As<IReservationRequestService>();
+            builder.RegisterType<HallService>().As<IHallService>();
         }
     }
 }

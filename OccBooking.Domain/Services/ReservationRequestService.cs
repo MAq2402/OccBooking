@@ -9,6 +9,13 @@ namespace OccBooking.Domain.Services
 {
     public class ReservationRequestService : IReservationRequestService
     {
+        private readonly IHallService _hallService;
+
+        public ReservationRequestService(IHallService hallService)
+        {
+            _hallService = hallService;
+        }
+
         public void ValidateAcceptReservationRequest(Place place, ReservationRequest request, IEnumerable<Hall> halls)
         {
             if (!halls.Any())
@@ -44,7 +51,7 @@ namespace OccBooking.Domain.Services
                 throw new DomainException("Place does not allow to organize such an events");
             }
 
-            if (!DoHallsHaveEnoughCapacity(place.Halls, request.DateTime, request.AmountOfPeople))
+            if (request.AmountOfPeople > _hallService.CalculateCapacity(place.Halls, request.DateTime))
             {
                 throw new DomainException(
                     "Making reservation on this date and with this amount of people is impossible");
@@ -54,22 +61,6 @@ namespace OccBooking.Domain.Services
             {
                 throw new DomainException("Place dose not support those options");
             }
-        }
-
-        public bool DoHallsHaveEnoughCapacity(IEnumerable<Hall> halls, DateTime dateTime, int amountOfPeople)
-        {
-            return amountOfPeople <= CalculateCapacity(halls.Where(h => h.IsFreeOnDate(dateTime)), dateTime);
-        }
-
-        private int CalculateCapacity(IEnumerable<Hall> halls, DateTime dateTime)
-        {
-            return halls.Any()
-                ? halls.Max(h =>
-                    h.PossibleJoins.Where(j => j.FirstHall == h && j.SecondHall.IsFreeOnDate(dateTime))
-                        .Sum(x => x.SecondHall.Capacity) +
-                    h.PossibleJoins.Where(j => j.SecondHall == h && j.FirstHall.IsFreeOnDate(dateTime))
-                        .Sum(x => x.FirstHall.Capacity) + h.Capacity)
-                : 0;
         }
     }
 }
