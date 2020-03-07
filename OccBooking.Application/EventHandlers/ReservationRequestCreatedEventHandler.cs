@@ -23,11 +23,13 @@ namespace OccBooking.Application.EventHandlers
 
         public async Task HandleAsync(ReservationRequestCreated @event)
         {
-            var reservationRequest = await _dbContext.ReservationRequests.Include(r => r.Place)
+            var reservationRequest = await _dbContext.ReservationRequests
                 .FirstOrDefaultAsync(r => r.Id == @event.ReservationRequestId);
 
+            var place = await _dbContext.Places.FirstOrDefaultAsync(p => p.Id == reservationRequest.PlaceId);
+
             var emailMessage =
-                $@"Twoja rezerwacja miejsca {reservationRequest.Place.Name} na dzien {reservationRequest.DateTime:dd/MM/yyyy}
+                $@"Twoja rezerwacja miejsca {place.Name} na dzien {reservationRequest.DateTime:dd/MM/yyyy}
                 została utworzona pomyślnie. <h3>Podsumowanie</h3>";
             _emailService.Send(emailMessage, reservationRequest.Client);
         }

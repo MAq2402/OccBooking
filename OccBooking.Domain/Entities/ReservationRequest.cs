@@ -59,7 +59,6 @@ namespace OccBooking.Domain.Entities
 
         public DateTime DateTime { get; private set; }
         public Client Client { get; private set; }
-        public Place Place { get; private set; }
         public IEnumerable<MenuOrder> MenuOrders => _menuOrders;
         public Guid PlaceId { get; private set; }
         public decimal Cost { get; private set; }

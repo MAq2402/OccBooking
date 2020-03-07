@@ -13,7 +13,6 @@ namespace OccBooking.Domain.Entities
     {
         private string additionalOptions = string.Empty;
         private string availableOccasionTypes = string.Empty;
-        private List<ReservationRequest> reservationReqeusts = new List<ReservationRequest>();
         private List<Menu> menus = new List<Menu>();
         private List<Hall> halls = new List<Hall>();
         private List<EmptyPlaceReservation> emptyReservations = new List<EmptyPlaceReservation>();
@@ -32,7 +31,6 @@ namespace OccBooking.Domain.Entities
         {
         }
 
-        public IEnumerable<ReservationRequest> ReservationRequests => reservationReqeusts;
         public IEnumerable<Menu> Menus => menus;
         public IEnumerable<Hall> Halls => halls;
         public IEnumerable<EmptyPlaceReservation> EmptyReservations => emptyReservations;

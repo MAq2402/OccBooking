@@ -19,10 +19,12 @@ namespace OccBooking.Application.Handlers
         {
         }
 
-        public override async Task<Result<IEnumerable<ReservationRequestDto>>> HandleAsync(GetReservationRequestsQuery query)
+        public override async Task<Result<IEnumerable<ReservationRequestDto>>> HandleAsync(
+            GetReservationRequestsQuery query)
         {
-            var requests = await _dbContext.ReservationRequests.Include(r => r.Place).ThenInclude(p => p.Owner)
-                .Where(r => r.Place.Owner.Id == query.OwnerId).OrderByDescending(r => r.DateTime).ToListAsync();
+            var places = _dbContext.Places.Where(p => p.OwnerId == query.OwnerId);
+            var requests = await _dbContext.ReservationRequests.Where(r => places.Any(p => p.Id == r.PlaceId))
+                .OrderByDescending(r => r.DateTime).ToListAsync();
 
             return Result.Ok(_mapper.Map<IEnumerable<ReservationRequestDto>>(requests));
         }

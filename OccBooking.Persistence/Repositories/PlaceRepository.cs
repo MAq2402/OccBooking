@@ -20,8 +20,6 @@ namespace OccBooking.Persistence.Repositories
         public async Task<Place> GetPlaceAsync(Guid id)
         {
             return await _dbContext.Places
-                .Include(p => p.ReservationRequests)
-                .ThenInclude(r => r.Place)
                 .Include(p => p.Halls)
                 .ThenInclude(h => h.HallReservations)
                 .Include(p => p.Halls)
@@ -42,8 +40,7 @@ namespace OccBooking.Persistence.Repositories
 
         public async Task<Place> GetPlaceByHallAsync(Guid hallId)
         {
-            return await _dbContext.Places.Include(p => p.ReservationRequests).ThenInclude(r => r.Place)
-                .Include(p => p.Halls).Include(p => p.EmptyReservations)
+            return await _dbContext.Places.Include(p => p.Halls).Include(p => p.EmptyReservations)
                 .FirstOrDefaultAsync(p => p.Halls.Any(h => h.Id == hallId));
         }
     }
