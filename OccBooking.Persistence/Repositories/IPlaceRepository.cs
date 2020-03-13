@@ -10,5 +10,6 @@ namespace OccBooking.Persistence.Repositories
     {
         Task<Place> GetPlaceAsync(Guid id);
         Task<Place> GetPlaceByHallAsync(Guid hallId);
+        bool IsPlaceConfigured(Guid id);
     }
 }

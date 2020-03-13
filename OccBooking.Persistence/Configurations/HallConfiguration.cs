@@ -14,6 +14,10 @@ namespace OccBooking.Persistence.Configurations
             builder.HasMany(h => h.HallReservations)
                 .WithOne(hr => hr.Hall);
 
+            builder.HasOne<Place>()
+                .WithMany()
+                .HasForeignKey(h => h.PlaceId);
+
             builder.Metadata.FindNavigation(nameof(Hall.HallReservations))
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
 

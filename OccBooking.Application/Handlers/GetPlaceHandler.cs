@@ -11,20 +11,23 @@ using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Common.Hanlders;
 using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Application.Handlers
 {
     public class GetPlaceHandler : QueryHandler<GetPlaceQuery, PlaceDto>
     {
-        public GetPlaceHandler(OccBookingDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        private readonly IPlaceRepository _placeRepository;
+
+        public GetPlaceHandler(OccBookingDbContext dbContext, IMapper mapper, IPlaceRepository placeRepository) : base(dbContext, mapper)
         {
+            _placeRepository = placeRepository;
         }
 
         public override async Task<Result<PlaceDto>> HandleAsync(GetPlaceQuery query)
         {
             var place = await _dbContext.Places
                 .Include(p => p.Owner)
-                .Include(p => p.Halls)
                 .Include(p => p.Menus)
                 .FirstOrDefaultAsync(p => p.Id == query.PlaceId);
 
@@ -36,6 +39,8 @@ namespace OccBooking.Application.Handlers
             }
 
             var result = _mapper.Map<PlaceDto>(place);
+
+            result.IsConfigured = _placeRepository.IsPlaceConfigured(place.Id);
 
             if (image != null)
             {

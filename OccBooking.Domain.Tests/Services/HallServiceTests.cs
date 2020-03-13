@@ -18,16 +18,13 @@ namespace OccBooking.Domain.Tests.Services
         public void CalculateCapacity_ShouldWork_1(int hallSize1, int hallSize2, int hallSize3, int expected)
         {
             var sut = new HallService();
-            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1, Guid.NewGuid());
+            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2, Guid.NewGuid());
+            var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3, Guid.NewGuid());
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var place = CorrectPlace;
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
             hall1.AddPossibleJoin(hall2);
             var reservation1 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
@@ -56,15 +53,13 @@ namespace OccBooking.Domain.Tests.Services
         public void CalculateCapacity_ShouldWork_2(int hallSize1, int hallSize2, int expected)
         {
             var sut = new HallService();
-            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1, Guid.NewGuid());
+            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2, Guid.NewGuid());
             var place = CorrectPlace;
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
             hall1.AddPossibleJoin(hall2);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
 
             var actual = sut.CalculateCapacity(new List<Hall>() {hall1, hall2}, DateTime.Today);
 
@@ -89,17 +84,14 @@ namespace OccBooking.Domain.Tests.Services
             int expected)
         {
             var sut = new HallService();
-            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3);
-            var hall4 = new Hall(Guid.NewGuid(), "Big", hallSize4);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", hallSize1, Guid.NewGuid());
+            var hall2 = new Hall(Guid.NewGuid(), "Big", hallSize2, Guid.NewGuid());
+            var hall3 = new Hall(Guid.NewGuid(), "Big", hallSize3, Guid.NewGuid());
+            var hall4 = new Hall(Guid.NewGuid(), "Big", hallSize4, Guid.NewGuid());
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
             var place = CorrectPlace;
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
             hall1.AddPossibleJoin(hall2);
             hall2.AddPossibleJoin(hall3);
             var reservation1 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),

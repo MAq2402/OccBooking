@@ -88,159 +88,57 @@ namespace OccBooking.Domain.Tests.Entities
             Assert.Contains(option, place.AdditionalOptions);
         }
 
-        [Fact]
-        public void AddHallShouldWork()
-        {
-            var hall = new Hall(Guid.NewGuid(), "Big", 10);
-            var place = CorrectPlace;
-            place.AddHall(hall);
-
-            Assert.Contains(hall, place.Halls);
-        }
-
-        [Fact]
-        public void AddHallShouldFail()
-        {
-            var place = CorrectPlace;
-
-            Assert.Throws<DomainException>(() => place.AddHall(null));
-        }
-
-        [Fact]
-        public void CapacityShouldReturnCorrectValue_1()
-        {
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-
-            var place = CorrectPlace;
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-
-            hall1.AddPossibleJoin(hall3);
-
-            var expected = 40;
-            var actual = place.Capacity;
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void CapacityShouldReturnCorrectValue_2()
-        {
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-
-            var place = CorrectPlace;
-            place.AddHall(hall1);
-            place.AddHall(hall2);
-            place.AddHall(hall3);
-
-            hall1.AddPossibleJoin(hall3);
-            hall3.AddPossibleJoin(hall2);
-
-            var expected = 60;
-            var actual = place.Capacity;
-
-            Assert.Equal(expected, actual);
-        }
-
         //[Fact]
-        //public void MakeEmptyReservationShouldWork()
+        //public void CapacityShouldReturnCorrectValue_1()
         //{
-        //    var place = CorrectPlace;
-        //    var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
-        //    var hall2 = new Hall(Guid.NewGuid(), "Big", 30);
+        //    var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
+        //    var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
         //    var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-        //    var menu = CorrectMenu;
-        //    place.AllowParty(OccasionType.Wedding);
-        //    place.AssignMenu(menu);
-        //    hall1.AddPossibleJoin(hall2);
-        //    hall2.AddPossibleJoin(hall3);
+
+        //    var place = CorrectPlace;
         //    place.AddHall(hall1);
         //    place.AddHall(hall2);
         //    place.AddHall(hall3);
-        //    var reservation1 = new ReservationRequest(Guid.NewGuid(),
-        //        DateTime.Today,
-        //        CorrectClient,
-        //        OccasionType.Wedding,
-        //        new List<PlaceAdditionalOption>(),
-        //        new List<MenuOrder>() {new MenuOrder(menu, 50)});
-        //    var reservation2 = new ReservationRequest(Guid.NewGuid(),
-        //        DateTime.Today,
-        //        CorrectClient,
-        //        OccasionType.Wedding,
-        //        new List<PlaceAdditionalOption>(),
-        //        new List<MenuOrder>() {new MenuOrder(menu, 50)});
-        //    var reservation3 = new ReservationRequest(Guid.NewGuid(),
-        //        DateTime.Today.AddDays(1),
-        //        CorrectClient,
-        //        OccasionType.Wedding,
-        //        new List<PlaceAdditionalOption>(),
-        //        new List<MenuOrder>() {new MenuOrder(menu, 50)});
-        //    var reservation4 = new ReservationRequest(Guid.NewGuid(),
-        //        DateTime.Today,
-        //        CorrectClient,
-        //        OccasionType.Wedding,
-        //        new List<PlaceAdditionalOption>(),
-        //        new List<MenuOrder>() {new MenuOrder(menu, 30)});
-        //    place.MakeReservationRequest(reservation1);
-        //    place.MakeReservationRequest(reservation2);
-        //    place.MakeReservationRequest(reservation3);
-        //    place.MakeReservationRequest(reservation4);
 
-        //    place.AcceptReservationRequest(reservation1, new List<Hall>() {hall1, hall2});
-        //    place.MakeEmptyReservation(DateTime.Today);
+        //    hall1.AddPossibleJoin(hall3);
 
-        //    var expected = 1;
-        //    var actual = place.EmptyReservations.Count();
+        //    var expected = 40;
+        //    var actual = place.Capacity;
 
         //    Assert.Equal(expected, actual);
-        //    Assert.True(reservation2.IsRejected);
-        //    Assert.True(reservation1.IsAccepted);
-        //    Assert.False(reservation3.IsAnswered);
-        //    Assert.True(reservation4.IsRejected);
         //}
 
-        [Theory]
-        [ClassData(typeof(IsPlaceConfiguredShouldReturnFalseTestData))]
-        public void IsPlaceConfiguredShouldReturnGivenResult(IEnumerable<Hall> halls, IEnumerable<Menu> menus,
-            OccasionTypes occasionTypes, bool expected)
+        //[Fact]
+        //public void CapacityShouldReturnCorrectValue_2()
+        //{
+        //    var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
+        //    var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
+        //    var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
+
+        //    var place = CorrectPlace;
+        //    place.AddHall(hall1);
+        //    place.AddHall(hall2);
+        //    place.AddHall(hall3);
+
+        //    hall1.AddPossibleJoin(hall3);
+        //    hall3.AddPossibleJoin(hall2);
+
+        //    var expected = 60;
+        //    var actual = place.Capacity;
+
+        //    Assert.Equal(expected, actual);
+        //}
+
+        [Fact]
+        public void MakeEmptyReservationShouldWork()
         {
             var place = CorrectPlace;
-            foreach (var hall in halls)
-            {
-                place.AddHall(hall);
-            }
+            place.MakeEmptyReservation(DateTime.Today);
 
-            foreach (var menu in menus)
-            {
-                place.AssignMenu(menu);
-            }
-
-            foreach (var occasionType in occasionTypes)
-            {
-                place.AllowParty(occasionType);
-            }
-
-            var actual = place.IsConfigured;
+            var expected = 1;
+            var actual = place.EmptyReservations.Count();
 
             Assert.Equal(expected, actual);
-        }
-
-        private class IsPlaceConfiguredShouldReturnFalseTestData : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return WithAllRequiredData;
-                yield return WithoutHalls;
-                yield return WithoutMenus;
-                yield return WithoutOccasionTypes;
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
         [Theory]

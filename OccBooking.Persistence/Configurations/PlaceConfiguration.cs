@@ -19,9 +19,6 @@ namespace OccBooking.Persistence.Configurations
             builder.HasMany(p => p.Menus)
                 .WithOne(m => m.Place);
 
-            builder.HasMany(p => p.Halls)
-                .WithOne(h => h.Place);
-
             builder.Property(p => p.AdditionalOptions)
                 .HasConversion(x => x.ToString(), y => (PlaceAdditionalOptions) y);
 

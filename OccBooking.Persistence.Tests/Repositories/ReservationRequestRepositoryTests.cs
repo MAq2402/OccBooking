@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,30 +15,25 @@ using OccBooking.Domain.Enums;
 using OccBooking.Domain.Events;
 using OccBooking.Domain.Services;
 using OccBooking.Domain.ValueObjects;
+using OccBooking.Persistence.Tests.Utility;
 using Xunit;
+using static OccBooking.Persistence.Tests.TestData;
 
 namespace OccBooking.Persistence.Tests.Repositories
 {
     public class ReservationRequestRepositoryTests
     {
-        public static Client CorrectClient => new Client("Michal", "Kowalski", "michal@michal.com", "505111111");
-        public static Address CorrectAddress => new Address("Akacjowa", "Orzesze", "43-100", "śląskie");
-
-        public static Place CorrectPlace => new Place(new Guid("619e8c4e-69ae-482a-98eb-492afe60352b"), "Calvados",
-            false, "", CorrectAddress, new Guid("4ea10f9e-ae5f-43a1-acfa-c82b678e6ee1"));
-
         [Fact]
         public async Task GetImpossibleReservationRequestsAsync_ShouldWork()
         {
-            var dbContext = GetDatabaseContext();
+            var dbContext = InMemoryDbContextBuilder.CreateDbContext();
             var hallRepositoryMock = new Mock<IHallRepository>();
             var hallServiceMock = new Mock<IHallService>();
             var place = CorrectPlace;
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 30);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 30, place.Id);
             var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 50);
             place.AllowParty(OccasionType.Wedding);
             place.AssignMenu(menu);
-            place.AddHall(hall1);
             var reservation1 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,
@@ -66,6 +62,7 @@ namespace OccBooking.Persistence.Tests.Repositories
                 new List<PlaceAdditionalOption>(),
                 new List<MenuOrder>() {new MenuOrder(menu, 30)},
                 place.Id);
+            dbContext.Add(hall1);
             dbContext.Add(menu);
             dbContext.Add(reservation1);
             dbContext.Add(reservation2);
@@ -90,15 +87,6 @@ namespace OccBooking.Persistence.Tests.Repositories
             Assert.DoesNotContain(reservation1, result);
             Assert.DoesNotContain(reservation3, result);
             Assert.DoesNotContain(reservation4, result);
-        }
-
-        private OccBookingDbContext GetDatabaseContext()
-        {
-            var options = new DbContextOptionsBuilder<OccBookingDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
-            var databaseContext = new OccBookingDbContext(options);
-            databaseContext.Database.EnsureCreated();
-            return databaseContext;
         }
     }
 }

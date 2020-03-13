@@ -28,7 +28,7 @@ namespace OccBooking.Application.Handlers
             var place = await _dbContext.Places
                 .FirstOrDefaultAsync(p => p.Id == query.PlaceId);
 
-            var halls = await _dbContext.Halls.Include(h => h.Place)
+            var halls = await _dbContext.Halls
                 .Include(h => h.PossibleJoinsWhereIsFirst)
                 .ThenInclude(j => j.FirstHall)
                 .Include(h => h.PossibleJoinsWhereIsFirst)
@@ -38,7 +38,7 @@ namespace OccBooking.Application.Handlers
                 .Include(h => h.PossibleJoinsWhereIsSecond)
                 .ThenInclude(j => j.FirstHall)
                 .Include(h => h.HallReservations)
-                .Where(h => h.Place.Id == query.PlaceId).ToListAsync();
+                .Where(h => h.PlaceId == query.PlaceId).ToListAsync();
 
             if (place == null)
             {
