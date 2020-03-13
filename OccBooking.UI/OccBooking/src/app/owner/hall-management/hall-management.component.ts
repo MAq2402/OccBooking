@@ -25,7 +25,6 @@ export class HallManagementComponent implements OnInit {
     this.hallId = this.activatedRoute.snapshot.paramMap.get('id');
     this.hallService.getHall(this.hallId).subscribe(response => {
       this.hall = response;
-      console.log(response);
       this.hallService.getHalls(this.hall.placeId).subscribe(halls => {
         this.createHallJoins(halls);
       });

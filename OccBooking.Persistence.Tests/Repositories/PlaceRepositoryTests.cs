@@ -10,7 +10,6 @@ using OccBooking.Domain.ValueObjects;
 using OccBooking.Persistence.Repositories;
 using OccBooking.Persistence.Tests.Utility;
 using Xunit;
-using static OccBooking.Persistence.Tests.DataFactories.IsPlaceConfigured_ShouldWork_DataFactory;
 using static OccBooking.Persistence.Tests.TestData;
 
 namespace OccBooking.Persistence.Tests.Repositories
@@ -30,17 +29,14 @@ namespace OccBooking.Persistence.Tests.Repositories
             {
                 dbContext.Add(hall);
             }
-
             foreach (var menu in menus)
             {
                 place.AssignMenu(menu);
             }
-
             foreach (var occasionType in occasionTypes)
             {
                 place.AllowParty(occasionType);
             }
-
             dbContext.SaveChanges();
 
             var actual = sut.IsPlaceConfigured(place.Id);

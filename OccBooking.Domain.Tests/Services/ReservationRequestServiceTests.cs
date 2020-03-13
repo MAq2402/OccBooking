@@ -11,7 +11,6 @@ using OccBooking.Domain.Services;
 using OccBooking.Domain.ValueObjects;
 using Xunit;
 using static OccBooking.Domain.Tests.TestData;
-using static OccBooking.Domain.Tests.DataFactories.IsPlaceConfiguredDataFactory;
 
 namespace OccBooking.Domain.Tests.Services
 {

@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using static OccBooking.Domain.Tests.TestData;
-using static OccBooking.Domain.Tests.DataFactories.IsPlaceConfiguredDataFactory;
 
 namespace OccBooking.Domain.Tests.Entities
 {
@@ -87,47 +86,6 @@ namespace OccBooking.Domain.Tests.Entities
 
             Assert.Contains(option, place.AdditionalOptions);
         }
-
-        //[Fact]
-        //public void CapacityShouldReturnCorrectValue_1()
-        //{
-        //    var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
-        //    var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
-        //    var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-
-        //    var place = CorrectPlace;
-        //    place.AddHall(hall1);
-        //    place.AddHall(hall2);
-        //    place.AddHall(hall3);
-
-        //    hall1.AddPossibleJoin(hall3);
-
-        //    var expected = 40;
-        //    var actual = place.Capacity;
-
-        //    Assert.Equal(expected, actual);
-        //}
-
-        //[Fact]
-        //public void CapacityShouldReturnCorrectValue_2()
-        //{
-        //    var hall1 = new Hall(Guid.NewGuid(), "Big", 10);
-        //    var hall2 = new Hall(Guid.NewGuid(), "Big", 20);
-        //    var hall3 = new Hall(Guid.NewGuid(), "Big", 30);
-
-        //    var place = CorrectPlace;
-        //    place.AddHall(hall1);
-        //    place.AddHall(hall2);
-        //    place.AddHall(hall3);
-
-        //    hall1.AddPossibleJoin(hall3);
-        //    hall3.AddPossibleJoin(hall2);
-
-        //    var expected = 60;
-        //    var actual = place.Capacity;
-
-        //    Assert.Equal(expected, actual);
-        //}
 
         [Fact]
         public void MakeEmptyReservationShouldWork()
