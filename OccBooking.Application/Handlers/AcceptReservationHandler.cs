@@ -42,7 +42,7 @@ namespace OccBooking.Application.Handlers
 
             var halls = await _hallRepository.GetHallsAsync(command.HallIds);
 
-            var place = await _placeRepository.GetPlaceAsync(request.Place.Id);
+            var place = await _placeRepository.GetPlaceAsync(request.PlaceId);
 
             _reservationRequestService.ValidateAcceptReservationRequest(place, request, halls);
 

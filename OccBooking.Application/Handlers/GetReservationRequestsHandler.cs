@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using OccBooking.Application.DTOs;
 using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
+using OccBooking.Domain.Entities;
 using OccBooking.Persistence.DbContexts;
 
 namespace OccBooking.Application.Handlers
@@ -19,12 +20,25 @@ namespace OccBooking.Application.Handlers
         {
         }
 
-        public override async Task<Result<IEnumerable<ReservationRequestDto>>> HandleAsync(GetReservationRequestsQuery query)
+        public override async Task<Result<IEnumerable<ReservationRequestDto>>> HandleAsync(
+            GetReservationRequestsQuery query)
         {
-            var requests = await _dbContext.ReservationRequests.Include(r => r.Place).ThenInclude(p => p.Owner)
-                .Where(r => r.Place.Owner.Id == query.OwnerId).OrderByDescending(r => r.DateTime).ToListAsync();
+            var places = _dbContext.Places.Where(p => p.OwnerId == query.OwnerId);
+            var requests = await _dbContext.ReservationRequests.Where(r => places.Any(p => p.Id == r.PlaceId))
+                .OrderByDescending(r => r.DateTime).ToListAsync();
 
-            return Result.Ok(_mapper.Map<IEnumerable<ReservationRequestDto>>(requests));
+            return Result.Ok(MapToReservationRequestsDto(requests, places));
+        }
+
+        private IEnumerable<ReservationRequestDto> MapToReservationRequestsDto(IEnumerable<ReservationRequest> reservationRequests, IEnumerable<Place> places)
+        {
+            var result = _mapper.Map<IEnumerable<ReservationRequestDto>>(reservationRequests);
+            foreach (var request in result)
+            {
+                request.PlaceName = places.FirstOrDefault(p => p.Id == request.PlaceId).Name;
+            }
+
+            return result;
         }
     }
 }

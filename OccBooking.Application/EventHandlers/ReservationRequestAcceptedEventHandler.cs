@@ -55,7 +55,8 @@ namespace OccBooking.Application.EventHandlers
 
         private async Task RejectImpossibleReservationsRequestsAsync(Guid placeId, DateTime dateTime)
         {
-            var requestsToReject = await _reservationRequestRepository.GetImpossibleReservationRequestsAsync(placeId, dateTime);
+            var requestsToReject =
+                await _reservationRequestRepository.GetImpossibleReservationRequestsAsync(placeId, dateTime);
 
             foreach (var requestToReject in requestsToReject)
             {
@@ -65,11 +66,13 @@ namespace OccBooking.Application.EventHandlers
 
         private async Task SendEmailAsync(ReservationRequestAccepted @event)
         {
-            var reservationRequest = await _dbContext.ReservationRequests.Include(r => r.Place)
-                .FirstOrDefaultAsync(r => r.Id == @event.ReservationRequestId);
+            var reservationRequest =
+                await _dbContext.ReservationRequests.FirstOrDefaultAsync(r => r.Id == @event.ReservationRequestId);
+
+            var place = await _dbContext.Places.FirstOrDefaultAsync(p => p.Id == reservationRequest.PlaceId);
 
             var emailMessage =
-                $@"Twoja rezerwacja miejsca {reservationRequest.Place.Name} na dzien {reservationRequest.DateTime:dd/MM/yyyy}
+                $@"Twoja rezerwacja miejsca {place.Name} na dzien {reservationRequest.DateTime:dd/MM/yyyy}
                 została zaakcepotwana. <h3>Podsumowanie</h3>";
             _emailService.Send(emailMessage, reservationRequest.Client);
         }

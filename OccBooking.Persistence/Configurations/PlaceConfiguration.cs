@@ -16,9 +16,6 @@ namespace OccBooking.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Place> builder)
         {
-            builder.HasMany(p => p.ReservationRequests)
-                .WithOne(r => r.Place);
-
             builder.HasMany(p => p.Menus)
                 .WithOne(m => m.Place);
 
