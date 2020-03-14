@@ -22,7 +22,8 @@ namespace OccBooking.Application.Handlers
         private readonly IReservationRequestService _reservationRequestService;
 
         public MakeReservationRequestHandler(IPlaceRepository placeRepository, IMenuRepository menuRepository,
-            IReservationRequestRepository reservationRequestRepository, IReservationRequestService reservationRequestService)
+            IReservationRequestRepository reservationRequestRepository,
+            IReservationRequestService reservationRequestService)
         {
             _placeRepository = placeRepository;
             _menuRepository = menuRepository;
@@ -48,7 +49,8 @@ namespace OccBooking.Application.Handlers
                     command.ClientPhoneNumber), command.OccasionType, optionsForReservationRequest, menuOrders,
                 place.Id, place.Name);
 
-            _reservationRequestService.ValidateMakeReservationRequest(place, reservationRequest);
+            _reservationRequestService.ValidateMakeReservationRequest(place, reservationRequest,
+                _placeRepository.IsPlaceConfigured);
 
             await _reservationRequestRepository.AddAsync(reservationRequest);
             await _reservationRequestRepository.SaveAsync();

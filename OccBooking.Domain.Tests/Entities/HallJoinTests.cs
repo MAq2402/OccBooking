@@ -11,9 +11,9 @@ namespace OccBooking.Domain.Tests.Entities
         [Fact]
         public void ParticipateInShouldWork()
         {
-            var hall1 = new Hall(Guid.NewGuid(), "Big", 100);
-            var hall2 = new Hall(Guid.NewGuid(), "Big", 100);
-            var hall3 = new Hall(Guid.NewGuid(), "Big", 100);
+            var hall1 = new Hall(Guid.NewGuid(), "Big", 100, Guid.NewGuid());
+            var hall2 = new Hall(Guid.NewGuid(), "Big", 100, Guid.NewGuid());
+            var hall3 = new Hall(Guid.NewGuid(), "Big", 100, Guid.NewGuid());
 
             var hallJoin = new HallJoin(new Guid(),hall1, hall2 );
 

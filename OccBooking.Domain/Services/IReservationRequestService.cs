@@ -8,6 +8,6 @@ namespace OccBooking.Domain.Services
     public interface IReservationRequestService
     {
         void ValidateAcceptReservationRequest(Place place, ReservationRequest request, IEnumerable<Hall> halls);
-        void ValidateMakeReservationRequest(Place place, ReservationRequest request);
+        void ValidateMakeReservationRequest(Place place, ReservationRequest request, Func<Guid, bool> isPlaceConfigured);
     }
 }

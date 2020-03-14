@@ -24,7 +24,7 @@ namespace OccBooking.Application.Handlers
 
         public override async Task<Result<ExtendedHallDto>> HandleAsync(GetHallQuery query)
         {
-            var hall = await _dbContext.Halls.Include(h => h.Place)
+            var hall = await _dbContext.Halls
                 .Include(h => h.PossibleJoinsWhereIsFirst)
                 .ThenInclude(j => j.FirstHall)
                 .Include(h => h.PossibleJoinsWhereIsFirst)

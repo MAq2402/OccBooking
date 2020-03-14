@@ -23,20 +23,20 @@ namespace OccBooking.Domain.Services
                 throw new DomainException("Halls has not been provided");
             }
 
-            if (!place.ContainsHalls(halls))
+            if (!halls.All(h => h.PlaceId == place.Id))
             {
                 throw new DomainException("Place does not contain given halls");
             }
 
-            if (place.IsAnyHallReservedOnDate(request.DateTime, halls))
+            if (!halls.All(h => h.IsFreeOnDate(request.DateTime)))
             {
                 throw new DomainException("Some or all given halls are already reserved");
             }
         }
 
-        public void ValidateMakeReservationRequest(Place place, ReservationRequest request)
+        public void ValidateMakeReservationRequest(Place place, ReservationRequest request, Func<Guid, bool> isPlaceConfigured)
         {
-            if (!place.IsConfigured)
+            if (!isPlaceConfigured(place.Id))
             {
                 throw new DomainException("Place dose not contain all required information for the reservation request");
             }
@@ -49,12 +49,6 @@ namespace OccBooking.Domain.Services
             if (!place.AvailableOccasionTypes.Contains(request.OccasionType))
             {
                 throw new DomainException("Place does not allow to organize such an events");
-            }
-
-            if (request.AmountOfPeople > _hallService.CalculateCapacity(place.Halls, request.DateTime))
-            {
-                throw new DomainException(
-                    "Making reservation on this date and with this amount of people is impossible");
             }
 
             if (!request.AdditionalOptions.All(o => place.AdditionalOptions.Contains(o)))

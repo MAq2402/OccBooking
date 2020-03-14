@@ -26,17 +26,25 @@ namespace OccBooking.Application.Handlers
         {
             var places = _dbContext.Places.Include(p => p.Owner)
                 .Include(p => p.EmptyReservations)
-                .Include(p => p.Menus)
-                .Include(p => p.Halls)
-                .ThenInclude(h => h.HallReservations).AsEnumerable();
+                .Include(p => p.Menus).AsQueryable();
+            var halls = _dbContext.Halls
+                .Include(h => h.PossibleJoinsWhereIsFirst)
+                .ThenInclude(j => j.FirstHall)
+                .Include(h => h.PossibleJoinsWhereIsFirst)
+                .ThenInclude(j => j.SecondHall)
+                .Include(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.SecondHall)
+                .Include(h => h.PossibleJoinsWhereIsSecond)
+                .ThenInclude(j => j.FirstHall);
+
             if (query.PlaceFilter != null)
             {
                 places = places.FilterByName(query.PlaceFilter.Name).FilterByProvince(query.PlaceFilter.Province)
                     .FilterByCity(query.PlaceFilter.City)
                     .FilterByCostPerPerson(query.PlaceFilter.MinCostPerPerson, query.PlaceFilter.MaxCostPerPerson)
-                    .FilterByMinCapacity(query.PlaceFilter.MinCapacity)
+                    .FilterByMinCapacity(halls, query.PlaceFilter.MinCapacity)
                     .FilterByOccasionTypes(query.PlaceFilter.OccasionType)
-                    .FilterByDate(query.PlaceFilter.FreeFrom, query.PlaceFilter.FreeTo);
+                    .FilterByDate(halls, query.PlaceFilter.FreeFrom, query.PlaceFilter.FreeTo);
             }
 
             var result = new List<PlaceDto>();

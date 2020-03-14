@@ -12,25 +12,18 @@ namespace OccBooking.Application.Handlers
 {
     public class AddHallHandler : ICommandHandler<AddHallCommand>
     {
-        private IPlaceRepository _placeRepository;
+        private IHallRepository _hallRepository;
 
-        public AddHallHandler(IPlaceRepository placeRepository)
+        public AddHallHandler(IHallRepository hallRepository)
         {
-            _placeRepository = placeRepository;
+            _hallRepository = hallRepository;
         }
 
         public async Task<Result> HandleAsync(AddHallCommand command)
         {
-            var place = await _placeRepository.GetPlaceAsync(command.PlaceId);
+            await _hallRepository.AddAsync(new Hall(Guid.NewGuid(), command.Name, command.Capacity, command.PlaceId));
 
-            if (place == null)
-            {
-                return Result.Fail("Place with this id does not exist");
-            }
-
-            place.AddHall(new Hall(Guid.NewGuid(), command.Name, command.Capacity));
-
-            await _placeRepository.SaveAsync();
+            await _hallRepository.SaveAsync();
 
             return Result.Ok();
         }

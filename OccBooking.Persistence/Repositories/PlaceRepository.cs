@@ -20,28 +20,22 @@ namespace OccBooking.Persistence.Repositories
         public async Task<Place> GetPlaceAsync(Guid id)
         {
             return await _dbContext.Places
-                .Include(p => p.Halls)
-                .ThenInclude(h => h.HallReservations)
-                .Include(p => p.Halls)
-                .ThenInclude(h => h.PossibleJoinsWhereIsFirst)
-                .ThenInclude(j => j.FirstHall)
-                .Include(p => p.Halls)
-                .ThenInclude(h => h.PossibleJoinsWhereIsFirst)
-                .ThenInclude(j => j.SecondHall)
-                .Include(h => h.Halls)
-                .ThenInclude(h => h.PossibleJoinsWhereIsSecond)
-                .ThenInclude(j => j.SecondHall)
-                .Include(p => p.Halls)
-                .ThenInclude(h => h.PossibleJoinsWhereIsSecond)
-                .ThenInclude(j => j.FirstHall)
                 .Include(p => p.EmptyReservations)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Place> GetPlaceByHallAsync(Guid hallId)
         {
-            return await _dbContext.Places.Include(p => p.Halls).Include(p => p.EmptyReservations)
-                .FirstOrDefaultAsync(p => p.Halls.Any(h => h.Id == hallId));
+            var hall = await _dbContext.Halls.FirstOrDefaultAsync(h => h.Id == hallId);
+            return await _dbContext.Places.Include(p => p.EmptyReservations)
+                .FirstOrDefaultAsync(p => hall.PlaceId == p.Id);
+        }
+
+        public bool IsPlaceConfigured(Guid id)
+        {
+            var place = GetPlaceAsync(id).Result;
+            var placeHasHalls = _dbContext.Halls.Any(h => h.PlaceId == id);
+            return place.Menus.Any() && placeHasHalls && place.AvailableOccasionTypes.Any();
         }
     }
 }

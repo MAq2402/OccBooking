@@ -13,10 +13,11 @@ namespace OccBooking.Domain.Entities
         private List<HallJoin> possibleJoinsWhereIsSecond = new List<HallJoin>();
         private List<HallReservation> _hallReservations = new List<HallReservation>();
 
-        public Hall(Guid id, string name, int capacity) : base(id)
+        public Hall(Guid id, string name, int capacity, Guid placeId) : base(id)
         {
             SetCapacity(capacity);
             SetName(name);
+            PlaceId = placeId;
         }
 
         private Hall()
@@ -25,7 +26,7 @@ namespace OccBooking.Domain.Entities
 
         public string Name { get; private set; }
         public int Capacity { get; private set; }
-        public Place Place { get; private set; }
+        public Guid PlaceId { get; private set; }
         public IEnumerable<HallJoin> PossibleJoinsWhereIsFirst => possibleJoinsWhereIsFirst;
         public IEnumerable<HallJoin> PossibleJoinsWhereIsSecond => possibleJoinsWhereIsSecond;
         public IEnumerable<HallJoin> PossibleJoins => possibleJoinsWhereIsFirst.Concat(possibleJoinsWhereIsSecond);

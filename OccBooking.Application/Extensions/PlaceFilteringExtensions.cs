@@ -10,22 +10,22 @@ namespace OccBooking.Application.Extensions
 {
     public static class PlaceFilteringExtensions
     {
-        public static IEnumerable<Place> FilterByName(this IEnumerable<Place> places, string name)
+        public static IQueryable<Place> FilterByName(this IQueryable<Place> places, string name)
         {
             return string.IsNullOrEmpty(name) ? places : places.Where(p => p.Name.Contains(name));
         }
 
-        public static IEnumerable<Place> FilterByProvince(this IEnumerable<Place> places, string province)
+        public static IQueryable<Place> FilterByProvince(this IQueryable<Place> places, string province)
         {
             return string.IsNullOrEmpty(province) ? places : places.Where(p => p.Address.Province.Equals(province));
         }
 
-        public static IEnumerable<Place> FilterByCity(this IEnumerable<Place> places, string city)
+        public static IQueryable<Place> FilterByCity(this IQueryable<Place> places, string city)
         {
             return string.IsNullOrEmpty(city) ? places : places.Where(p => p.Address.City.Equals(city));
         }
 
-        public static IEnumerable<Place> FilterByCostPerPerson(this IEnumerable<Place> places,
+        public static IQueryable<Place> FilterByCostPerPerson(this IQueryable<Place> places,
             decimal? minCostPerPerson,
             decimal? maxCostPerPerson)
         {
@@ -44,12 +44,24 @@ namespace OccBooking.Application.Extensions
             return places;
         }
 
-        public static IEnumerable<Place> FilterByMinCapacity(this IEnumerable<Place> places, int? capacity)
+        public static IQueryable<Place> FilterByMinCapacity(this IQueryable<Place> places, IQueryable<Hall> halls,
+            int? capacity)
         {
-            return !capacity.HasValue ? places : places.Where(p => p.Capacity >= capacity.Value);
+            return !capacity.HasValue
+                ? places
+                : places.Where(p => CalculateCapacity(halls.Where(h => h.PlaceId == p.Id)) >= capacity.Value);
         }
 
-        public static IEnumerable<Place> FilterByOccasionTypes(this IEnumerable<Place> places,
+        private static int CalculateCapacity(IQueryable<Hall> halls)
+        {
+            return halls.Any()
+                ? halls.Max(h =>
+                    h.PossibleJoins.Where(j => j.FirstHall == h).Sum(x => x.SecondHall.Capacity) +
+                    h.PossibleJoins.Where(j => j.SecondHall == h).Sum(x => x.FirstHall.Capacity) + h.Capacity)
+                : 0;
+        }
+
+        public static IQueryable<Place> FilterByOccasionTypes(this IQueryable<Place> places,
             string occasionType)
         {
             return string.IsNullOrEmpty(occasionType)
@@ -57,7 +69,7 @@ namespace OccBooking.Application.Extensions
                 : places.Where(p => p.AvailableOccasionTypes.Any(t => t.Name == occasionType));
         }
 
-        public static IEnumerable<Place> FilterByDate(this IEnumerable<Place> places,
+        public static IQueryable<Place> FilterByDate(this IQueryable<Place> places, IQueryable<Hall> halls,
             DateTimeOffset? from, DateTimeOffset? to)
         {
             var dates = new List<DateTime>();
@@ -75,7 +87,9 @@ namespace OccBooking.Application.Extensions
                 places = places.Where(p =>
                     dates.Except(p.EmptyReservations.Select(e => e.Date)).Any());
 
-                places = places.Where(p => !p.Halls.Any() || dates.Any(d => p.Halls.Any(h => h.IsFreeOnDate(d))));
+                places = places.Where(p =>
+                    !halls.Any(h => h.PlaceId == p.Id) || dates.Any(d =>
+                        halls.Where(h => h.PlaceId == p.Id).Any(h => h.IsFreeOnDate(d))));
             }
 
             return places;

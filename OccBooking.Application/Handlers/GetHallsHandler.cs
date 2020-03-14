@@ -24,7 +24,7 @@ namespace OccBooking.Application.Handlers
         {
             if (!query.Date.HasValue)
             {
-                var halls = await _dbContext.Halls.Include(h => h.Place)
+                var halls = await _dbContext.Halls
                     .Include(h => h.PossibleJoinsWhereIsFirst)
                     .ThenInclude(j => j.FirstHall)
                     .Include(h => h.PossibleJoinsWhereIsFirst)
@@ -32,13 +32,13 @@ namespace OccBooking.Application.Handlers
                     .Include(h => h.PossibleJoinsWhereIsSecond)
                     .ThenInclude(j => j.SecondHall)
                     .Include(h => h.PossibleJoinsWhereIsSecond)
-                    .ThenInclude(j => j.FirstHall).Where(h => h.Place.Id == query.PlaceId).ToListAsync();
+                    .ThenInclude(j => j.FirstHall).Where(h => h.PlaceId == query.PlaceId).ToListAsync();
 
                 return Result.Ok(halls.Select(MapToResult));
             }
             else
             {
-                var halls = await _dbContext.Halls.Include(h => h.Place)
+                var halls = await _dbContext.Halls
                     .Include(h => h.HallReservations)
                     .ThenInclude(hr => hr.ReservationRequest)
                     .Include(h => h.PossibleJoinsWhereIsFirst)
@@ -48,7 +48,7 @@ namespace OccBooking.Application.Handlers
                     .Include(h => h.PossibleJoinsWhereIsSecond)
                     .ThenInclude(j => j.SecondHall)
                     .Include(h => h.PossibleJoinsWhereIsSecond)
-                    .ThenInclude(j => j.FirstHall).Where(h => h.Place.Id == query.PlaceId)
+                    .ThenInclude(j => j.FirstHall).Where(h => h.PlaceId == query.PlaceId)
                     .ToListAsync();
 
                 halls = halls.Where(h => h.IsFreeOnDate(query.Date.Value)).ToList();

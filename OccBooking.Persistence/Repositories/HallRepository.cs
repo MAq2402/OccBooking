@@ -19,19 +19,19 @@ namespace OccBooking.Persistence.Repositories
 
         public async Task<IEnumerable<Hall>> GetHallsAsync(Guid placeId)
         {
-            return await _dbContext.Halls.Include(h => h.Place).Include(h => h.HallReservations)
-                .Where(h => h.Place.Id == placeId).ToListAsync();
+            return await _dbContext.Halls.Include(h => h.HallReservations)
+                .Where(h => h.PlaceId == placeId).ToListAsync();
         }
 
         public async Task<IEnumerable<Hall>> GetHallsAsync(IEnumerable<Guid> ids)
         {
-            return await _dbContext.Halls.Include(h => h.Place).Include(h => h.HallReservations)
+            return await _dbContext.Halls.Include(h => h.HallReservations)
                 .Where(h => ids.Any(id => id == h.Id)).ToListAsync();
         }
 
         public async Task<Hall> GetHallAsync(Guid hallId)
         {
-            return await _dbContext.Halls.Include(h => h.Place)
+            return await _dbContext.Halls
                 .Include(h => h.PossibleJoinsWhereIsFirst)
                 .ThenInclude(j => j.FirstHall)
                 .Include(h => h.PossibleJoinsWhereIsFirst)

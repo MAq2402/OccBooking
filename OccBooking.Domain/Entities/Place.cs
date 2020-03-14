@@ -14,7 +14,6 @@ namespace OccBooking.Domain.Entities
         private string additionalOptions = string.Empty;
         private string availableOccasionTypes = string.Empty;
         private List<Menu> menus = new List<Menu>();
-        private List<Hall> halls = new List<Hall>();
         private List<EmptyPlaceReservation> emptyReservations = new List<EmptyPlaceReservation>();
 
         public Place(Guid id, string name, bool hasRooms, string description,
@@ -32,7 +31,6 @@ namespace OccBooking.Domain.Entities
         }
 
         public IEnumerable<Menu> Menus => menus;
-        public IEnumerable<Hall> Halls => halls;
         public IEnumerable<EmptyPlaceReservation> EmptyReservations => emptyReservations;
 
         public OccasionTypes AvailableOccasionTypes
@@ -53,8 +51,6 @@ namespace OccBooking.Domain.Entities
         public Guid OwnerId { get; private set; }
         public Owner Owner { get; private set; }
         public Address Address { get; private set; }
-        public int Capacity => CalculateCapacity(halls);
-        public bool IsConfigured => halls.Any() && menus.Any() && AvailableOccasionTypes.Any();
         public decimal? MinimalCostPerPerson => menus.Any() ? menus.Min(m => m.CostPerPerson) : (decimal?) null;
 
         private void SetName(string name)
@@ -65,16 +61,6 @@ namespace OccBooking.Domain.Entities
             }
 
             Name = name;
-        }
-
-        public void AddHall(Hall hall)
-        {
-            if (hall == null)
-            {
-                throw new DomainException("Hall has not been provided");
-            }
-
-            halls.Add(hall);
         }
 
         public void AssignMenu(Menu menu)
@@ -107,25 +93,6 @@ namespace OccBooking.Domain.Entities
             emptyReservations.Add(new EmptyPlaceReservation(date));
 
             AddEvent(new EmptyPlaceReservationMade(Id, date));
-        }
-
-        private int CalculateCapacity(IEnumerable<Hall> halls)
-        {
-            return halls.Any()
-                ? halls.Max(h =>
-                    h.PossibleJoins.Where(j => j.FirstHall == h).Sum(x => x.SecondHall.Capacity) +
-                    h.PossibleJoins.Where(j => j.SecondHall == h).Sum(x => x.FirstHall.Capacity) + h.Capacity)
-                : 0;
-        }
-
-        public bool ContainsHalls(IEnumerable<Hall> halls)
-        {
-            return halls.All(h => Halls.Contains(h));
-        }
-
-        public bool IsAnyHallReservedOnDate(DateTime dateTime, IEnumerable<Hall> halls)
-        {
-            return halls.Any(h => !h.IsFreeOnDate(dateTime));
         }
     }
 }

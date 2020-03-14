@@ -29,9 +29,9 @@ namespace OccBooking.Application.Handlers
                 return Result.Fail<IEnumerable<DateTime>>("Could not find place with given Id");
             }
 
-            var halls = await _dbContext.Halls.Include(h => h.Place)
+            var halls = await _dbContext.Halls
                 .Include(h => h.HallReservations)
-                .Where(h => h.Place.Id == query.PlaceId).ToListAsync();
+                .Where(h => h.PlaceId == query.PlaceId).ToListAsync();
 
             var reservedDaysFromHalls = GetReservedDaysFromHallReservations(halls);
             var reservedDaysFromPlace = place.EmptyReservations.Select(r => r.Date);
