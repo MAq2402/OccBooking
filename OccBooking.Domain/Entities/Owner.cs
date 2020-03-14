@@ -8,8 +8,6 @@ namespace OccBooking.Domain.Entities
 {
     public class Owner : AggregateRoot
     {
-        private List<Place> _places = new List<Place>();
-
         public Owner(Guid id, string firstName, string lastName, string email, string phoneNumber) : base(id)
         {
             Name = new PersonName(firstName, lastName);
@@ -22,7 +20,6 @@ namespace OccBooking.Domain.Entities
 
         }
 
-        public IEnumerable<Place> Places => _places;
         public PersonName Name { get; private set; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }

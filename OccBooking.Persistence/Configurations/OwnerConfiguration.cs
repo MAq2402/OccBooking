@@ -11,15 +11,9 @@ namespace OccBooking.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Owner> builder)
         {
-            builder.HasMany(o => o.Places)
-                   .WithOne(p => p.Owner);
-
             builder.OwnsOne(o => o.Email);
             builder.OwnsOne(o => o.PhoneNumber);
             builder.OwnsOne(o => o.Name);
-
-            builder.Metadata.FindNavigation(nameof(Owner.Places))
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

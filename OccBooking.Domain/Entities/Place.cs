@@ -49,7 +49,6 @@ namespace OccBooking.Domain.Entities
         public bool HasRooms { get; private set; }
         public string Description { get; private set; }
         public Guid OwnerId { get; private set; }
-        public Owner Owner { get; private set; }
         public Address Address { get; private set; }
         public decimal? MinimalCostPerPerson => menus.Any() ? menus.Min(m => m.CostPerPerson) : (decimal?) null;
 
