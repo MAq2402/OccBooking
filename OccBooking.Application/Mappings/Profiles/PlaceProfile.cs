@@ -20,6 +20,10 @@ namespace OccBooking.Application.Mappings.Profiles
                 .ForMember(dest => dest.AdditionalOptions, opt => opt.MapFrom(src => src.AdditionalOptions.ToList()))
                 .ForMember(dest => dest.OccasionTypes,
                     opt => opt.MapFrom(src => src.AvailableOccasionTypes.Select(x => x.Name)));
+
+            CreateMap<Owner, PlaceDto>()
+                .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src))
+                .ForAllOtherMembers(opt => opt.Ignore());
         }
     }
 }

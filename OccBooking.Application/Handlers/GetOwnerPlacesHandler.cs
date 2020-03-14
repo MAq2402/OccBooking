@@ -22,9 +22,15 @@ namespace OccBooking.Application.Handlers
 
         public override async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetOwnerPlacesQuery query)
         {
-            var places = _dbContext.Places.Include(p => p.Owner).Where(p => p.Owner.Id == query.OwnerId);
+            var owner = await _dbContext.Owners.FirstOrDefaultAsync(o => o.Id == query.OwnerId);
+            var places = _dbContext.Places.Where(p => p.OwnerId == query.OwnerId);
 
-            return Result.Ok(_mapper.Map<IEnumerable<PlaceDto>>(await places.ToListAsync()));
+            var result = _mapper.Map<IEnumerable<PlaceDto>>(await places.ToListAsync());
+            foreach (var item in result)
+            {
+                item.Owner = _mapper.Map<OwnerDto>(owner);
+            }
+            return Result.Ok(result);
         }
     }
 }

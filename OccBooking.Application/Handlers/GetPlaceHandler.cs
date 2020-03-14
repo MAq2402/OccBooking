@@ -27,9 +27,10 @@ namespace OccBooking.Application.Handlers
         public override async Task<Result<PlaceDto>> HandleAsync(GetPlaceQuery query)
         {
             var place = await _dbContext.Places
-                .Include(p => p.Owner)
                 .Include(p => p.Menus)
                 .FirstOrDefaultAsync(p => p.Id == query.PlaceId);
+
+            var owner = await _dbContext.Owners.FirstOrDefaultAsync(o => o.Id == place.OwnerId);
 
             var image = await _dbContext.PlaceImages.FirstOrDefaultAsync(i => i.PlaceId == query.PlaceId);
 
@@ -39,7 +40,7 @@ namespace OccBooking.Application.Handlers
             }
 
             var result = _mapper.Map<PlaceDto>(place);
-
+            result = _mapper.Map(owner, result);
             result.IsConfigured = _placeRepository.IsPlaceConfigured(place.Id);
 
             if (image != null)
