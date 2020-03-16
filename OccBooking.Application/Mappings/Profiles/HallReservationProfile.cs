@@ -11,15 +11,18 @@ namespace OccBooking.Application.Mappings.Profiles
     {
         public HallReservationProfile()
         {
-            CreateMap<HallReservation, HallReservationDto>()
+            CreateMap<HallReservation, HallReservationDto>();
+
+            CreateMap<ReservationRequest, HallReservationDto>()
                 .ForMember(dest => dest.AmountOfPeople,
-                    opt => opt.MapFrom(src => src.ReservationRequest.AmountOfPeople))
+                    opt => opt.MapFrom(src => src.AmountOfPeople))
                 .ForMember(dest => dest.ClientEmail,
-                    opt => opt.MapFrom(src => src.ReservationRequest.Client.Email.Value))
+                    opt => opt.MapFrom(src => src.Client.Email.Value))
                 .ForMember(dest => dest.Cost,
-                    opt => opt.MapFrom(src => src.ReservationRequest.Cost))
+                    opt => opt.MapFrom(src => src.Cost))
                 .ForMember(dest => dest.Occasion,
-                    opt => opt.MapFrom(src => src.ReservationRequest.OccasionType.Name));
+                    opt => opt.MapFrom(src => src.OccasionType.Name))
+                .ForAllOtherMembers(opt => opt.Ignore());
         }
     }
 }

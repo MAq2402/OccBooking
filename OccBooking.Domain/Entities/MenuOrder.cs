@@ -9,18 +9,19 @@ namespace OccBooking.Domain.Entities
     {
         public MenuOrder(Menu menu, int amountOfPeople)
         {
-            Menu = menu;
+            MenuId = menu.Id;
             SetAmountOfPeople(amountOfPeople);
+            Cost = menu.CostPerPerson * amountOfPeople;
         }
 
         private MenuOrder()
         {
         }
 
-        public Menu Menu { get; private set; }
+        public Guid MenuId { get; private set; }
         public int AmountOfPeople { get; private set; }
         public ReservationRequest ReservationRequest { get; private set; }
-        public decimal Cost => Menu.CostPerPerson * AmountOfPeople;
+        public decimal Cost { get; private set; }
 
         private void SetAmountOfPeople(int amountOfPeople)
         {

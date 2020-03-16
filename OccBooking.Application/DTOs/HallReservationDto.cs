@@ -7,6 +7,7 @@ namespace OccBooking.Application.DTOs
     public class HallReservationDto
     {
         public DateTime Date { get; set; }
+        public Guid ReservationRequestId { get; set; }
         public string ClientEmail { get; set; }
         public decimal Cost { get; set; }
         public string Occasion { get; set; }

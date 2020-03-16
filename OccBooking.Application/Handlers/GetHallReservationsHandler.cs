@@ -22,7 +22,6 @@ namespace OccBooking.Application.Handlers
         public override async Task<Result<IEnumerable<HallReservationDto>>> HandleAsync(GetHallReservationsQuery query)
         {
             var hall = await _dbContext.Halls.Include(h => h.HallReservations)
-                .ThenInclude(hr => hr.ReservationRequest)
                 .FirstOrDefaultAsync(h => h.Id == query.HallId);
 
             if (hall == null)
@@ -30,10 +29,19 @@ namespace OccBooking.Application.Handlers
                 return Result.Fail<IEnumerable<HallReservationDto>>("Could not find hall with given id");
             }
 
-            var hallReservations = hall.HallReservations.Where(hr => hr.Date >= DateTime.Today.Date && hr.ReservationRequest != null)
+            var hallReservations = hall.HallReservations.Where(hr => hr.Date >= DateTime.Today.Date && hr.ReservationRequestId != null)
                 .OrderBy(hr => hr.Date).Take(5);
 
-            return Result.Ok(_mapper.Map<IEnumerable<HallReservationDto>>(hallReservations));
+
+            var result = _mapper.Map<IEnumerable<HallReservationDto>>(hallReservations);
+            foreach (var item in result)
+            {
+                var reservationRequest =
+                    await _dbContext.ReservationRequests.FirstOrDefaultAsync(r => r.Id == item.ReservationRequestId);
+                _mapper.Map(reservationRequest, item);
+            }
+
+            return Result.Ok(result);
         }
     }
 }

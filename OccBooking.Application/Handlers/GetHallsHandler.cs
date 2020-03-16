@@ -40,7 +40,6 @@ namespace OccBooking.Application.Handlers
             {
                 var halls = await _dbContext.Halls
                     .Include(h => h.HallReservations)
-                    .ThenInclude(hr => hr.ReservationRequest)
                     .Include(h => h.PossibleJoinsWhereIsFirst)
                     .ThenInclude(j => j.FirstHall)
                     .Include(h => h.PossibleJoinsWhereIsFirst)
