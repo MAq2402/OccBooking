@@ -29,7 +29,8 @@ namespace OccBooking.Application.Handlers
                 return Result.Fail<IEnumerable<HallReservationDto>>("Could not find hall with given id");
             }
 
-            var hallReservations = hall.HallReservations.Where(hr => hr.Date >= DateTime.Today.Date && hr.ReservationRequestId != null)
+            var hallReservations = hall.HallReservations
+                .Where(hr => hr.Date >= DateTime.Today.Date && hr.ReservationRequestId != null)
                 .OrderBy(hr => hr.Date).Take(5);
 
 
