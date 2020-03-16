@@ -12,7 +12,7 @@ namespace OccBooking.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<HallReservation> builder)
         {
-            builder.HasOne(hr => hr.ReservationRequest);
+            builder.HasOne<ReservationRequest>().WithMany().HasForeignKey(hr => hr.ReservationRequestId);
         }
     }
 }

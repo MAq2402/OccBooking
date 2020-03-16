@@ -11,7 +11,7 @@ namespace OccBooking.Domain.Entities
     {
         private HallReservation(ReservationRequest reservationRequest)
         {
-            ReservationRequest = reservationRequest;
+            ReservationRequestId = reservationRequest.Id;
             Date = reservationRequest.DateTime;
         }
 
@@ -35,7 +35,7 @@ namespace OccBooking.Domain.Entities
         }
 
         public Hall Hall { get; private set; }
-        public ReservationRequest ReservationRequest { get; private set; }
+        public Guid? ReservationRequestId { get; private set; }
         public DateTime Date { get; private set; }
     }
 }

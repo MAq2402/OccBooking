@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OccBooking.Persistence.DbContexts;
 
 namespace OccBooking.Persistence.Migrations
 {
     [DbContext(typeof(OccBookingDbContext))]
-    partial class OccBookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200316113831_RelationChangesToARs")]
+    partial class RelationChangesToARs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,8 +316,6 @@ namespace OccBooking.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MenuId");
-
                     b.HasIndex("ReservationRequestId");
 
                     b.ToTable("MenuOrders");
@@ -531,11 +531,6 @@ namespace OccBooking.Persistence.Migrations
 
             modelBuilder.Entity("OccBooking.Domain.Entities.MenuOrder", b =>
                 {
-                    b.HasOne("OccBooking.Domain.Entities.Menu")
-                        .WithMany()
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("OccBooking.Domain.Entities.ReservationRequest", "ReservationRequest")
                         .WithMany("MenuOrders")
                         .HasForeignKey("ReservationRequestId");
