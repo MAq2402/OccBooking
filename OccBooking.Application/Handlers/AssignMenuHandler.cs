@@ -31,6 +31,7 @@ namespace OccBooking.Application.Handlers
 
             var menu = new Menu(Guid.NewGuid(), command.Name, command.Type, command.CostPerPerson, place.Id);
 
+            await _menuRepository.AddAsync(menu);
             await _menuRepository.SaveAsync();
 
             return Result.Ok();

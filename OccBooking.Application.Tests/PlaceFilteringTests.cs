@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using OccBooking.Application.Extensions;
 using OccBooking.Domain.Entities;
+using OccBooking.Domain.Enums;
 using OccBooking.Domain.ValueObjects;
 using Xunit;
 
@@ -39,6 +41,34 @@ namespace OccBooking.Application.Tests
                 DateTime.Today.Date);
 
             Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [ClassData(typeof(MinimalCostPerPersonShouldReturnCorrectValueData))]
+        public void MinimalCostPerPersonShouldReturnCorrectValue(decimal? expected, decimal[] menuCosts)
+        {
+            var menus = new List<Menu>();
+            foreach (var cost in menuCosts)
+            {
+                var menu = new Menu(Guid.NewGuid(), "Delicious", MenuType.Normal, cost, Guid.NewGuid());
+                menus.Add(menu);
+            }
+
+            var actual = PlaceFilteringExtensions.CalculateMinimalCostPerPerson(menus.AsQueryable());
+
+            Assert.Equal(expected, actual);
+        }
+
+        private class MinimalCostPerPersonShouldReturnCorrectValueData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] {100.0m, new decimal[] {100}};
+                yield return new object[] {null, new decimal[] { }};
+                yield return new object[] {50.0m, new decimal[] {100, 50, 200, 300, 400, 51}};
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }
