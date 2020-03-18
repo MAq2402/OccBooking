@@ -10,11 +10,12 @@ namespace OccBooking.Domain.Entities
     {
         private List<Meal> meals = new List<Meal>();
 
-        public Menu(Guid id, string name, MenuType type, decimal costForPerson) : base(id)
+        public Menu(Guid id, string name, MenuType type, decimal costForPerson, Guid placeId) : base(id)
         {
             SetName(name);
             SetType(type);
             SetCostForPerson(costForPerson);
+            PlaceId = placeId;
         }
 
         private Menu()
@@ -25,7 +26,7 @@ namespace OccBooking.Domain.Entities
         public string Name { get; private set; }
         public MenuType Type { get; private set; }
         public decimal CostPerPerson { get; private set; }
-        public Place Place { get; private set; }
+        public Guid PlaceId { get; private set; }
 
         public void AddMeal(Meal meal)
         {

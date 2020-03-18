@@ -27,7 +27,6 @@ namespace OccBooking.Application.Handlers
         public override async Task<Result<PlaceDto>> HandleAsync(GetPlaceQuery query)
         {
             var place = await _dbContext.Places
-                .Include(p => p.Menus)
                 .FirstOrDefaultAsync(p => p.Id == query.PlaceId);
 
             var owner = await _dbContext.Owners.FirstOrDefaultAsync(o => o.Id == place.OwnerId);

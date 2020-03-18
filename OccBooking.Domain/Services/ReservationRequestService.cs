@@ -41,11 +41,6 @@ namespace OccBooking.Domain.Services
                 throw new DomainException("Place dose not contain all required information for the reservation request");
             }
 
-            if (!request.MenuOrders.Select(x => x.MenuId).All(id => place.Menus.Select(m => m.Id).Contains(id)))
-            {
-                throw new DomainException("Place does not contain some or all menus in reservation request");
-            }
-
             if (!place.AvailableOccasionTypes.Contains(request.OccasionType))
             {
                 throw new DomainException("Place does not allow to organize such an events");

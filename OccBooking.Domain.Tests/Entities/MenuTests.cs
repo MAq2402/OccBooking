@@ -16,7 +16,7 @@ namespace OccBooking.Domain.Tests.Entities
         [MemberData(nameof(DataForCreationShouldFail))]
         public void CreationShouldFail(string name, MenuType type, int costForPerson)
         {
-            Action action = () => new Menu(Guid.NewGuid(), name, type, costForPerson);
+            Action action = () => new Menu(Guid.NewGuid(), name, type, costForPerson, new Guid());
 
             Assert.Throws<DomainException>(action);
         }
@@ -33,7 +33,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var menu = new Menu(Guid.NewGuid(),
                 "Dumplingus",
-                MenuType.Vegetarian, 10);
+                MenuType.Vegetarian, 10, new Guid());
 
             Assert.NotNull(menu);
         }

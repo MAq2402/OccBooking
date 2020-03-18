@@ -22,8 +22,8 @@ namespace OccBooking.Application.Handlers
 
         public override async Task<Result<IEnumerable<MenuDto>>> HandleAsync(GetMenusQuery query)
         {
-            var menus = await _dbContext.Menus.Include(m => m.Meals).Include(m => m.Place)
-                .Where(m => m.Place.Id == query.PlaceId)
+            var menus = await _dbContext.Menus.Include(m => m.Meals)
+                .Where(m => m.PlaceId == query.PlaceId)
                 .ToListAsync();
 
             return Result.Ok(_mapper.Map<IEnumerable<MenuDto>>(menus));

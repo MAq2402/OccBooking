@@ -25,7 +25,7 @@ namespace OccBooking.Domain.Tests.Entities
         [InlineData(10, 2, 20)]
         public void CalculateCostShouldWork(int amountOfPeople, decimal menuCost, decimal expectedCost)
         {
-            var menuOrder = new MenuOrder(new Menu(new Guid(), "Some", MenuType.Normal, menuCost ), amountOfPeople);
+            var menuOrder = new MenuOrder(new Menu(new Guid(), "Some", MenuType.Normal, menuCost, Guid.NewGuid()), amountOfPeople);
 
             var actual = menuOrder.Cost;
 

@@ -26,23 +26,29 @@ namespace OccBooking.Application.Extensions
         }
 
         public static IQueryable<Place> FilterByCostPerPerson(this IQueryable<Place> places,
+            IQueryable<Menu> menus,
             decimal? minCostPerPerson,
             decimal? maxCostPerPerson)
         {
             if (minCostPerPerson.HasValue)
             {
                 places = places.Where(p =>
-                    p.MinimalCostPerPerson.HasValue && p.MinimalCostPerPerson >= minCostPerPerson.Value);
+                    CalculateMinimalCostPerPerson(menus.Where(m => m.PlaceId == p.Id)).HasValue &&
+                    CalculateMinimalCostPerPerson(menus.Where(m => m.PlaceId == p.Id)) >= minCostPerPerson.Value);
             }
 
             if (maxCostPerPerson.HasValue)
             {
                 places = places.Where(p =>
-                    p.MinimalCostPerPerson.HasValue && p.MinimalCostPerPerson <= maxCostPerPerson.Value);
+                    CalculateMinimalCostPerPerson(menus.Where(m => m.PlaceId == p.Id)).HasValue && 
+                    CalculateMinimalCostPerPerson(menus.Where(m => m.PlaceId == p.Id)) <= maxCostPerPerson.Value);
             }
 
             return places;
         }
+
+        public static decimal? CalculateMinimalCostPerPerson(IQueryable<Menu> menus) =>
+            menus.Any() ? menus.Min(m => m.CostPerPerson) : (decimal?) null;
 
         public static IQueryable<Place> FilterByMinCapacity(this IQueryable<Place> places, IQueryable<Hall> halls,
             int? capacity)

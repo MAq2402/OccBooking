@@ -25,8 +25,7 @@ namespace OccBooking.Application.Handlers
         public override async Task<Result<IEnumerable<PlaceDto>>> HandleAsync(GetPlacesQuery query)
         {
             var places = _dbContext.Places
-                .Include(p => p.EmptyReservations)
-                .Include(p => p.Menus).AsQueryable();
+                .Include(p => p.EmptyReservations).AsQueryable();
             var halls = _dbContext.Halls
                 .Include(h => h.PossibleJoinsWhereIsFirst)
                 .ThenInclude(j => j.FirstHall)
@@ -36,12 +35,13 @@ namespace OccBooking.Application.Handlers
                 .ThenInclude(j => j.SecondHall)
                 .Include(h => h.PossibleJoinsWhereIsSecond)
                 .ThenInclude(j => j.FirstHall);
+            var menus = _dbContext.Menus;
 
             if (query.PlaceFilter != null)
             {
                 places = places.FilterByName(query.PlaceFilter.Name).FilterByProvince(query.PlaceFilter.Province)
                     .FilterByCity(query.PlaceFilter.City)
-                    .FilterByCostPerPerson(query.PlaceFilter.MinCostPerPerson, query.PlaceFilter.MaxCostPerPerson)
+                    .FilterByCostPerPerson(menus, query.PlaceFilter.MinCostPerPerson, query.PlaceFilter.MaxCostPerPerson)
                     .FilterByMinCapacity(halls, query.PlaceFilter.MinCapacity)
                     .FilterByOccasionTypes(query.PlaceFilter.OccasionType)
                     .FilterByDate(halls, query.PlaceFilter.FreeFrom, query.PlaceFilter.FreeTo);

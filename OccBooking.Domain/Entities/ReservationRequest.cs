@@ -20,8 +20,7 @@ namespace OccBooking.Domain.Entities
             OccasionType occasionType,
             IEnumerable<PlaceAdditionalOption> additionalOptions,
             IEnumerable<MenuOrder> menuOrders,
-            Guid placeId,
-            string placeName = "") : base(id)
+            Guid placeId) : base(id)
         {
             SetDateTime(dateTime);
             SetClient(client);
@@ -47,8 +46,7 @@ namespace OccBooking.Domain.Entities
             Guid placeId,
             string placeName = "")
         {
-            return new ReservationRequest(id, dateTime, client, occasionType, additionalOptions, menuOrders, placeId,
-                placeName);
+            return new ReservationRequest(id, dateTime, client, occasionType, additionalOptions, menuOrders, placeId);
         }
 
         public PlaceAdditionalOptions AdditionalOptions
