@@ -12,10 +12,12 @@ namespace OccBooking.Application.Handlers
 {
     public class AssignMenuHandler : ICommandHandler<AssignMenuCommand>
     {
-        private IPlaceRepository _placeRepository;
+        private readonly IMenuRepository _menuRepository;
+        private readonly IPlaceRepository _placeRepository;
 
-        public AssignMenuHandler(IPlaceRepository placeRepository)
+        public AssignMenuHandler(IMenuRepository menuRepository, IPlaceRepository placeRepository)
         {
+            _menuRepository = menuRepository;
             _placeRepository = placeRepository;
         }
 
@@ -27,11 +29,9 @@ namespace OccBooking.Application.Handlers
                 return Result.Fail("Place with given id does not exist");
             }
 
-            var menu = new Menu(Guid.NewGuid(), command.Name, command.Type, command.CostPerPerson);
+            var menu = new Menu(Guid.NewGuid(), command.Name, command.Type, command.CostPerPerson, place.Id);
 
-            place.AssignMenu(menu);
-
-            await _placeRepository.SaveAsync();
+            await _menuRepository.SaveAsync();
 
             return Result.Ok();
         }

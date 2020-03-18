@@ -31,7 +31,7 @@ namespace OccBooking.Persistence.Tests.Repositories
             }
             foreach (var menu in menus)
             {
-                place.AssignMenu(menu);
+                dbContext.Add(menu);
             }
             foreach (var occasionType in occasionTypes)
             {
@@ -60,7 +60,7 @@ namespace OccBooking.Persistence.Tests.Repositories
                     new List<Menu>()
                     {
                         new Menu(new Guid("17d7256c-782f-4832-b2a0-023f8ebb55f0"), "Standard",
-                            MenuType.Vegetarian, 10)
+                            MenuType.Vegetarian, 10, new Guid("237fcb93-e683-4cda-a3de-a2644ae75f8b"))
                     },
                     new OccasionTypes(new List<OccasionType>() {OccasionType.Wedding}),
                     true
@@ -75,7 +75,7 @@ namespace OccBooking.Persistence.Tests.Repositories
                     new List<Menu>()
                     {
                         new Menu(new Guid("17d7256c-782f-4832-b2a0-023f8ebb55f0"), "Standard",
-                            MenuType.Vegetarian, 10)
+                            MenuType.Vegetarian, 10, new Guid("237fcb93-e683-4cda-a3de-a2644ae75f8b"))
                     },
                     new OccasionTypes(new List<OccasionType>() {OccasionType.Wedding}),
                     false
@@ -107,7 +107,7 @@ namespace OccBooking.Persistence.Tests.Repositories
                     new List<Menu>()
                     {
                         new Menu(new Guid("17d7256c-782f-4832-b2a0-023f8ebb55f0"), "Standard",
-                            MenuType.Vegetarian, 10)
+                            MenuType.Vegetarian, 10, new Guid("237fcb93-e683-4cda-a3de-a2644ae75f8b"))
                     },
                     new OccasionTypes(new List<OccasionType>() {}),
                     false

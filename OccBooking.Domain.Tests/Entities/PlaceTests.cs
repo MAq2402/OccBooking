@@ -33,27 +33,6 @@ namespace OccBooking.Domain.Tests.Entities
         }
 
         [Fact]
-        public void AssignMenuShouldWork()
-        {
-            var place = CorrectPlace;
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 100);
-
-            place.AssignMenu(menu);
-
-            Assert.Contains(menu, place.Menus);
-        }
-
-        [Fact]
-        public void AssignMenuShouldFail()
-        {
-            var place = CorrectPlace;
-
-            Action action = () => place.AssignMenu(null);
-
-            Assert.Throws<DomainException>(action);
-        }
-
-        [Fact]
         public void AllowPartyShouldWork()
         {
             var place = CorrectPlace;
@@ -99,21 +78,21 @@ namespace OccBooking.Domain.Tests.Entities
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [ClassData(typeof(MinimalCostPerPersonShouldReturnCorrectValueData))]
-        public void MinimalCostPerPersonShouldReturnCorrectValue(decimal? expected, decimal[] menuCosts)
-        {
-            var place = CorrectPlace;
-            foreach (var cost in menuCosts)
-            {
-                var menu = new Menu(Guid.NewGuid(), "Delicious", MenuType.Normal, cost);
-                place.AssignMenu(menu);
-            }
+        //[Theory]
+        //[ClassData(typeof(MinimalCostPerPersonShouldReturnCorrectValueData))]
+        //public void MinimalCostPerPersonShouldReturnCorrectValue(decimal? expected, decimal[] menuCosts)
+        //{
+        //    var place = CorrectPlace;
+        //    foreach (var cost in menuCosts)
+        //    {
+        //        var menu = new Menu(Guid.NewGuid(), "Delicious", MenuType.Normal, cost);
+        //        place.AssignMenu(menu);
+        //    }
 
-            var actual = place.MinimalCostPerPerson;
+        //    var actual = place.MinimalCostPerPerson;
 
-            Assert.Equal(expected, actual);
-        }
+        //    Assert.Equal(expected, actual);
+        //}
 
         private class MinimalCostPerPersonShouldReturnCorrectValueData : IEnumerable<object[]>
         {

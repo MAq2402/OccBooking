@@ -31,9 +31,8 @@ namespace OccBooking.Persistence.Tests.Repositories
             var hallServiceMock = new Mock<IHallService>();
             var place = CorrectPlace;
             var hall1 = new Hall(Guid.NewGuid(), "Big", 30, place.Id);
-            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 50);
+            var menu = new Menu(Guid.NewGuid(), "Vegetarian", MenuType.Vegetarian, 50, place.Id);
             place.AllowParty(OccasionType.Wedding);
-            place.AssignMenu(menu);
             var reservation1 = ReservationRequest.MakeReservationRequest(Guid.NewGuid(),
                 DateTime.Today,
                 CorrectClient,

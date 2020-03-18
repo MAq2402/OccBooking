@@ -11,6 +11,8 @@ namespace OccBooking.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Menu> builder)
         {
+            builder.HasOne<Place>().WithMany().HasForeignKey(m => m.PlaceId);
+
             builder.HasMany(menu => menu.Meals)
                 .WithOne(meal => meal.Menu);
         }

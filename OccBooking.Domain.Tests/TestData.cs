@@ -17,7 +17,7 @@ namespace OccBooking.Domain.Tests
             new Guid("27de5407-24b9-47f4-893d-b0179104f633"));
 
         public static Menu CorrectMenu => new Menu(new Guid("17d7256c-782f-4832-b2a0-023f8ebb55f0"), "Standard",
-            MenuType.Vegetarian, 10);
+            MenuType.Vegetarian, 10, Guid.NewGuid());
 
         public static List<MenuOrder> CorrectMenuOrders => new List<MenuOrder>() {new MenuOrder(CorrectMenu, 100)};
 

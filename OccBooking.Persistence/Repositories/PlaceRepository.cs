@@ -35,7 +35,8 @@ namespace OccBooking.Persistence.Repositories
         {
             var place = GetPlaceAsync(id).Result;
             var placeHasHalls = _dbContext.Halls.Any(h => h.PlaceId == id);
-            return place.Menus.Any() && placeHasHalls && place.AvailableOccasionTypes.Any();
+            var placeHasMenus = _dbContext.Menus.Any(m => m.PlaceId == id);
+            return placeHasMenus && placeHasHalls && place.AvailableOccasionTypes.Any();
         }
     }
 }

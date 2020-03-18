@@ -47,7 +47,7 @@ namespace OccBooking.Domain.Tests.Entities
             var reservation = CorrectReservationRequest;
 
             reservation.Accept(Guid.NewGuid(), new List<Guid>() {Guid.NewGuid()});
-            Action action = () => reservation.Accept(Guid.NewGuid(), new List<Guid>() { Guid.NewGuid() });
+            Action action = () => reservation.Accept(Guid.NewGuid(), new List<Guid>() {Guid.NewGuid()});
 
             Assert.Throws<DomainException>(action);
         }
@@ -58,7 +58,7 @@ namespace OccBooking.Domain.Tests.Entities
             var reservation = CorrectReservationRequest;
 
             reservation.Reject();
-            Action action = () => reservation.Accept(Guid.NewGuid(), new List<Guid>() { Guid.NewGuid() });
+            Action action = () => reservation.Accept(Guid.NewGuid(), new List<Guid>() {Guid.NewGuid()});
 
             Assert.Throws<DomainException>(action);
         }
@@ -68,7 +68,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var reservation = CorrectReservationRequest;
 
-            reservation.Accept(Guid.NewGuid(), new List<Guid>() { Guid.NewGuid() });
+            reservation.Accept(Guid.NewGuid(), new List<Guid>() {Guid.NewGuid()});
 
             Assert.True(reservation.IsAccepted);
             Assert.True(reservation.IsAnswered);
@@ -103,7 +103,7 @@ namespace OccBooking.Domain.Tests.Entities
         {
             var reservation = CorrectReservationRequest;
 
-            reservation.Accept(Guid.NewGuid(), new List<Guid>() { Guid.NewGuid() });
+            reservation.Accept(Guid.NewGuid(), new List<Guid>() {Guid.NewGuid()});
             Action action = () => reservation.Reject();
 
             Assert.Throws<DomainException>(action);
@@ -137,8 +137,8 @@ namespace OccBooking.Domain.Tests.Entities
                 {
                     new List<MenuOrder>()
                     {
-                        new MenuOrder(new Menu(Guid.NewGuid(), "Normal", MenuType.Normal, 100), 100),
-                        new MenuOrder(new Menu(Guid.NewGuid(), "VegeTFU", MenuType.Vegetarian, 200), 5)
+                        new MenuOrder(new Menu(Guid.NewGuid(), "Normal", MenuType.Normal, 100, Guid.NewGuid()), 100),
+                        new MenuOrder(new Menu(Guid.NewGuid(), "VegeTFU", MenuType.Vegetarian, 200, Guid.NewGuid()), 5)
                     },
                     new PlaceAdditionalOptions(new List<PlaceAdditionalOption>()
                         {new PlaceAdditionalOption("Some", 1000), new PlaceAdditionalOption("Some", 500)}),
