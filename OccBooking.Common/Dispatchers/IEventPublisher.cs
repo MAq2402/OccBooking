@@ -6,8 +6,8 @@ using OccBooking.Common.Types;
 
 namespace OccBooking.Common.Dispatchers
 {
-    public interface IEventDispatcher
+    public interface IEventPublisher
     {
-        Task DispatchAsync<T>(params T[] events) where T : IEvent;
+        Task PublishAsync<T>(T @event) where T : IEvent;
     }
 }

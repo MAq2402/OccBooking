@@ -5,15 +5,13 @@ using OccBooking.Common.Types;
 
 namespace OccBooking.Domain.Events
 {
-    public class EmptyHallReservationMade : IEvent
+    public class EmptyHallReservationMade : Event
     {
-        public EmptyHallReservationMade(Guid hallId, DateTime dateTime)
+        public EmptyHallReservationMade(Guid hallId, DateTime dateTime) : base(hallId)
         {
-            HallId = hallId;
             DateTime = dateTime;
         }
 
-        public Guid HallId { get; }
         public DateTime DateTime { get; }
     }
 }

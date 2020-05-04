@@ -22,15 +22,18 @@ namespace OccBooking.Domain.Entities
             IEnumerable<MenuOrder> menuOrders,
             Guid placeId) : base(id)
         {
-            SetDateTime(dateTime);
-            SetClient(client);
-            SetMenuOrders(menuOrders);
-            OccasionType = occasionType;
-            AdditionalOptions = new PlaceAdditionalOptions(additionalOptions);
-            CalculateCost();
-            CalculateAmountOfPeople();
-            PlaceId = placeId;
-            AddEvent(new ReservationRequestCreated(Id));
+            if (dateTime < DateTime.Today)
+            {
+                throw new DomainException("Could not perform reservation for past date");
+            }
+
+            if (client == null)
+            {
+                throw new DomainException("Client has not been provided");
+            }
+
+            Raise(new ReservationRequestCreated(Id, dateTime, client, occasionType, additionalOptions, menuOrders,
+                placeId));
         }
 
         private ReservationRequest()
@@ -113,6 +116,18 @@ namespace OccBooking.Domain.Entities
 
             IsRejected = true;
             AddEvent(new ReservationRequestRejected(Id));
+        }
+
+        public void On(ReservationRequestCreated e)
+        {
+            DateTime = e.DateTime;
+            Client = e.Client;
+            _menuOrders = e.MenuOrders.ToList();
+            OccasionType = e.OccasionType;
+            AdditionalOptions = e.AdditionalOptions;
+            CalculateCost();
+            CalculateAmountOfPeople();
+            PlaceId = e.PlaceId;
         }
 
         private void CalculateCost()

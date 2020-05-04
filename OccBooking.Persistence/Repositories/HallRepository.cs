@@ -12,8 +12,8 @@ namespace OccBooking.Persistence.Repositories
 {
     public class HallRepository : Repository<Hall>, IHallRepository
     {
-        public HallRepository(OccBookingDbContext dbContext, IEventDispatcher eventDispatcher) : base(dbContext,
-            eventDispatcher)
+        public HallRepository(OccBookingDbContext dbContext, IEventPublisher eventPublisher) : base(dbContext,
+            eventPublisher)
         {
         }
 

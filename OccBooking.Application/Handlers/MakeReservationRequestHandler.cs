@@ -20,15 +20,17 @@ namespace OccBooking.Application.Handlers
         private readonly IMenuRepository _menuRepository;
         private readonly IReservationRequestRepository _reservationRequestRepository;
         private readonly IReservationRequestService _reservationRequestService;
+        private readonly IEventSourcingRepository _eventSourcingRepository;
 
         public MakeReservationRequestHandler(IPlaceRepository placeRepository, IMenuRepository menuRepository,
             IReservationRequestRepository reservationRequestRepository,
-            IReservationRequestService reservationRequestService)
+            IReservationRequestService reservationRequestService, IEventSourcingRepository eventSourcingRepository)
         {
             _placeRepository = placeRepository;
             _menuRepository = menuRepository;
             _reservationRequestRepository = reservationRequestRepository;
             _reservationRequestService = reservationRequestService;
+            _eventSourcingRepository = eventSourcingRepository;
         }
 
         public async Task<Result> HandleAsync(MakeReservationRequestCommand command)
@@ -52,6 +54,7 @@ namespace OccBooking.Application.Handlers
             _reservationRequestService.ValidateMakeReservationRequest(place, reservationRequest,
                 _placeRepository.IsPlaceConfigured);
 
+            await _eventSourcingRepository.SaveAsync(reservationRequest);
             await _reservationRequestRepository.AddAsync(reservationRequest);
             await _reservationRequestRepository.SaveAsync();
 

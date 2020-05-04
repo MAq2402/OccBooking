@@ -33,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OccBooking.Common\OccBooking.Common.csproj" />
     <ProjectReference Include="..\OccBooking.Domain\OccBooking.Domain.csproj" />
+    <ProjectReference Include="..\OccBooking.Infrastructure\OccBooking.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

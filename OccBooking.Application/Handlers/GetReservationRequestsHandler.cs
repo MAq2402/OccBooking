@@ -11,13 +11,17 @@ using OccBooking.Application.Handlers.Base;
 using OccBooking.Application.Queries;
 using OccBooking.Domain.Entities;
 using OccBooking.Persistence.DbContexts;
+using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Application.Handlers
 {
     public class GetReservationRequestsHandler : QueryHandler<GetReservationRequestsQuery, IEnumerable<ReservationRequestDto>>
     {
-        public GetReservationRequestsHandler(OccBookingDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        private IEventSourcingRepository _eventSourcingRepository;
+
+        public GetReservationRequestsHandler(OccBookingDbContext dbContext, IMapper mapper, IEventSourcingRepository eventSourcingRepository) : base(dbContext, mapper)
         {
+            _eventSourcingRepository = eventSourcingRepository;
         }
 
         public override async Task<Result<IEnumerable<ReservationRequestDto>>> HandleAsync(
@@ -26,6 +30,8 @@ namespace OccBooking.Application.Handlers
             var places = _dbContext.Places.Where(p => p.OwnerId == query.OwnerId);
             var requests = await _dbContext.ReservationRequests.Where(r => places.Any(p => p.Id == r.PlaceId))
                 .OrderByDescending(r => r.DateTime).ToListAsync();
+
+            //var test = _eventSourcingRepository.GetById<ReservationRequest>(requests.Fir) // moze stworze se endpoint poprostu ??
 
             return Result.Ok(MapToReservationRequestsDto(requests, places));
         }

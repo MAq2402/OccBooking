@@ -6,13 +6,10 @@ using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Domain.Events
 {
-    public class ReservationRequestRejected : IEvent
+    public class ReservationRequestRejected : Event
     {
-        public ReservationRequestRejected(Guid reservationRequestId)
+        public ReservationRequestRejected(Guid reservationRequestId) : base(reservationRequestId)
         {
-            ReservationRequestId = reservationRequestId;
         }
-
-        public Guid ReservationRequestId { get; }
     }
 }

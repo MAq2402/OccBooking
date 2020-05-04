@@ -24,7 +24,7 @@ namespace OccBooking.Application.EventHandlers
         public async Task HandleAsync(ReservationRequestRejected @event)
         {
             var reservationRequest = await _dbContext.ReservationRequests
-                .FirstOrDefaultAsync(r => r.Id == @event.ReservationRequestId);
+                .FirstOrDefaultAsync(r => r.Id == @event.AggregateRootId);
 
             var place = await _dbContext.Places.FirstOrDefaultAsync(p => p.Id == reservationRequest.PlaceId);
 

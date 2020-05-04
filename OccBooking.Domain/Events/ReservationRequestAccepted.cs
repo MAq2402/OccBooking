@@ -6,16 +6,14 @@ using OccBooking.Domain.ValueObjects;
 
 namespace OccBooking.Domain.Events
 {
-    public class ReservationRequestAccepted : IEvent
+    public class ReservationRequestAccepted : Event
     {
-        public ReservationRequestAccepted(Guid reservationRequestId, Guid placeId, IEnumerable<Guid> hallIds)
+        public ReservationRequestAccepted(Guid reservationRequestId, Guid placeId, IEnumerable<Guid> hallIds) : base(reservationRequestId)
         {
-            ReservationRequestId = reservationRequestId;
             PlaceId = placeId;
             HallIds = hallIds;
         }
 
-        public Guid ReservationRequestId { get; }
         public Guid PlaceId { get; }
         public IEnumerable<Guid> HallIds { get; }
     }

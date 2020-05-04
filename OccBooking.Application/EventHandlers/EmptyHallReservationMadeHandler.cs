@@ -25,7 +25,7 @@ namespace OccBooking.Application.EventHandlers
 
         public async Task HandleAsync(EmptyHallReservationMade @event)
         {
-            var place = await _placeRepository.GetPlaceByHallAsync(@event.HallId);
+            var place = await _placeRepository.GetPlaceByHallAsync(@event.AggregateRootId);
 
             var reservationsToReject = await _reservationRequestRepository.GetImpossibleReservationRequestsAsync(place.Id, @event.DateTime);
 

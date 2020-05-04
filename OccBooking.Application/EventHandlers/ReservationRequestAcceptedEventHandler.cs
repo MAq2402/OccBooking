@@ -31,7 +31,7 @@ namespace OccBooking.Application.EventHandlers
         public async Task HandleAsync(ReservationRequestAccepted @event)
         {
             var reservationRequest =
-                await _reservationRequestRepository.GetReservationRequestAsync(@event.ReservationRequestId);
+                await _reservationRequestRepository.GetReservationRequestAsync(@event.AggregateRootId);
 
             await MakeHallsReservationsAsync(reservationRequest, @event.HallIds);
 
@@ -67,7 +67,7 @@ namespace OccBooking.Application.EventHandlers
         private async Task SendEmailAsync(ReservationRequestAccepted @event)
         {
             var reservationRequest =
-                await _dbContext.ReservationRequests.FirstOrDefaultAsync(r => r.Id == @event.ReservationRequestId);
+                await _dbContext.ReservationRequests.FirstOrDefaultAsync(r => r.Id == @event.AggregateRootId);
 
             var place = await _dbContext.Places.FirstOrDefaultAsync(p => p.Id == reservationRequest.PlaceId);
 

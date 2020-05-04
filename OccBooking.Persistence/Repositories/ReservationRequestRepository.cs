@@ -18,8 +18,8 @@ namespace OccBooking.Persistence.Repositories
 
         public ReservationRequestRepository(OccBookingDbContext dbContext, IHallRepository hallRepository,
             IHallService hallService,
-            IEventDispatcher eventDispatcher) : base(
-            dbContext, eventDispatcher)
+            IEventPublisher eventPublisher) : base(
+            dbContext, eventPublisher)
         {
             _hallRepository = hallRepository;
             _hallService = hallService;

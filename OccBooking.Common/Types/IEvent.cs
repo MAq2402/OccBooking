@@ -6,5 +6,6 @@ namespace OccBooking.Common.Types
 {
     public interface IEvent
     {
+        Guid AggregateRootId { get; }
     }
 }

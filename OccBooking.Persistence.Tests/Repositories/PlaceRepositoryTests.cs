@@ -22,7 +22,7 @@ namespace OccBooking.Persistence.Tests.Repositories
             OccasionTypes occasionTypes, bool expected)
         {
             var dbContext = InMemoryDbContextBuilder.CreateDbContext();
-            var eventDispatcherMock = new Mock<EventDispatcher>(null);
+            var eventDispatcherMock = new Mock<EventPublisher>(null);
             var sut = new PlaceRepository(dbContext, eventDispatcherMock.Object);
             dbContext.Add(place);
             foreach (var hall in halls)

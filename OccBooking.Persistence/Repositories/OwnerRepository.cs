@@ -12,8 +12,8 @@ namespace OccBooking.Persistence.Repositories
 {
     public class OwnerRepository : Repository<Owner>, IOwnerRepository
     {
-        public OwnerRepository(OccBookingDbContext dbContext, IEventDispatcher eventDispatcher) : base(dbContext,
-            eventDispatcher)
+        public OwnerRepository(OccBookingDbContext dbContext, IEventPublisher eventPublisher) : base(dbContext,
+            eventPublisher)
         {
         }
 

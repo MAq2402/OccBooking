@@ -11,8 +11,8 @@ namespace OccBooking.Persistence.Repositories
 {
     public class MenuRepository : Repository<Menu>, IMenuRepository
     {
-        public MenuRepository(OccBookingDbContext dbContext, IEventDispatcher eventDispatcher) : base(dbContext,
-            eventDispatcher)
+        public MenuRepository(OccBookingDbContext dbContext, IEventPublisher eventPublisher) : base(dbContext,
+            eventPublisher)
         {
         }
 

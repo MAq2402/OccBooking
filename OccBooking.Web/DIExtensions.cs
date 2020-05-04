@@ -13,6 +13,7 @@ using OccBooking.Common.Hanlders;
 using OccBooking.Common.Infrastructure;
 using OccBooking.Common.Types;
 using OccBooking.Domain.Services;
+using OccBooking.Infrastructure.EventStore;
 using OccBooking.Persistence.Repositories;
 
 namespace OccBooking.Web
@@ -40,12 +41,13 @@ namespace OccBooking.Web
         public static void RegisterInfrastructureServices(this ContainerBuilder builder)
         {
             builder.RegisterType<EmailService>().As<IEmailService>();
+            builder.RegisterType<OccBooking.Infrastructure.EventStore.EventStore>().As<IEventStore>();
         }
 
         public static void RegisterDispatchers(this ContainerBuilder builder)
         {
             builder.RegisterType<CqrsDispatcher>().As<ICqrsDispatcher>();
-            builder.RegisterType<EventDispatcher>().As<IEventDispatcher>();
+            builder.RegisterType<EventPublisher>().As<IEventPublisher>();
         }
 
         public static void RegisterRepositories(this ContainerBuilder builder)
@@ -53,6 +55,8 @@ namespace OccBooking.Web
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IRepository<>)))
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<EventSourcingRepository>().As<IEventSourcingRepository>();
         }
 
         public static void RegisterAppSettings(this ContainerBuilder builder,

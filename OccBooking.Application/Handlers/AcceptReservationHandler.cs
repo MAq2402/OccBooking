@@ -19,16 +19,19 @@ namespace OccBooking.Application.Handlers
         private IHallRepository _hallRepository;
         private IPlaceRepository _placeRepository;
         private IReservationRequestService _reservationRequestService;
+        private IEventSourcingRepository _eventSorucingRepository;
 
         public AcceptReservationHandler(IReservationRequestRepository reservationRequestRepository,
             IHallRepository hallRepository,
             IPlaceRepository placeRepository,
-            IReservationRequestService reservationRequestService)
+            IReservationRequestService reservationRequestService,
+            IEventSourcingRepository eventSourcingRepository)
         {
             _reservationRequestRepository = reservationRequestRepository;
             _hallRepository = hallRepository;
             _placeRepository = placeRepository;
             _reservationRequestService = reservationRequestService;
+            _eventSorucingRepository = eventSourcingRepository;
         }
 
         public async Task<Result> HandleAsync(AcceptReservationCommand command)
@@ -39,6 +42,8 @@ namespace OccBooking.Application.Handlers
             {
                 return Result.Fail("Request with given id does not exist");
             }
+
+            var test = await _eventSorucingRepository.GetById<ReservationRequest>(command.ReservationId);
 
             var halls = await _hallRepository.GetHallsAsync(command.HallIds);
 

@@ -18,8 +18,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OccBooking.Application.Tests", "OccBooking.Application.Tests\OccBooking.Application.Tests.csproj", "{785D228F-48CD-435E-993D-3D2994CFF4E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OccBooking.Persistence", "OccBooking.Persistence\OccBooking.Persistence.csproj", "{9DC36E6E-71E8-40BA-8698-8EFB45D33E5C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{569E9C3F-F298-428B-8577-2BC137423ABB} = {569E9C3F-F298-428B-8577-2BC137423ABB}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OccBooking.Persistence.Tests", "OccBooking.Persistence.Tests\OccBooking.Persistence.Tests.csproj", "{B0455334-5900-4E3C-A4DF-98DE25C97822}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OccBooking.Persistence.Tests", "OccBooking.Persistence.Tests\OccBooking.Persistence.Tests.csproj", "{B0455334-5900-4E3C-A4DF-98DE25C97822}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OccBooking.Infrastructure", "OccBooking.Infrastructure\OccBooking.Infrastructure.csproj", "{569E9C3F-F298-428B-8577-2BC137423ABB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +68,10 @@ Global
 		{B0455334-5900-4E3C-A4DF-98DE25C97822}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0455334-5900-4E3C-A4DF-98DE25C97822}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0455334-5900-4E3C-A4DF-98DE25C97822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{569E9C3F-F298-428B-8577-2BC137423ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{569E9C3F-F298-428B-8577-2BC137423ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{569E9C3F-F298-428B-8577-2BC137423ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{569E9C3F-F298-428B-8577-2BC137423ABB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

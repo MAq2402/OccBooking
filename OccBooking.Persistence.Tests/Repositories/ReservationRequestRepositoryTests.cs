@@ -76,7 +76,7 @@ namespace OccBooking.Persistence.Tests.Repositories
                 .Returns(30)
                 .Returns(90)
                 .Returns(30);
-            var eventDispatcherMock = new Mock<EventDispatcher>(null);
+            var eventDispatcherMock = new Mock<EventPublisher>(null);
             var sut = new ReservationRequestRepository(dbContext, hallRepositoryMock.Object, hallServiceMock.Object,
                 eventDispatcherMock.Object);
 

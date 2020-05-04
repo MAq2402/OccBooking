@@ -12,8 +12,8 @@ namespace OccBooking.Persistence.Repositories
 {
     public class PlaceRepository : Repository<Place>, IPlaceRepository
     {
-        public PlaceRepository(OccBookingDbContext dbContext, IEventDispatcher eventDispatcher) : base(dbContext,
-            eventDispatcher)
+        public PlaceRepository(OccBookingDbContext dbContext, IEventPublisher eventPublisher) : base(dbContext,
+            eventPublisher)
         {
         }
 

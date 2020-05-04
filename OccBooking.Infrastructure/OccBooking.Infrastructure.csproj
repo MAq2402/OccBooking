@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EventStore.Client" Version="5.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OccBooking.Common\OccBooking.Common.csproj" />
+    <ProjectReference Include="..\OccBooking.Domain\OccBooking.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
